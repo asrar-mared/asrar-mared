@@ -1,0 +1,349 @@
+// ecosystem.config.js - PM2 Configuration للإنتاج
+
+module.exports = {
+  apps: [
+    {
+      // 🚀 Main API Application
+      name: 'professional-api',
+      script: './server.js',
+      instances: process.env.PM2_INSTANCES || 'max',
+      exec_mode: 'cluster',
+      
+      // 🔄 Auto restart settings
+      autorestart: true,
+      watch: false,
+      max_memory_restart: '1G',
+      restart_delay: 1000,
+      
+      // 📊 Environment variables
+      env: {
+        NODE_ENV: 'development',
+        PORT: 3000,
+        LOG_LEVEL: 'info'
+      },
+      env_production: {
+        NODE_ENV: 'production',
+        PORT: 3000,
+        LOG_LEVEL: 'warn'
+      },
+      env_staging: {
+        NODE_ENV: 'staging',
+        PORT: 3001,
+        LOG_LEVEL: 'debug'
+      },
+      
+      // 📝 Logging
+      log_file: './logs/combined.log',
+      out_file: './logs/out.log',
+      error_file: './logs/error.log',
+      log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
+      
+      // 🏥 Health monitoring
+      min_uptime: '10s',
+      max_restarts: 10,
+      
+      // 🔧 Advanced settings
+      node_args: '--max-old-space-size=2048',
+      source_map_support: true,
+      instance_var: 'INSTANCE_ID',
+      
+      // 📊 Monitoring
+      monitoring: true,
+      pmx: true
+    },
+    
+    // 🔄 Background Job Processor (Optional)
+    {
+      name: 'job-processor',
+      script: './workers/jobProcessor.js',
+      instances: 2,
+      exec_mode: 'cluster',
+      autorestart: true,
+      watch: false,
+      env: {
+        NODE_ENV: 'development',
+        WORKER_TYPE: 'job-processor'
+      },
+      env_production: {
+        NODE_ENV: 'production',
+        WORKER_TYPE: 'job-processor'
+      }
+    }
+  ],
+
+  // 🚀 Deployment Configuration
+  deploy: {
+    // Production deployment
+    production: {
+      user: 'deploy',
+      host: ['your-production-server.com'],
+      ref: 'origin/main',
+      repo: 'https://github.com/yourusername/professional-api.git',
+      path: '/var/www/professional-api',
+      
+      // 🔄 Deployment commands
+      'pre-deploy-local': 'npm run test && npm run build',
+      'post-deploy': 'npm install --production && pm2 reload ecosystem.config.js --env production',
+      'pre-setup': 'apt update && apt install nodejs npm -y'
+    },
+    
+    // Staging deployment
+    staging: {
+      user: 'deploy',
+      host: ['staging.yourcompany.com'],
+      ref: 'origin/develop',
+      repo: 'https://github.com/yourusername/professional-api.git',
+      path: '/var/www/staging/professional-api',
+      
+      'post-deploy': 'npm install && pm2 reload ecosystem.config.js --env staging'
+    }
+  }
+};
+
+/*
+🚀 PM2 Commands:
+
+Development:
+pm2 start ecosystem.config.js
+pm2 logs professional-api
+
+Production:
+pm2 start ecosystem.config.js --env production
+pm2 save
+pm2 startup
+
+Monitoring:
+pm2 monit
+pm2 status
+pm2 show professional-api
+
+Deployment:
+pm2 deploy ecosystem.config.js production setup
+pm2 deploy ecosystem.config.js production
+pm2 deploy ecosystem.config.js production --force
+
+Management:
+pm2 reload all
+pm2 restart professional-api
+pm2 stop professional-api
+pm2 delete professional-api
+*/
+
+// ===========================================
+// scripts/deploy.js - Deployment Script
+// ===========================================
+
+const { exec } = require('child_process');
+const fs = require('fs').promises;
+const path = require('path');
+
+class DeploymentManager {
+    constructor() {
+        this.env = process.env.NODE_ENV || 'development';
+        this.deployConfig = {
+            development: {
+                branch: 'develop',
+                server: 'localhost',
+                path: '/var/www/dev/professional-api'
+            },
+            staging: {
+                branch: 'staging',
+                server: 'staging.yourcompany.com',
+                path: '/var/www/staging/professional-api'
+            },
+            production: {
+                branch: 'main',
+                server: 'api.yourcompany.com',
+                path: '/var/www/professional-api'
+            }
+        };
+    }
+
+    async runCommand(command) {
+        return new Promise((resolve, reject) => {
+            exec(command, (error, stdout, stderr) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve({ stdout, stderr });
+                }
+            });
+        });
+    }
+
+    async deploy(environment) {
+        const config = this.deployConfig[environment];
+        if (!config) {
+            throw new Error(`Invalid environment: ${environment}`);
+        }
+
+        console.log(`🚀 Starting deployment to ${environment}...`);
+        
+        try {
+            // Run pre-deployment checks
+            console.log('📋 Running pre-deployment checks...');
+            await this.runCommand('npm run test');
+            await this.runCommand('npm run lint');
+            
+            // Build application
+            console.log('🔨 Building application...');
+            await this.runCommand('npm run build');
+            
+            // Deploy with PM2
+            console.log(`📦 Deploying to ${environment}...`);
+            await this.runCommand(`pm2 deploy ecosystem.config.js ${environment}`);
+            
+            // Health check
+            console.log('🏥 Running health check...');
+            await new Promise(resolve => setTimeout(resolve, 5000));
+            
+            const healthCheck = await this.runCommand(`curl -f http://${config.server}/api/v1/health`);
+            console.log('✅ Health check passed');
+            
+            // Notify success
+            await this.notifyDeployment(environment, 'success');
+            
+            console.log(`🎉 Deployment to ${environment} completed successfully!`);
+            
+        } catch (error) {
+            console.error(`❌ Deployment to ${environment} failed:`, error.message);
+            await this.notifyDeployment(environment, 'failed', error.message);
+            throw error;
+        }
+    }
+
+    async notifyDeployment(environment, status, error = null) {
+        const message = status === 'success' 
+            ? `✅ Deployment to ${environment} completed successfully`
+            : `❌ Deployment to ${environment} failed: ${error}`;
+        
+        // يمكن إضافة إشعارات Slack/Discord/Email هنا
+        console.log('📢 Notification:', message);
+    }
+}
+
+// ===========================================
+// scripts/migrate.js - Database Migration
+// ===========================================
+
+const mongoose = require('mongoose');
+
+class DatabaseMigrator {
+    constructor() {
+        this.migrations = [];
+    }
+
+    addMigration(name, up, down) {
+        this.migrations.push({ name, up, down });
+    }
+
+    async runMigrations() {
+        console.log('🔄 Running database migrations...');
+        
+        // Create migrations collection if it doesn't exist
+        const Migration = mongoose.model('Migration', new mongoose.Schema({
+            name: String,
+            runAt: { type: Date, default: Date.now }
+        }));
+
+        for (const migration of this.migrations) {
+            const exists = await Migration.findOne({ name: migration.name });
+            if (!exists) {
+                console.log(`▶️  Running migration: ${migration.name}`);
+                await migration.up();
+                await new Migration({ name: migration.name }).save();
+                console.log(`✅ Migration completed: ${migration.name}`);
+            } else {
+                console.log(`⏭️  Skipping migration: ${migration.name} (already run)`);
+            }
+        }
+        
+        console.log('🎉 All migrations completed!');
+    }
+}
+
+// Example migrations
+const migrator = new DatabaseMigrator();
+
+migrator.addMigration('001_create_indexes', async () => {
+    const User = mongoose.model('User');
+    const Post = mongoose.model('Post');
+    
+    // Create indexes for better performance
+    await User.createIndexes([
+        { email: 1 },
+        { username: 1 },
+        { 'profile.firstName': 1, 'profile.lastName': 1 }
+    ]);
+    
+    await Post.createIndexes([
+        { author: 1 },
+        { category: 1 },
+        { createdAt: -1 },
+        { status: 1, publishedAt: -1 }
+    ]);
+});
+
+migrator.addMigration('002_add_default_admin', async () => {
+    const User = mongoose.model('User');
+    const bcrypt = require('bcrypt');
+    
+    const adminExists = await User.findOne({ role: 'admin' });
+    if (!adminExists) {
+        const hashedPassword = await bcrypt.hash('admin123!', 12);
+        await new User({
+            username: 'admin',
+            email: 'admin@yourcompany.com',
+            password: hashedPassword,
+            role: 'admin',
+            profile: {
+                firstName: 'System',
+                lastName: 'Administrator'
+            }
+        }).save();
+        console.log('👤 Default admin user created');
+    }
+});
+
+// ===========================================
+// scripts/seed.js - Database Seeding
+// ===========================================
+
+class DatabaseSeeder {
+    async seed() {
+        console.log('🌱 Seeding database with sample data...');
+        
+        const User = mongoose.model('User');
+        const Post = mongoose.model('Post');
+        const bcrypt = require('bcrypt');
+        
+        // Create sample users
+        const users = [];
+        for (let i = 1; i <= 10; i++) {
+            const hashedPassword = await bcrypt.hash('password123', 12);
+            users.push({
+                username: `user${i}`,
+                email: `user${i}@example.com`,
+                password: hashedPassword,
+                profile: {
+                    firstName: `User${i}`,
+                    lastName: 'Demo'
+                }
+            });
+        }
+        
+        const createdUsers = await User.insertMany(users);
+        console.log(`👥 Created ${createdUsers.length} sample users`);
+        
+        // Create sample posts
+        const posts = [];
+        for (let i = 1; i <= 50; i++) {
+            posts.push({
+                title: `Sample Post ${i}`,
+                content: `This is the content for sample post number ${i}. It contains some dummy text for testing purposes.`,
+                author: createdUsers[Math.floor(Math.random() * createdUsers.length)]._id,
+                category: ['Technology', 'Business', 'Health', 'Education'][Math.floor(Math.random() * 4)],
+                tags: ['sample', 'demo', 'test'],
+                status: Math.random() > 0.3 ? 'published' : 'draft',
+                publishedAt: Math.random() > 0.3 ? new Date() : null
+            });
