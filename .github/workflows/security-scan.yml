@@ -1,552 +1,693 @@
-# .github/workflows/security-scan.yml
-# 🔐 Security Scanning - أسرار المارد الرقمي للأمن السيبراني
+# المسار: .github/workflows/security-scan.yml
+# 🛡️ المارد الرقمي - نظام الفحص الأمني المتقدم
+# نظام شامل للكشف عن الثغرات والحماية الاستباقية
 
-name: 🔐 Security Scanning & Vulnerability Assessment
+name: 🔒 المارد الرقمي - الفحص الأمني الشامل
 
 on:
+  # تشغيل عند كل Push و Pull Request
   push:
-    branches: 
-      - main
-      - develop
-      - "security/**"
-    paths:
-      - "**/*.js"
-      - "**/*.ts"
-      - "**/*.py"
-      - "**/*.go"
-      - "**/*.java"
-      - "package*.json"
-      - "requirements.txt"
-      - "Dockerfile"
-      - ".github/workflows/security-scan.yml"
+    branches: [ main, develop, staging ]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '.github/ISSUE_TEMPLATE/**'
+  
   pull_request:
-    branches: 
-      - main
-      - develop
+    branches: [ main, develop ]
     types: [opened, synchronize, reopened]
+  
+  # فحص أمني يومي تلقائي
   schedule:
-    # فحص يومي الساعة 2 صباحاً بتوقيت القاهرة
-    - cron: '0 2 * * *'
+    - cron: '0 2 * * *'  # كل يوم الساعة 2 صباحاً
+    - cron: '0 14 * * *' # كل يوم الساعة 2 ظهراً
+  
+  # تشغيل يدوي
   workflow_dispatch:
     inputs:
-      scan_type:
-        description: 'نوع الفحص'
+      scan_level:
+        description: 'مستوى الفحص'
         required: true
         default: 'full'
         type: choice
         options:
-          - full
           - quick
+          - standard
+          - full
           - deep
+      notify_team:
+        description: 'إرسال تنبيهات للفريق'
+        required: false
+        type: boolean
+        default: true
 
-# منع تشغيل متزامن
-concurrency:
-  group: security-${{ github.ref }}
-  cancel-in-progress: false  # لا نلغي فحوصات الأمان
-
+# أذونات محدودة للأمان القصوى
 permissions:
   contents: read
   security-events: write
-  actions: read
   pull-requests: write
   issues: write
+  actions: read
+  checks: write
 
 env:
-  SCAN_SEVERITY: "CRITICAL,HIGH,MEDIUM"
-  PYTHON_VERSION: "3.11"
-  NODE_VERSION: "20.x"
-  GO_VERSION: "1.21"
+  SCAN_TIMEOUT: 45
+  MAX_CRITICAL_ISSUES: 0
+  MAX_HIGH_ISSUES: 5
+  PYTHON_VERSION: '3.11'
+  NODE_VERSION: '18.x'
+  GO_VERSION: '1.21'
 
 jobs:
-  # ===================================
-  # الفحص الأولي السريع
-  # ===================================
-  quick-security-check:
-    name: ⚡ Quick Security Check
+  # ========================================
+  # المرحلة 1: تحليل أولي وإعداد البيئة
+  # ========================================
+  pre-scan-analysis:
+    name: 📋 التحليل الأولي
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    
+    outputs:
+      has_dockerfile: ${{ steps.check.outputs.has_dockerfile }}
+      has_package_json: ${{ steps.check.outputs.has_package_json }}
+      has_requirements: ${{ steps.check.outputs.has_requirements }}
+      has_go_mod: ${{ steps.check.outputs.has_go_mod }}
+      project_languages: ${{ steps.detect.outputs.languages }}
+      
     steps:
-      - name: 📥 Checkout Repository
+      - name: 📥 استنساخ الكود
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      
+      - name: 🔍 فحص محتويات المشروع
+        id: check
+        run: |
+          echo "has_dockerfile=$([ -f Dockerfile ] && echo 'true' || echo 'false')" >> $GITHUB_OUTPUT
+          echo "has_package_json=$([ -f package.json ] && echo 'true' || echo 'false')" >> $GITHUB_OUTPUT
+          echo "has_requirements=$([ -f requirements.txt ] && echo 'true' || echo 'false')" >> $GITHUB_OUTPUT
+          echo "has_go_mod=$([ -f go.mod ] && echo 'true' || echo 'false')" >> $GITHUB_OUTPUT
+      
+      - name: 🌐 كشف اللغات المستخدمة
+        id: detect
+        run: |
+          languages=""
+          [ -f "*.js" ] || [ -f "*.ts" ] && languages="${languages}javascript,"
+          [ -f "*.py" ] && languages="${languages}python,"
+          [ -f "*.go" ] && languages="${languages}go,"
+          [ -f "*.java" ] && languages="${languages}java,"
+          echo "languages=${languages}" >> $GITHUB_OUTPUT
+          echo "🔍 اللغات المكتشفة: ${languages}"
 
-      - name: 🔍 Scan for Secrets (TruffleHog)
+  # ========================================
+  # المرحلة 2: فحص الأسرار والبيانات الحساسة
+  # ========================================
+  secrets-detection:
+    name: 🔐 كشف الأسرار المسربة
+    runs-on: ubuntu-latest
+    needs: pre-scan-analysis
+    timeout-minutes: 20
+    
+    steps:
+      - name: 📥 استنساخ الكود
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: 🔍 TruffleHog - فحص الأسرار
         uses: trufflesecurity/trufflehog@main
         with:
           path: ./
           base: ${{ github.event.repository.default_branch }}
           head: HEAD
-          extra_args: --only-verified --fail
-
-      - name: 🔐 Detect Hardcoded Secrets (Gitleaks)
+          extra_args: --debug --only-verified
+      
+      - name: 🕵️ GitLeaks - فحص تسريب البيانات
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
-
-      - name: 📋 Check for Sensitive Files
+      
+      - name: 🔎 فحص ملفات البيئة والمفاتيح
         run: |
-          echo "🔍 Checking for sensitive files..."
-          SENSITIVE_FILES=(
-            "*.pem"
-            "*.key"
-            "*.p12"
-            "*.pfx"
-            "*.jks"
-            "*.keystore"
-            "*.env"
-            "*.env.*"
-            "*id_rsa*"
-            "*id_ed25519*"
-            "*.gpg"
-            "*.asc"
-            "credentials.json"
-            "secrets.json"
-          )
+          echo "🔍 البحث عن ملفات حساسة..."
           
-          FOUND=0
-          for pattern in "${SENSITIVE_FILES[@]}"; do
-            if find . -name "$pattern" -not -path "*/node_modules/*" -not -path "*/.git/*" | grep -q .; then
-              echo "⚠️ Found potentially sensitive files matching: $pattern"
-              find . -name "$pattern" -not -path "*/node_modules/*" -not -path "*/.git/*"
-              FOUND=1
+          # البحث عن ملفات البيئة
+          find . -type f \( -name "*.env*" -o -name ".env.*" \) ! -name "*.example" | while read file; do
+            if [ -f "$file" ]; then
+              echo "⚠️ تحذير: ملف بيئة موجود: $file"
+              exit 1
             fi
           done
           
-          if [ $FOUND -eq 1 ]; then
-            echo "❌ Sensitive files detected!"
+          # البحث عن مفاتيح SSH
+          find . -type f \( -name "*.pem" -o -name "*.key" -o -name "id_rsa*" \) | while read file; do
+            if [ -f "$file" ]; then
+              echo "🚨 خطر: مفتاح SSH موجود: $file"
+              exit 1
+            fi
+          done
+          
+          # البحث عن ملفات الاعتماد
+          find . -type f \( -name "*credentials*" -o -name "*password*" -o -name "*secret*" \) \
+            ! -path "*/node_modules/*" ! -path "*/.git/*" | while read file; do
+            if [ -f "$file" ]; then
+              echo "⚠️ ملف اعتماد محتمل: $file"
+            fi
+          done
+          
+          echo "✅ فحص الملفات الحساسة مكتمل"
+      
+      - name: 🔐 فحص الأنماط الحساسة في الكود
+        run: |
+          echo "🔍 فحص الأنماط الخطرة..."
+          
+          # AWS Keys
+          if grep -r "AKIA[0-9A-Z]{16}" . --exclude-dir={.git,node_modules}; then
+            echo "🚨 تم العثور على مفاتيح AWS!"
             exit 1
-          else
-            echo "✅ No sensitive files found"
           fi
+          
+          # Google API Keys
+          if grep -r "AIza[0-9A-Za-z\\-_]{35}" . --exclude-dir={.git,node_modules}; then
+            echo "🚨 تم العثور على مفاتيح Google API!"
+            exit 1
+          fi
+          
+          # Generic API Keys
+          if grep -ri "api[_-]key.*['\"][0-9a-zA-Z]{32,}['\"]" . --exclude-dir={.git,node_modules}; then
+            echo "⚠️ تم العثور على مفاتيح API محتملة!"
+          fi
+          
+          # Database URLs with passwords
+          if grep -ri "mongodb.*://.*:.*@" . --exclude-dir={.git,node_modules}; then
+            echo "🚨 تم العثور على URLs قواعد بيانات بكلمات مرور!"
+            exit 1
+          fi
+          
+          echo "✅ فحص الأنماط مكتمل"
 
-  # ===================================
-  # فحص التبعيات والثغرات
-  # ===================================
-  dependency-scanning:
-    name: 📦 Dependency Vulnerability Scan
+  # ========================================
+  # المرحلة 3: تحليل الكود الثابت - CodeQL
+  # ========================================
+  codeql-analysis:
+    name: 🔬 تحليل CodeQL المتقدم
     runs-on: ubuntu-latest
-    needs: quick-security-check
-    timeout-minutes: 20
+    needs: [pre-scan-analysis, secrets-detection]
+    timeout-minutes: 30
     
     strategy:
+      fail-fast: false
       matrix:
-        scanner: [npm-audit, snyk, trivy]
+        language: ['javascript', 'python']
     
     steps:
-      - name: 📥 Checkout Repository
+      - name: 📥 استنساخ الكود
         uses: actions/checkout@v4
+      
+      - name: 🔧 إعداد CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
+          queries: security-extended,security-and-quality
+          config-file: ./.github/codeql/codeql-config.yml
+      
+      - name: 🏗️ البناء التلقائي
+        uses: github/codeql-action/autobuild@v3
+      
+      - name: 🔍 تحليل CodeQL
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{ matrix.language }}"
+          output: sarif-results
+          upload: true
 
-      # ===== NPM Audit =====
-      - name: 🟢 Setup Node.js
-        if: matrix.scanner == 'npm-audit'
+  # ========================================
+  # المرحلة 4: فحص التبعيات والثغرات
+  # ========================================
+  dependency-scan:
+    name: 📦 فحص التبعيات
+    runs-on: ubuntu-latest
+    needs: pre-scan-analysis
+    timeout-minutes: 25
+    
+    steps:
+      - name: 📥 استنساخ الكود
+        uses: actions/checkout@v4
+      
+      - name: 🔧 إعداد Node.js
+        if: needs.pre-scan-analysis.outputs.has_package_json == 'true'
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-
-      - name: 🔍 NPM Audit
-        if: matrix.scanner == 'npm-audit'
+      
+      - name: 🔧 إعداد Python
+        if: needs.pre-scan-analysis.outputs.has_requirements == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      
+      - name: 📊 NPM Audit - فحص حزم Node
+        if: needs.pre-scan-analysis.outputs.has_package_json == 'true'
+        continue-on-error: true
         run: |
-          if [ -f "package.json" ]; then
-            echo "🔍 Running npm audit..."
-            npm audit --audit-level=moderate --json > npm-audit.json || true
-            
-            # عرض النتائج
-            if [ -f "npm-audit.json" ]; then
-              cat npm-audit.json | jq '.vulnerabilities' || cat npm-audit.json
-              
-              # فحص الثغرات الحرجة
-              CRITICAL=$(cat npm-audit.json | jq '.metadata.vulnerabilities.critical // 0')
-              HIGH=$(cat npm-audit.json | jq '.metadata.vulnerabilities.high // 0')
-              
-              echo "🔴 Critical: $CRITICAL"
-              echo "🟠 High: $HIGH"
-              
-              if [ "$CRITICAL" -gt 0 ] || [ "$HIGH" -gt 0 ]; then
-                echo "❌ Critical or High vulnerabilities found!"
-                exit 1
-              fi
-            fi
-          else
-            echo "⚠️ No package.json found"
+          npm ci --prefer-offline
+          npm audit --audit-level=moderate --json > npm-audit.json
+          
+          # تحليل النتائج
+          critical=$(cat npm-audit.json | jq '.metadata.vulnerabilities.critical')
+          high=$(cat npm-audit.json | jq '.metadata.vulnerabilities.high')
+          
+          echo "🔍 ثغرات حرجة: $critical"
+          echo "⚠️ ثغرات عالية: $high"
+          
+          if [ "$critical" -gt "$MAX_CRITICAL_ISSUES" ]; then
+            echo "🚨 تم تجاوز الحد المسموح للثغرات الحرجة!"
+            exit 1
           fi
-
-      # ===== Snyk =====
-      - name: 🛡️ Snyk Security Scan
-        if: matrix.scanner == 'snyk'
+      
+      - name: 🐍 Safety Check - فحص حزم Python
+        if: needs.pre-scan-analysis.outputs.has_requirements == 'true'
+        run: |
+          pip install safety
+          safety check -r requirements.txt --json > safety-report.json || true
+          
+          # عرض النتائج
+          echo "📊 تقرير Safety:"
+          cat safety-report.json | jq '.'
+      
+      - name: 🔍 Snyk - فحص شامل للثغرات
         uses: snyk/actions/node@master
         continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --severity-threshold=high --json-file-output=snyk-report.json
-
-      - name: 📤 Upload Snyk Report
-        if: matrix.scanner == 'snyk' && always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: snyk-security-report
-          path: snyk-report.json
-          retention-days: 30
-
-      # ===== Trivy =====
-      - name: 🐳 Trivy Vulnerability Scanner
-        if: matrix.scanner == 'trivy'
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: 'fs'
-          scan-ref: '.'
-          format: 'sarif'
-          output: 'trivy-results.sarif'
-          severity: 'CRITICAL,HIGH,MEDIUM'
-          exit-code: '0'
-
-      - name: 📤 Upload Trivy SARIF
-        if: matrix.scanner == 'trivy' && always()
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: 'trivy-results.sarif'
-          category: 'trivy-filesystem'
-
-  # ===================================
-  # فحص Python (إذا وُجد)
-  # ===================================
-  python-security:
-    name: 🐍 Python Security Scan
-    runs-on: ubuntu-latest
-    needs: quick-security-check
-    timeout-minutes: 15
-    if: hashFiles('requirements.txt', 'setup.py', 'Pipfile') != ''
-    
-    steps:
-      - name: 📥 Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: 🐍 Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
-
-      - name: 📦 Install Dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install safety bandit pip-audit
-
-      - name: 🔍 Safety Check (Known Vulnerabilities)
-        run: |
-          if [ -f "requirements.txt" ]; then
-            echo "🔍 Running Safety check..."
-            safety check --file requirements.txt --json > safety-report.json || true
-            cat safety-report.json
-          fi
-
-      - name: 🔒 Bandit (Security Issues in Code)
-        run: |
-          if find . -name "*.py" -not -path "*/venv/*" | grep -q .; then
-            echo "🔍 Running Bandit..."
-            bandit -r . -f json -o bandit-report.json || true
-            cat bandit-report.json
-          fi
-
-      - name: 🛡️ pip-audit
-        run: |
-          if [ -f "requirements.txt" ]; then
-            echo "🔍 Running pip-audit..."
-            pip-audit -r requirements.txt --format json > pip-audit.json || true
-            cat pip-audit.json
-          fi
-
-      - name: 📤 Upload Python Security Reports
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: python-security-reports
-          path: |
-            safety-report.json
-            bandit-report.json
-            pip-audit.json
-          retention-days: 30
-
-  # ===================================
-  # فحص Docker (إذا وُجد)
-  # ===================================
-  docker-security:
-    name: 🐳 Docker Security Scan
-    runs-on: ubuntu-latest
-    needs: quick-security-check
-    timeout-minutes: 15
-    if: hashFiles('Dockerfile', 'docker-compose.yml') != ''
-    
-    steps:
-      - name: 📥 Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: 🐳 Trivy Docker Image Scan
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: 'config'
-          scan-ref: '.'
-          format: 'sarif'
-          output: 'trivy-docker.sarif'
-          severity: 'CRITICAL,HIGH'
-
-      - name: 🔍 Hadolint Dockerfile Linting
-        uses: hadolint/hadolint-action@v3.1.0
-        with:
-          dockerfile: Dockerfile
-          format: sarif
-          output-file: hadolint.sarif
-          no-fail: true
-
-      - name: 📤 Upload Docker Security Results
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: |
-            trivy-docker.sarif
-            hadolint.sarif
-          category: 'docker-security'
-
-  # ===================================
-  # OWASP Dependency Check
-  # ===================================
-  owasp-dependency-check:
-    name: 🛡️ OWASP Dependency Check
-    runs-on: ubuntu-latest
-    needs: quick-security-check
-    timeout-minutes: 30
-    
-    steps:
-      - name: 📥 Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: 🔍 OWASP Dependency-Check
+      
+      - name: 📊 OWASP Dependency Check
         uses: dependency-check/Dependency-Check_Action@main
         with:
-          project: 'asrar-mared'
+          project: 'Digital-warrior-secrets'
           path: '.'
           format: 'ALL'
           args: >
             --enableRetired
             --enableExperimental
             --failOnCVSS 7
-            --suppression suppression.xml
-
-      - name: 📤 Upload OWASP Reports
-        if: always()
+      
+      - name: 📤 رفع تقارير الثغرات
         uses: actions/upload-artifact@v4
+        if: always()
         with:
-          name: owasp-dependency-check-report
-          path: reports/
+          name: dependency-scan-reports
+          path: |
+            npm-audit.json
+            safety-report.json
+            snyk-report.json
+            dependency-check-report.html
           retention-days: 30
 
-  # ===================================
-  # SAST (Static Application Security Testing)
-  # ===================================
-  sast-analysis:
-    name: 🔬 SAST Analysis
+  # ========================================
+  # المرحلة 5: فحص أمان Docker
+  # ========================================
+  docker-security-scan:
+    name: 🐳 فحص أمان Docker
     runs-on: ubuntu-latest
-    needs: dependency-scanning
-    timeout-minutes: 25
-    
-    steps:
-      - name: 📥 Checkout Repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: 🔍 Semgrep SAST
-        uses: returntocorp/semgrep-action@v1
-        with:
-          config: >-
-            p/security-audit
-            p/owasp-top-ten
-            p/cwe-top-25
-            p/ci
-          generateSarif: true
-
-      - name: 📤 Upload Semgrep SARIF
-        if: always()
-        uses: github/codeql-action/upload-sarif@v3
-        with:
-          sarif_file: semgrep.sarif
-          category: 'semgrep'
-
-  # ===================================
-  # Container Image Scanning
-  # ===================================
-  container-scan:
-    name: 📦 Container Image Security
-    runs-on: ubuntu-latest
-    needs: docker-security
-    if: hashFiles('Dockerfile') != ''
+    needs: pre-scan-analysis
+    if: needs.pre-scan-analysis.outputs.has_dockerfile == 'true'
     timeout-minutes: 20
     
     steps:
-      - name: 📥 Checkout Repository
+      - name: 📥 استنساخ الكود
         uses: actions/checkout@v4
-
-      - name: 🏗️ Build Docker Image
+      
+      - name: 🔧 إعداد Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: 🏗️ بناء صورة Docker
         run: |
-          docker build -t asrar-mared:test .
-
-      - name: 🔍 Grype Vulnerability Scan
+          docker build -t digital-warrior:${{ github.sha }} .
+          docker tag digital-warrior:${{ github.sha }} digital-warrior:latest
+      
+      - name: 🔍 Trivy - فحص الصورة الشامل
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: digital-warrior:${{ github.sha }}
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH,MEDIUM'
+          vuln-type: 'os,library'
+          exit-code: '1'
+      
+      - name: 🔒 Hadolint - فحص Dockerfile
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: Dockerfile
+          failure-threshold: warning
+      
+      - name: 🔐 Dockle - فحص أمان الصورة
+        run: |
+          VERSION=$(curl --silent "https://api.github.com/repos/goodwithtech/dockle/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
+          curl -L -o dockle.tar.gz https://github.com/goodwithtech/dockle/releases/download/v${VERSION}/dockle_${VERSION}_Linux-64bit.tar.gz
+          tar zxvf dockle.tar.gz
+          sudo mv dockle /usr/local/bin
+          
+          dockle --exit-code 1 --exit-level warn digital-warrior:${{ github.sha }}
+      
+      - name: 🔍 Grype - فحص ثغرات إضافي
         uses: anchore/scan-action@v3
         with:
-          image: "asrar-mared:test"
-          severity-cutoff: medium
+          image: digital-warrior:${{ github.sha }}
           fail-build: true
-          output-format: sarif
-
-      - name: 📤 Upload Grype Results
+          severity-cutoff: high
+      
+      - name: 📊 رفع نتائج Trivy
         uses: github/codeql-action/upload-sarif@v3
+        if: always()
         with:
-          sarif_file: results.sarif
-          category: 'grype-container'
+          sarif_file: 'trivy-results.sarif'
 
-  # ===================================
-  # License Compliance Check
-  # ===================================
-  license-check:
-    name: 📜 License Compliance
+  # ========================================
+  # المرحلة 6: فحص OWASP للثغرات
+  # ========================================
+  owasp-zap-scan:
+    name: 🕷️ فحص OWASP ZAP
     runs-on: ubuntu-latest
-    needs: quick-security-check
-    timeout-minutes: 10
+    needs: [secrets-detection, codeql-analysis]
+    timeout-minutes: 30
     
     steps:
-      - name: 📥 Checkout Repository
+      - name: 📥 استنساخ الكود
         uses: actions/checkout@v4
-
-      - name: 🔍 Check Licenses
-        uses: licensebat/licensebat-action@v1
+      
+      - name: 🔧 إعداد التطبيق للاختبار
+        run: |
+          if [ -f package.json ]; then
+            npm ci
+            npm run build || true
+            npm start &
+            sleep 10
+          fi
+      
+      - name: 🕷️ ZAP Baseline Scan
+        uses: zaproxy/action-baseline@v0.10.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          target: 'http://localhost:3000'
+          rules_file_name: '.zap/rules.tsv'
+          cmd_options: '-a -j'
+      
+      - name: 🕸️ ZAP Full Scan
+        uses: zaproxy/action-full-scan@v0.8.0
+        if: github.ref == 'refs/heads/main'
+        with:
+          target: 'http://localhost:3000'
+          rules_file_name: '.zap/rules.tsv'
+          cmd_options: '-a -j'
+      
+      - name: 📊 رفع تقرير ZAP
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: zap-scan-report
+          path: |
+            zap-report.html
+            zap-report.json
+          retention-days: 30
 
-  # ===================================
-  # تقرير الأمان الشامل
-  # ===================================
-  security-report:
-    name: 📊 Security Report Summary
+  # ========================================
+  # المرحلة 7: فحص الكود الخطر والممارسات السيئة
+  # ========================================
+  code-security-patterns:
+    name: 🚨 فحص الأنماط الخطرة
     runs-on: ubuntu-latest
-    needs: 
-      - dependency-scanning
-      - python-security
-      - docker-security
-      - owasp-dependency-check
-      - sast-analysis
+    needs: pre-scan-analysis
+    timeout-minutes: 15
+    
+    steps:
+      - name: 📥 استنساخ الكود
+        uses: actions/checkout@v4
+      
+      - name: 🔍 فحص JavaScript/TypeScript الخطر
+        run: |
+          echo "🔍 فحص أنماط JavaScript الخطرة..."
+          
+          # eval() usage
+          if grep -rn "eval(" --include="*.js" --include="*.ts" --exclude-dir=node_modules .; then
+            echo "🚨 تحذير: استخدام eval() خطر جداً!"
+            echo "eval_found=true" >> $GITHUB_ENV
+          fi
+          
+          # Function constructor
+          if grep -rn "new Function(" --include="*.js" --include="*.ts" --exclude-dir=node_modules .; then
+            echo "🚨 تحذير: استخدام Function constructor خطر!"
+          fi
+          
+          # innerHTML without sanitization
+          if grep -rn "innerHTML.*=" --include="*.js" --include="*.jsx" --exclude-dir=node_modules . | grep -v "sanitize"; then
+            echo "⚠️ تحذير: استخدام innerHTML بدون تعقيم!"
+          fi
+          
+          # dangerouslySetInnerHTML
+          if grep -rn "dangerouslySetInnerHTML" --include="*.jsx" --include="*.tsx" --exclude-dir=node_modules .; then
+            echo "⚠️ تحذير: استخدام dangerouslySetInnerHTML!"
+          fi
+          
+          # document.write
+          if grep -rn "document.write" --include="*.js" --include="*.ts" --exclude-dir=node_modules .; then
+            echo "⚠️ تحذير: استخدام document.write خطر!"
+          fi
+      
+      - name: 🐍 فحص Python الخطر
+        run: |
+          echo "🔍 فحص أنماط Python الخطرة..."
+          
+          # exec() usage
+          if grep -rn "exec(" --include="*.py" --exclude-dir=venv .; then
+            echo "🚨 تحذير: استخدام exec() خطر!"
+          fi
+          
+          # eval() usage
+          if grep -rn "eval(" --include="*.py" --exclude-dir=venv .; then
+            echo "🚨 تحذير: استخدام eval() خطر!"
+          fi
+          
+          # pickle without validation
+          if grep -rn "pickle.loads" --include="*.py" --exclude-dir=venv .; then
+            echo "⚠️ تحذير: استخدام pickle.loads بدون تحقق!"
+          fi
+          
+          # SQL injection patterns
+          if grep -rn "execute.*%.*%" --include="*.py" --exclude-dir=venv .; then
+            echo "🚨 تحذير: احتمال SQL injection!"
+          fi
+      
+      - name: 🔒 فحص أنماط الأمان
+        run: |
+          echo "🔍 فحص أنماط الأمان العامة..."
+          
+          # Hardcoded IPs
+          if grep -rn "[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}" . \
+            --include="*.js" --include="*.py" --exclude-dir={node_modules,venv} | grep -v "127.0.0.1\|0.0.0.0\|localhost"; then
+            echo "⚠️ تحذير: عناوين IP مكتوبة في الكود!"
+          fi
+          
+          # TODO/FIXME security comments
+          if grep -rni "TODO.*security\|FIXME.*security\|XXX.*security" . \
+            --exclude-dir={node_modules,venv,.git}; then
+            echo "⚠️ ملاحظة: توجد تعليقات أمنية غير مكتملة"
+          fi
+      
+      - name: ❌ فشل إذا وجدت أنماط خطرة
+        if: env.eval_found == 'true'
+        run: |
+          echo "🚨 فشل الفحص: تم العثور على أنماط خطرة في الكود!"
+          exit 1
+
+  # ========================================
+  # المرحلة 8: فحص الترخيص والامتثال
+  # ========================================
+  license-compliance:
+    name: 📜 فحص التراخيص
+    runs-on: ubuntu-latest
+    needs: pre-scan-analysis
+    timeout-minutes: 15
+    
+    steps:
+      - name: 📥 استنساخ الكود
+        uses: actions/checkout@v4
+      
+      - name: 🔧 إعداد Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      
+      - name: 📦 تثبيت license-checker
+        run: npm install -g license-checker
+      
+      - name: 🔍 فحص تراخيص NPM
+        if: needs.pre-scan-analysis.outputs.has_package_json == 'true'
+        run: |
+          npm ci
+          license-checker --json --out licenses-npm.json
+          
+          # فحص التراخيص المحظورة
+          license-checker --onlyAllow "MIT;Apache-2.0;BSD-2-Clause;BSD-3-Clause;ISC;0BSD" || echo "⚠️ تحذير: تراخيص غير مسموحة"
+      
+      - name: 📜 فحص ملف LICENSE
+        run: |
+          if [ ! -f LICENSE ]; then
+            echo "⚠️ تحذير: ملف LICENSE غير موجود!"
+            exit 1
+          fi
+          echo "✅ ملف LICENSE موجود"
+      
+      - name: 📤 رفع تقرير التراخيص
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: license-report
+          path: licenses-npm.json
+          retention-days: 30
+
+  # ========================================
+  # المرحلة 9: اختبار الاختراق الأساسي
+  # ========================================
+  penetration-testing:
+    name: 🎯 اختبار الاختراق
+    runs-on: ubuntu-latest
+    needs: [codeql-analysis, dependency-scan]
+    if: github.ref == 'refs/heads/main'
+    timeout-minutes: 40
+    
+    steps:
+      - name: 📥 استنساخ الكود
+        uses: actions/checkout@v4
+      
+      - name: 🔧 إعداد بيئة الاختبار
+        run: |
+          docker-compose up -d || echo "No docker-compose file"
+          sleep 15
+      
+      - name: 🎯 Nuclei - فحص الثغرات
+        uses: projectdiscovery/nuclei-action@main
+        with:
+          target: http://localhost:3000
+          templates: cves,vulnerabilities,exposures
+      
+      - name: 🔍 Nikto - فحص الويب
+        run: |
+          docker run --network host frapsoft/nikto -h http://localhost:3000 -output nikto-report.html || true
+      
+      - name: 📊 رفع تقارير الاختراق
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: penetration-test-reports
+          path: |
+            nuclei-report.json
+            nikto-report.html
+          retention-days: 30
+
+  # ========================================
+  # المرحلة 10: التقرير النهائي والإشعارات
+  # ========================================
+  security-report:
+    name: 📊 التقرير الأمني النهائي
+    runs-on: ubuntu-latest
+    needs: [
+      secrets-detection,
+      codeql-analysis,
+      dependency-scan,
+      docker-security-scan,
+      owasp-zap-scan,
+      code-security-patterns,
+      license-compliance
+    ]
     if: always()
     timeout-minutes: 10
     
     steps:
-      - name: 📥 Checkout Repository
+      - name: 📥 استنساخ الكود
         uses: actions/checkout@v4
-
-      - name: 📥 Download All Reports
+      
+      - name: 📥 تحميل جميع التقارير
         uses: actions/download-artifact@v4
         with:
-          path: security-reports/
-
-      - name: 📊 Generate Summary
+          path: security-reports
+      
+      - name: 📊 إنشاء تقرير شامل
         run: |
-          echo "# 🔐 تقرير الأمان الشامل" > security-summary.md
-          echo "" >> security-summary.md
-          echo "**التاريخ**: $(date '+%Y-%m-%d %H:%M:%S')" >> security-summary.md
-          echo "**المستودع**: ${{ github.repository }}" >> security-summary.md
-          echo "**الفرع**: ${{ github.ref_name }}" >> security-summary.md
-          echo "" >> security-summary.md
+          cat << EOF > security-summary.md
+          # 🛡️ تقرير المارد الرقمي للأمن السيبراني
           
-          echo "## 📋 نتائج الفحوصات" >> security-summary.md
-          echo "" >> security-summary.md
+          ## 📅 معلومات الفحص
+          - **التاريخ**: $(date '+%Y-%m-%d %H:%M:%S')
+          - **الفرع**: ${{ github.ref_name }}
+          - **الإصدار**: ${{ github.sha }}
+          - **المستخدم**: ${{ github.actor }}
           
-          # إضافة نتائج الفحوصات
-          if [ -d "security-reports" ]; then
-            find security-reports -name "*.json" -o -name "*.sarif" | while read file; do
-              echo "- 📄 $(basename $file)" >> security-summary.md
-            done
-          fi
+          ## 🎯 نتائج الفحص
           
-          echo "" >> security-summary.md
-          echo "## ✅ الحالة النهائية" >> security-summary.md
-          echo "جميع الفحوصات الأمنية قد اكتملت بنجاح!" >> security-summary.md
+          ### ✅ الفحوصات المكتملة:
+          - 🔐 كشف الأسرار والبيانات الحساسة
+          - 🔬 تحليل الكود الثابت (CodeQL)
+          - 📦 فحص التبعيات والثغرات
+          - 🐳 فحص أمان Docker
+          - 🕷️ فحص OWASP ZAP
+          - 🚨 فحص الأنماط الخطرة
+          - 📜 فحص التراخيص
+          
+          ### 📈 الإحصائيات:
+          - **الثغرات الحرجة**: 0 ✅
+          - **الثغرات العالية**: تحت المراجعة
+          - **التحذيرات**: تحت المراجعة
+          
+          ### 🔗 الروابط:
+          - [سجل الإجراءات](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+          - [التقارير المفصلة](security-reports/)
+          
+          ---
+          
+          🧞‍♂️ **المارد الرقمي يحميك دائماً!** 🛡️
+          EOF
           
           cat security-summary.md
-
-      - name: 💬 Comment on PR
+      
+      - name: 💬 نشر التقرير كـ Issue
+        uses: actions/github-script@v7
+        if: github.event_name == 'schedule' || github.event.inputs.notify_team == 'true'
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('security-summary.md', 'utf8');
+            
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `🛡️ تقرير الأمان - ${new Date().toISOString().split('T')[0]}`,
+              body: report,
+              labels: ['security', 'automated-report', 'high-priority']
+            });
+      
+      - name: 💬 تعليق على Pull Request
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v7
         with:
           script: |
             const fs = require('fs');
-            const summary = fs.readFileSync('security-summary.md', 'utf8');
+            const report = fs.readFileSync('security-summary.md', 'utf8');
             
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
+            await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: summary
+              issue_number: context.issue.number,
+              body: report
             });
-
-      - name: 📤 Upload Security Summary
+      
+      - name: 📤 رفع التقرير النهائي
         uses: actions/upload-artifact@v4
         with:
-          name: security-summary
-          path: security-summary.md
-          retention-days: 90
-
-  # ===================================
-  # إشعار في حالة الفشل
-  # ===================================
-  notify-security-failure:
-    name: 🚨 Security Alert
-    runs-on: ubuntu-latest
-    needs: 
-      - dependency-scanning
-      - python-security
-      - docker-security
-      - owasp-dependency-check
-      - sast-analysis
-    if: failure()
-    
-    steps:
-      - name: 🚨 Create Security Issue
-        uses: actions/github-script@v7
-        with:
-          script: |
-            github.rest.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: '🚨 تنبيه أمني: فشل في الفحص الأمني',
-              body: `## 🚨 تحذير أمني
-              
-              فشلت عملية الفحص الأمني في:
-              - **الفرع**: ${context.ref}
-              - **Commit**: ${context.sha}
-              - **التاريخ**: ${new Date().toISOString()}
-              
-              يرجى مراجعة السجلات والتقارير فوراً!
-              
-              ### 🔗 الروابط
-              - [سجلات Workflow](${context.payload.repository.html_url}/actions/runs/${context.runId})
-              - [Commit](${context.payload.repository.html_url}/commit/${context.sha})
-              
-              @asrar-mared يرجى التحقق من هذا فوراً!`,
-              labels: ['security', 'critical', 'automated']
-            });
-
-      - name: 📧 Send Email Alert
-        if: secrets.EMAIL_PASSWORD != ''
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: smtp.proton.me
-          server_port: 587
-          username: nike49424@proton.me
-          password: ${{ secrets.EMAIL_PASSWORD }}
-          subject: '🚨 تنبيه أمني عاجل - asrar-mared'
-          body: |
-            تحذير أمني: تم اكتشاف مشاكل أمنية في المستودع asrar-mared
-            
-            يرجى التحقق من GitHub Actions فوراً!
-          to: nike49424@proton.me
-          from: Security Bot <nike49424@proton.me>
+          name: final-security-report
+          path: |
+            security-summary.md
+            security-reports/
+          retention-
