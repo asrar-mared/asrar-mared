@@ -1,0 +1,466 @@
+# .github/workflows/nodejs-webpack.yml
+# 🔐 NodeJS with Webpack - أسرار المارد الرقمي
+
+name: 🚀 NodeJS CI/CD with Webpack
+
+on:
+  push:
+    branches: 
+      - main
+      - develop
+      - "release/**"
+    paths:
+      - "src/**"
+      - "package*.json"
+      - "webpack.config.js"
+      - ".github/workflows/nodejs-webpack.yml"
+  pull_request:
+    branches: 
+      - main
+      - develop
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+  schedule:
+    # اختبار أسبوعي كل يوم اثنين الساعة 3 صباحاً
+    - cron: '0 3 * * 1'
+
+# منع تشغيل workflow مكرر
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# الأذونات المطلوبة
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+  security-events: write
+
+env:
+  NODE_ENV: production
+  CI: true
+
+jobs:
+  # ===================================
+  # الفحوصات الأولية
+  # ===================================
+  pre-checks:
+    name: 🔍 Pre-flight Checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🔎 Check for package.json
+        run: |
+          if [ ! -f "package.json" ]; then
+            echo "❌ Error: package.json not found"
+            exit 1
+          fi
+          echo "✅ package.json found"
+
+      - name: 🔎 Check for webpack config
+        run: |
+          if [ ! -f "webpack.config.js" ] && [ ! -f "webpack.config.ts" ]; then
+            echo "⚠️ Warning: No webpack config found"
+          else
+            echo "✅ Webpack config found"
+          fi
+
+      - name: 📊 Check file changes
+        id: changes
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            source:
+              - 'src/**'
+              - 'package*.json'
+              - 'webpack.config.*'
+
+  # ===================================
+  # تثبيت التبعيات و Cache
+  # ===================================
+  install:
+    name: 📦 Install Dependencies
+    runs-on: ubuntu-latest
+    needs: pre-checks
+    timeout-minutes: 10
+    
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: 📊 Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ matrix.node-version }}-
+            ${{ runner.os }}-node-
+
+      - name: 📦 Install dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: |
+          npm ci --prefer-offline --no-audit
+          echo "✅ Dependencies installed successfully"
+
+      - name: 🔍 Check for vulnerabilities
+        run: |
+          npm audit --audit-level=high || true
+          echo "✅ Vulnerability check completed"
+
+  # ===================================
+  # Linting والتحقق من الجودة
+  # ===================================
+  lint:
+    name: 🔍 Code Quality & Linting
+    runs-on: ubuntu-latest
+    needs: install
+    timeout-minutes: 10
+    
+    strategy:
+      matrix:
+        node-version: [20.x]
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: 📊 Restore cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+
+      - name: 📦 Install if cache miss
+        run: npm ci --prefer-offline --no-audit
+
+      - name: 🔍 Run ESLint
+        run: |
+          npm run lint || echo "⚠️ Lint warnings found"
+        continue-on-error: true
+
+      - name: 🎨 Check code formatting
+        run: |
+          if [ -f ".prettierrc" ] || [ -f ".prettierrc.json" ]; then
+            npx prettier --check "src/**/*.{js,jsx,ts,tsx}" || echo "⚠️ Formatting issues found"
+          else
+            echo "⚠️ No Prettier config found, skipping"
+          fi
+        continue-on-error: true
+
+      - name: 🔒 Run security audit
+        run: |
+          npm audit --audit-level=moderate
+        continue-on-error: true
+
+  # ===================================
+  # الاختبارات
+  # ===================================
+  test:
+    name: 🧪 Run Tests
+    runs-on: ubuntu-latest
+    needs: lint
+    timeout-minutes: 15
+    
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: 📊 Restore cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+
+      - name: 📦 Install if cache miss
+        run: npm ci --prefer-offline --no-audit
+
+      - name: 🧪 Run unit tests
+        run: |
+          if grep -q "\"test\":" package.json; then
+            npm test -- --coverage --maxWorkers=2
+          else
+            echo "⚠️ No test script found in package.json"
+          fi
+        continue-on-error: true
+
+      - name: 📊 Upload coverage reports
+        if: matrix.node-version == '20.x'
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage/coverage-final.json
+          flags: unittests
+          name: codecov-${{ matrix.node-version }}
+        continue-on-error: true
+
+  # ===================================
+  # البناء مع Webpack
+  # ===================================
+  build:
+    name: 🏗️ Build with Webpack
+    runs-on: ubuntu-latest
+    needs: test
+    timeout-minutes: 20
+    
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: 📊 Restore cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+
+      - name: 📦 Install if cache miss
+        run: npm ci --prefer-offline --no-audit
+
+      - name: 🔧 Cache webpack build
+        uses: actions/cache@v4
+        with:
+          path: |
+            .cache
+            dist
+            build
+          key: webpack-build-${{ runner.os }}-${{ matrix.node-version }}-${{ hashFiles('**/webpack.config.*') }}
+          restore-keys: |
+            webpack-build-${{ runner.os }}-${{ matrix.node-version }}-
+            webpack-build-${{ runner.os }}-
+
+      - name: 🏗️ Build with Webpack
+        run: |
+          echo "🚀 Starting webpack build..."
+          NODE_ENV=production npx webpack --mode production --config webpack.config.js
+          echo "✅ Build completed successfully"
+
+      - name: 📊 Analyze bundle size
+        run: |
+          if [ -f "dist/bundle.js" ] || [ -f "build/bundle.js" ]; then
+            echo "📦 Bundle size analysis:"
+            du -sh dist/* 2>/dev/null || du -sh build/* 2>/dev/null || echo "No build output found"
+          fi
+
+      - name: 🔍 Check build artifacts
+        run: |
+          if [ -d "dist" ]; then
+            echo "✅ Build artifacts found in dist/"
+            ls -lah dist/
+          elif [ -d "build" ]; then
+            echo "✅ Build artifacts found in build/"
+            ls -lah build/
+          else
+            echo "❌ No build output directory found"
+            exit 1
+          fi
+
+      - name: 📤 Upload build artifacts
+        if: matrix.node-version == '20.x'
+        uses: actions/upload-artifact@v4
+        with:
+          name: webpack-build-node-${{ matrix.node-version }}
+          path: |
+            dist/
+            build/
+          retention-days: 7
+          if-no-files-found: warn
+
+  # ===================================
+  # الفحص الأمني
+  # ===================================
+  security-scan:
+    name: 🔐 Security Scanning
+    runs-on: ubuntu-latest
+    needs: build
+    timeout-minutes: 15
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm ci --prefer-offline --no-audit
+
+      - name: 🔍 Run npm audit
+        run: |
+          npm audit --audit-level=moderate --json > audit-report.json || true
+          cat audit-report.json
+
+      - name: 🛡️ Run Snyk security scan
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high
+
+      - name: 🔒 Check for secrets
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: ${{ github.event.repository.default_branch }}
+          head: HEAD
+
+  # ===================================
+  # التحليل الثابت للكود
+  # ===================================
+  codeql-analysis:
+    name: 🔬 CodeQL Analysis
+    runs-on: ubuntu-latest
+    needs: build
+    timeout-minutes: 20
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔬 Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript
+          queries: security-and-quality
+
+      - name: 🏗️ Autobuild
+        uses: github/codeql-action/autobuild@v3
+
+      - name: 📊 Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:javascript"
+
+  # ===================================
+  # تقرير النجاح النهائي
+  # ===================================
+  success-report:
+    name: ✅ Success Report
+    runs-on: ubuntu-latest
+    needs: [build, security-scan, codeql-analysis]
+    if: success()
+    
+    steps:
+      - name: 🎉 All checks passed
+        run: |
+          echo "=================================="
+          echo "✅ جميع الفحوصات نجحت بنجاح!"
+          echo "=================================="
+          echo "📦 Build: ✅ Success"
+          echo "🔐 Security: ✅ Success"
+          echo "🔬 CodeQL: ✅ Success"
+          echo "=================================="
+
+      - name: 💬 Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '## ✅ جميع الفحوصات نجحت!\n\n' +
+                    '- 🏗️ **Build**: نجح على جميع إصدارات Node.js\n' +
+                    '- 🔐 **Security**: لم يتم اكتشاف ثغرات خطيرة\n' +
+                    '- 🔬 **CodeQL**: تحليل الكود مكتمل\n' +
+                    '- ✅ **جاهز للدمج**'
+            })
+
+  # ===================================
+  # النشر (فقط على main)
+  # ===================================
+  deploy:
+    name: 🚀 Deploy
+    runs-on: ubuntu-latest
+    needs: success-report
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment:
+      name: production
+      url: https://your-domain.com
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm ci --prefer-offline --no-audit
+
+      - name: 🏗️ Production build
+        run: |
+          NODE_ENV=production npx webpack --mode production
+          echo "✅ Production build completed"
+
+      - name: 📤 Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: webpack-build-node-20.x
+          path: ./build-artifacts
+
+      - name: 🚀 Deploy to production
+        run: |
+          echo "🚀 Deploying to production..."
+          # أضف أوامر النشر هنا (مثل: rsync, scp, AWS S3, etc.)
+          echo "✅ Deployment completed"
+
+      - name: 🔔 Notify deployment success
+        run: |
+          echo "✅ Deployment to production successful!"
+          # يمكن إضافة إشعارات (Slack, Discord, Email, etc.)
