@@ -1,0 +1,726 @@
+# .github/workflows/dependency-check.yml
+# 📦 Dependency Security Check - أسرار المارد الرقمي للأمن السيبراني
+
+name: 📦 Dependency Security & License Check
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'package*.json'
+      - 'requirements.txt'
+      - 'Pipfile'
+      - 'Gemfile'
+      - 'go.mod'
+      - 'Cargo.toml'
+      - 'pom.xml'
+      - 'build.gradle'
+      - 'composer.json'
+  pull_request:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'package*.json'
+      - 'requirements.txt'
+      - 'Pipfile'
+      - 'Gemfile'
+      - 'go.mod'
+      - 'Cargo.toml'
+      - 'pom.xml'
+      - 'build.gradle'
+      - 'composer.json'
+  schedule:
+    # فحص يومي الساعة 3 صباحاً بتوقيت القاهرة
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+    inputs:
+      scan_depth:
+        description: 'عمق الفحص'
+        required: true
+        default: 'standard'
+        type: choice
+        options:
+          - quick
+          - standard
+          - deep
+
+concurrency:
+  group: dependency-check-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  security-events: write
+  pull-requests: write
+  issues: write
+
+env:
+  NODE_VERSION: "20.x"
+  PYTHON_VERSION: "3.11"
+  GO_VERSION: "1.21"
+  JAVA_VERSION: "17"
+  RUBY_VERSION: "3.2"
+  PHP_VERSION: "8.2"
+
+jobs:
+  # ===================================
+  # كشف أنظمة التبعيات الموجودة
+  # ===================================
+  detect-ecosystems:
+    name: 🔍 Detect Package Ecosystems
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      npm: ${{ steps.detect.outputs.npm }}
+      python: ${{ steps.detect.outputs.python }}
+      go: ${{ steps.detect.outputs.go }}
+      ruby: ${{ steps.detect.outputs.ruby }}
+      java: ${{ steps.detect.outputs.java }}
+      php: ${{ steps.detect.outputs.php }}
+      rust: ${{ steps.detect.outputs.rust }}
+    
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🔍 Detect package managers
+        id: detect
+        run: |
+          echo "Detecting package ecosystems..."
+          
+          # NPM/Node.js
+          if [ -f "package.json" ]; then
+            echo "npm=true" >> $GITHUB_OUTPUT
+            echo "✅ NPM detected"
+          else
+            echo "npm=false" >> $GITHUB_OUTPUT
+          fi
+          
+          # Python
+          if [ -f "requirements.txt" ] || [ -f "Pipfile" ] || [ -f "setup.py" ]; then
+            echo "python=true" >> $GITHUB_OUTPUT
+            echo "✅ Python detected"
+          else
+            echo "python=false" >> $GITHUB_OUTPUT
+          fi
+          
+          # Go
+          if [ -f "go.mod" ]; then
+            echo "go=true" >> $GITHUB_OUTPUT
+            echo "✅ Go detected"
+          else
+            echo "go=false" >> $GITHUB_OUTPUT
+          fi
+          
+          # Ruby
+          if [ -f "Gemfile" ]; then
+            echo "ruby=true" >> $GITHUB_OUTPUT
+            echo "✅ Ruby detected"
+          else
+            echo "ruby=false" >> $GITHUB_OUTPUT
+          fi
+          
+          # Java (Maven/Gradle)
+          if [ -f "pom.xml" ] || [ -f "build.gradle" ]; then
+            echo "java=true" >> $GITHUB_OUTPUT
+            echo "✅ Java detected"
+          else
+            echo "java=false" >> $GITHUB_OUTPUT
+          fi
+          
+          # PHP
+          if [ -f "composer.json" ]; then
+            echo "php=true" >> $GITHUB_OUTPUT
+            echo "✅ PHP detected"
+          else
+            echo "php=false" >> $GITHUB_OUTPUT
+          fi
+          
+          # Rust
+          if [ -f "Cargo.toml" ]; then
+            echo "rust=true" >> $GITHUB_OUTPUT
+            echo "✅ Rust detected"
+          else
+            echo "rust=false" >> $GITHUB_OUTPUT
+          fi
+
+  # ===================================
+  # فحص NPM/Node.js
+  # ===================================
+  npm-dependency-check:
+    name: 📦 NPM Dependencies
+    runs-on: ubuntu-latest
+    needs: detect-ecosystems
+    if: needs.detect-ecosystems.outputs.npm == 'true'
+    timeout-minutes: 20
+    
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm ci --audit=false
+
+      # NPM Audit
+      - name: 🔍 NPM Audit
+        id: npm-audit
+        run: |
+          echo "Running npm audit..."
+          npm audit --json > npm-audit.json || true
+          
+          # تحليل النتائج
+          if [ -f "npm-audit.json" ]; then
+            CRITICAL=$(cat npm-audit.json | jq '.metadata.vulnerabilities.critical // 0')
+            HIGH=$(cat npm-audit.json | jq '.metadata.vulnerabilities.high // 0')
+            MODERATE=$(cat npm-audit.json | jq '.metadata.vulnerabilities.moderate // 0')
+            LOW=$(cat npm-audit.json | jq '.metadata.vulnerabilities.low // 0')
+            
+            echo "## 📊 NPM Audit Results" > npm-summary.md
+            echo "" >> npm-summary.md
+            echo "| Severity | Count |" >> npm-summary.md
+            echo "|----------|-------|" >> npm-summary.md
+            echo "| 🔴 Critical | $CRITICAL |" >> npm-summary.md
+            echo "| 🟠 High | $HIGH |" >> npm-summary.md
+            echo "| 🟡 Moderate | $MODERATE |" >> npm-summary.md
+            echo "| 🟢 Low | $LOW |" >> npm-summary.md
+            
+            cat npm-summary.md
+            
+            # فشل إذا وجدت ثغرات حرجة
+            if [ "$CRITICAL" -gt 0 ]; then
+              echo "❌ Critical vulnerabilities found!"
+              exit 1
+            fi
+          fi
+
+      # Better NPM Audit
+      - name: 🛡️ Better NPM Audit
+        uses: oke-py/npm-audit-action@v2
+        with:
+          audit_level: moderate
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          issue_assignees: asrar-mared
+          issue_labels: security,dependencies,npm
+          dedupe_issues: true
+
+      # NPM Outdated
+      - name: 📊 Check Outdated Packages
+        run: |
+          echo "Checking for outdated packages..."
+          npm outdated --json > npm-outdated.json || true
+          
+          if [ -s npm-outdated.json ]; then
+            echo "⚠️ Some packages are outdated:"
+            cat npm-outdated.json | jq '.'
+          else
+            echo "✅ All packages are up to date"
+          fi
+
+      # License Check
+      - name: 📜 License Check
+        run: |
+          npx license-checker --json --out npm-licenses.json
+          echo "📜 License information collected"
+
+      - name: 📤 Upload NPM Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-dependency-reports
+          path: |
+            npm-audit.json
+            npm-outdated.json
+            npm-licenses.json
+            npm-summary.md
+          retention-days: 30
+
+  # ===================================
+  # فحص Python
+  # ===================================
+  python-dependency-check:
+    name: 🐍 Python Dependencies
+    runs-on: ubuntu-latest
+    needs: detect-ecosystems
+    if: needs.detect-ecosystems.outputs.python == 'true'
+    timeout-minutes: 20
+    
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+
+      - name: 📦 Install tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install safety pip-audit pipdeptree piprot
+
+      # Safety Check
+      - name: 🔒 Safety Check
+        run: |
+          echo "Running Safety check..."
+          if [ -f "requirements.txt" ]; then
+            safety check --file requirements.txt --json --output safety-report.json || true
+            
+            if [ -f "safety-report.json" ]; then
+              echo "## 🐍 Safety Check Results" > python-summary.md
+              cat safety-report.json | jq '.' >> python-summary.md
+            fi
+          fi
+
+      # pip-audit
+      - name: 🛡️ pip-audit
+        run: |
+          echo "Running pip-audit..."
+          if [ -f "requirements.txt" ]; then
+            pip-audit -r requirements.txt --format json > pip-audit-report.json || true
+            
+            if [ -f "pip-audit-report.json" ]; then
+              echo "📊 pip-audit results:"
+              cat pip-audit-report.json | jq '.'
+            fi
+          fi
+
+      # Check outdated packages
+      - name: 📊 Check Outdated Packages
+        run: |
+          echo "Checking for outdated packages..."
+          pip list --outdated --format json > pip-outdated.json || true
+          
+          if [ -s pip-outdated.json ]; then
+            echo "⚠️ Outdated packages found:"
+            cat pip-outdated.json | jq '.'
+          else
+            echo "✅ All packages are up to date"
+          fi
+
+      # Dependency Tree
+      - name: 🌳 Dependency Tree
+        run: |
+          echo "Generating dependency tree..."
+          pipdeptree --json > pip-tree.json
+          pipdeptree > pip-tree.txt
+
+      # License Check
+      - name: 📜 License Check
+        run: |
+          pip install pip-licenses
+          pip-licenses --format=json --output-file=python-licenses.json
+          echo "📜 License information collected"
+
+      - name: 📤 Upload Python Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-dependency-reports
+          path: |
+            safety-report.json
+            pip-audit-report.json
+            pip-outdated.json
+            pip-tree.json
+            python-licenses.json
+            python-summary.md
+          retention-days: 30
+
+  # ===================================
+  # فحص Go
+  # ===================================
+  go-dependency-check:
+    name: 🔷 Go Dependencies
+    runs-on: ubuntu-latest
+    needs: detect-ecosystems
+    if: needs.detect-ecosystems.outputs.go == 'true'
+    timeout-minutes: 15
+    
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🔷 Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache: true
+
+      - name: 📦 Download dependencies
+        run: go mod download
+
+      - name: 🔍 Go Vulnerability Check
+        run: |
+          go install golang.org/x/vuln/cmd/govulncheck@latest
+          govulncheck -json ./... > go-vuln.json || true
+          
+          if [ -f "go-vuln.json" ]; then
+            echo "📊 Go vulnerability results:"
+            cat go-vuln.json | jq '.'
+          fi
+
+      - name: 📊 Check Outdated Modules
+        run: |
+          go list -u -m -json all > go-modules.json
+          echo "✅ Module information collected"
+
+      - name: 🔒 Nancy (Sonatype)
+        run: |
+          go list -json -deps ./... | docker run --rm -i sonatypecommunity/nancy:latest sleuth > nancy-report.txt || true
+
+      - name: 📤 Upload Go Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: go-dependency-reports
+          path: |
+            go-vuln.json
+            go-modules.json
+            nancy-report.txt
+          retention-days: 30
+
+  # ===================================
+  # فحص Ruby
+  # ===================================
+  ruby-dependency-check:
+    name: 💎 Ruby Dependencies
+    runs-on: ubuntu-latest
+    needs: detect-ecosystems
+    if: needs.detect-ecosystems.outputs.ruby == 'true'
+    timeout-minutes: 15
+    
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 💎 Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ env.RUBY_VERSION }}
+          bundler-cache: true
+
+      - name: 🔍 Bundler Audit
+        run: |
+          gem install bundler-audit
+          bundler-audit check --update > bundler-audit.txt || true
+          cat bundler-audit.txt
+
+      - name: 📊 Check Outdated Gems
+        run: |
+          bundle outdated --json > bundler-outdated.json || true
+
+      - name: 📤 Upload Ruby Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ruby-dependency-reports
+          path: |
+            bundler-audit.txt
+            bundler-outdated.json
+          retention-days: 30
+
+  # ===================================
+  # فحص Java (Maven/Gradle)
+  # ===================================
+  java-dependency-check:
+    name: ☕ Java Dependencies
+    runs-on: ubuntu-latest
+    needs: detect-ecosystems
+    if: needs.detect-ecosystems.outputs.java == 'true'
+    timeout-minutes: 20
+    
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: ☕ Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: 🔍 OWASP Dependency Check (Maven)
+        if: hashFiles('pom.xml') != ''
+        run: |
+          mvn org.owasp:dependency-check-maven:check \
+            -DfailBuildOnCVSS=7 \
+            -DskipTestScope=true
+
+      - name: 🔍 Gradle Dependency Check
+        if: hashFiles('build.gradle') != ''
+        run: |
+          ./gradlew dependencyCheckAnalyze || true
+
+      - name: 📤 Upload Java Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: java-dependency-reports
+          path: |
+            target/dependency-check-report.html
+            build/reports/dependency-check-report.html
+          retention-days: 30
+
+  # ===================================
+  # فحص PHP (Composer)
+  # ===================================
+  php-dependency-check:
+    name: 🐘 PHP Dependencies
+    runs-on: ubuntu-latest
+    needs: detect-ecosystems
+    if: needs.detect-ecosystems.outputs.php == 'true'
+    timeout-minutes: 15
+    
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🐘 Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          tools: composer
+
+      - name: 📦 Install dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: 🔍 Composer Audit
+        run: |
+          composer audit --format=json > composer-audit.json || true
+          cat composer-audit.json
+
+      - name: 📊 Check Outdated Packages
+        run: |
+          composer outdated --format=json > composer-outdated.json || true
+
+      - name: 📤 Upload PHP Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: php-dependency-reports
+          path: |
+            composer-audit.json
+            composer-outdated.json
+          retention-days: 30
+
+  # ===================================
+  # فحص Rust (Cargo)
+  # ===================================
+  rust-dependency-check:
+    name: 🦀 Rust Dependencies
+    runs-on: ubuntu-latest
+    needs: detect-ecosystems
+    if: needs.detect-ecosystems.outputs.rust == 'true'
+    timeout-minutes: 15
+    
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🦀 Setup Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+
+      - name: 🔍 Cargo Audit
+        run: |
+          cargo install cargo-audit
+          cargo audit --json > cargo-audit.json || true
+          cat cargo-audit.json
+
+      - name: 📊 Check Outdated Crates
+        run: |
+          cargo install cargo-outdated
+          cargo outdated --format json > cargo-outdated.json || true
+
+      - name: 📤 Upload Rust Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rust-dependency-reports
+          path: |
+            cargo-audit.json
+            cargo-outdated.json
+          retention-days: 30
+
+  # ===================================
+  # فحص شامل متعدد اللغات
+  # ===================================
+  multi-language-check:
+    name: 🌐 Multi-Language Dependency Check
+    runs-on: ubuntu-latest
+    needs: detect-ecosystems
+    timeout-minutes: 30
+    
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      # Trivy - يدعم كل اللغات
+      - name: 🔍 Trivy Filesystem Scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH,MEDIUM'
+          vuln-type: 'library'
+
+      - name: 📤 Upload Trivy SARIF
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'trivy-results.sarif'
+          category: 'trivy-dependencies'
+
+      # Snyk - يدعم معظم اللغات
+      - name: 🛡️ Snyk Test
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: test
+          args: --all-projects --severity-threshold=high
+
+  # ===================================
+  # تقرير شامل للتبعيات
+  # ===================================
+  dependency-report:
+    name: 📊 Dependency Summary Report
+    runs-on: ubuntu-latest
+    needs:
+      - npm-dependency-check
+      - python-dependency-check
+      - go-dependency-check
+      - ruby-dependency-check
+      - java-dependency-check
+      - php-dependency-check
+      - rust-dependency-check
+      - multi-language-check
+    if: always()
+    timeout-minutes: 10
+    
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 📥 Download All Reports
+        uses: actions/download-artifact@v4
+        with:
+          path: dependency-reports/
+
+      - name: 📊 Generate Summary
+        run: |
+          echo "# 📦 تقرير فحص التبعيات الشامل" > dependency-summary.md
+          echo "" >> dependency-summary.md
+          echo "**التاريخ**: $(date '+%Y-%m-%d %H:%M:%S')" >> dependency-summary.md
+          echo "**المستودع**: ${{ github.repository }}" >> dependency-summary.md
+          echo "**الفرع**: ${{ github.ref_name }}" >> dependency-summary.md
+          echo "" >> dependency-summary.md
+          
+          echo "## 📋 أنظمة التبعيات المكتشفة" >> dependency-summary.md
+          echo "" >> dependency-summary.md
+          
+          if [ -d "dependency-reports/npm-dependency-reports" ]; then
+            echo "- ✅ **NPM/Node.js**: تم الفحص" >> dependency-summary.md
+          fi
+          
+          if [ -d "dependency-reports/python-dependency-reports" ]; then
+            echo "- ✅ **Python**: تم الفحص" >> dependency-summary.md
+          fi
+          
+          if [ -d "dependency-reports/go-dependency-reports" ]; then
+            echo "- ✅ **Go**: تم الفحص" >> dependency-summary.md
+          fi
+          
+          if [ -d "dependency-reports/ruby-dependency-reports" ]; then
+            echo "- ✅ **Ruby**: تم الفحص" >> dependency-summary.md
+          fi
+          
+          if [ -d "dependency-reports/java-dependency-reports" ]; then
+            echo "- ✅ **Java**: تم الفحص" >> dependency-summary.md
+          fi
+          
+          if [ -d "dependency-reports/php-dependency-reports" ]; then
+            echo "- ✅ **PHP**: تم الفحص" >> dependency-summary.md
+          fi
+          
+          if [ -d "dependency-reports/rust-dependency-reports" ]; then
+            echo "- ✅ **Rust**: تم الفحص" >> dependency-summary.md
+          fi
+          
+          echo "" >> dependency-summary.md
+          echo "## 🔒 الحالة النهائية" >> dependency-summary.md
+          echo "جميع فحوصات التبعيات قد اكتملت!" >> dependency-summary.md
+          
+          cat dependency-summary.md
+
+      - name: 💬 Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const summary = fs.readFileSync('dependency-summary.md', 'utf8');
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: summary
+            });
+
+      - name: 📤 Upload Final Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-final-report
+          path: |
+            dependency-summary.md
+            dependency-reports/
+          retention-days: 90
+
+  # ===================================
+  # إنشاء Issue عند وجود ثغرات حرجة
+  # ===================================
+  create-security-issue:
+    name: 🚨 Create Security Issue
+    runs-on: ubuntu-latest
+    needs: dependency-report
+    if: failure()
+    
+    steps:
+      - name: 🚨 Create Issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '🚨 ثغرات أمنية حرجة في التبعيات',
+              body: `## 🚨 تحذير: ثغرات أمنية حرجة
+              
+              تم اكتشاف ثغرات أمنية حرجة في التبعيات!
+              
+              - **الفرع**: ${context.ref}
+              - **Commit**: ${context.sha}
+              - **التاريخ**: ${new Date().toISOString()}
+              
+              ### 🔗 الروابط
+              - [سجلات Workflow](${context.payload.repository.html_url}/actions/runs/${context.runId})
+              - [التقارير](${context.payload.repository.html_url}/actions/runs/${context.runId}#artifacts)
+              
+              @asrar-mared يرجى التحديث الفوري للتبعيات!`,
+              labels: ['security', 'critical', 'dependencies', 'automated'],
+              assignees: ['asrar-mared']
+            });
