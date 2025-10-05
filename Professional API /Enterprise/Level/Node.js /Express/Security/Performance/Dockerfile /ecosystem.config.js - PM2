@@ -168,7 +168,188 @@ class DeploymentManager {
                     resolve({ stdout, stderr });
                 }
             });
+        }
+        
+        const createdPosts = await Post.insertMany(posts);
+        console.log(`📝 Created ${createdPosts.length} sample posts`);
+        
+        console.log('🎉 Database seeding completed!');
+    }
+}
+
+// ===========================================
+// scripts/backup.js - Database Backup
+// ===========================================
+
+class BackupManager {
+    constructor() {
+        this.backupPath = path.join(__dirname, '../backups');
+    }
+
+    async createBackup() {
+        const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+        const backupDir = path.join(this.backupPath, timestamp);
+        
+        console.log('💾 Creating database backup...');
+        
+        try {
+            // Ensure backup directory exists
+            await fs.mkdir(backupDir, { recursive: true });
+            
+            // Export MongoDB database
+            const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost:27017/professional_api';
+            const dbName = mongoUrl.split('/').pop();
+            
+            await this.runCommand(`mongodump --uri="${mongoUrl}" --out="${backupDir}"`);
+            
+            // Create backup info file
+            const backupInfo = {
+                timestamp: new Date().toISOString(),
+                database: dbName,
+                environment: process.env.NODE_ENV,
+                size: await this.getDirectorySize(backupDir)
+            };
+            
+            await fs.writeFile(
+                path.join(backupDir, 'backup-info.json'),
+                JSON.stringify(backupInfo, null, 2)
+            );
+            
+            console.log(`✅ Backup created successfully: ${backupDir}`);
+            return backupDir;
+            
+        } catch (error) {
+            console.error('❌ Backup creation failed:', error.message);
+            throw error;
+        }
+    }
+
+    async restoreBackup(backupPath) {
+        console.log(`📥 Restoring database from: ${backupPath}`);
+        
+        try {
+            const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost:27017/professional_api';
+            const dbName = mongoUrl.split('/').pop();
+            
+            await this.runCommand(`mongorestore --uri="${mongoUrl}" --drop "${path.join(backupPath, dbName)}"`);
+            
+            console.log('✅ Database restore completed successfully');
+            
+        } catch (error) {
+            console.error('❌ Database restore failed:', error.message);
+            throw error;
+        }
+    }
+
+    async getDirectorySize(dirPath) {
+        const files = await fs.readdir(dirPath, { withFileTypes: true });
+        let size = 0;
+        
+        for (const file of files) {
+            const filePath = path.join(dirPath, file.name);
+            if (file.isDirectory()) {
+                size += await this.getDirectorySize(filePath);
+            } else {
+                const stats = await fs.stat(filePath);
+                size += stats.size;
+            }
+        }
+        
+        return size;
+    }
+
+    async runCommand(command) {
+        return new Promise((resolve, reject) => {
+            exec(command, (error, stdout, stderr) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve({ stdout, stderr });
+                }
+            });
         });
+    }
+}
+
+// ===========================================
+// Command Line Interface
+// ===========================================
+
+async function main() {
+    const command = process.argv[2];
+    const environment = process.argv[3] || 'development';
+    
+    try {
+        switch (command) {
+            case 'deploy':
+                const deployer = new DeploymentManager();
+                await deployer.deploy(environment);
+                break;
+                
+            case 'migrate':
+                await mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost:27017/professional_api');
+                await migrator.runMigrations();
+                await mongoose.disconnect();
+                break;
+                
+            case 'seed':
+                await mongoose.connect(process.env.MONGO_URL || 'mongodb://localhost:27017/professional_api');
+                const seeder = new DatabaseSeeder();
+                await seeder.seed();
+                await mongoose.disconnect();
+                break;
+                
+            case 'backup':
+                const backupManager = new BackupManager();
+                await backupManager.createBackup();
+                break;
+                
+            case 'restore':
+                const backupPath = process.argv[3];
+                if (!backupPath) {
+                    throw new Error('Backup path is required for restore command');
+                }
+                const restoreManager = new BackupManager();
+                await restoreManager.restoreBackup(backupPath);
+                break;
+                
+            default:
+                console.log(`
+🚀 Professional API Management Scripts
+
+Available commands:
+  deploy [environment]     - Deploy to specified environment (development/staging/production)
+  migrate                  - Run database migrations
+  seed                     - Seed database with sample data
+  backup                   - Create database backup
+  restore [backup-path]    - Restore database from backup
+
+Examples:
+  node scripts/deploy.js deploy production
+  node scripts/deploy.js migrate
+  node scripts/deploy.js seed
+  node scripts/deploy.js backup
+  node scripts/deploy.js restore ./backups/2024-01-01T00-00-00-000Z
+                `);
+        }
+    } catch (error) {
+        console.error('❌ Command failed:', error.message);
+        process.exit(1);
+    }
+}
+
+// Export classes for use in other modules
+module.exports = {
+    DeploymentManager,
+    DatabaseMigrator,
+    DatabaseSeeder,
+    BackupManager
+};
+
+// Run if called directly
+if (require.main === module) {
+    main();
+});
     }
 
     async deploy(environment) {
