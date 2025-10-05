@@ -1,0 +1,430 @@
+# .github/dependabot.yml
+# 🔐 Dependabot Configuration - أسرار المارد الرقمي للأمن السيبراني
+# هذا الملف يراقب ويحدّث التبعيات تلقائياً للحفاظ على أمان المشروع
+
+version: 2
+
+# ================================
+# إعدادات عامة للتحديثات
+# ================================
+registries:
+  npm-github:
+    type: npm-registry
+    url: https://npm.pkg.github.com
+    token: ${{secrets.GITHUB_TOKEN}}
+
+# ================================
+# تحديثات GitHub Actions
+# ================================
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "03:00"
+      timezone: "Africa/Cairo"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "nike1212a"
+    assignees:
+      - "nike1212a"
+    labels:
+      - "dependencies"
+      - "github-actions"
+      - "security"
+      - "automated"
+    commit-message:
+      prefix: "🔧 [Actions]"
+      include: "scope"
+    pull-request-branch-name:
+      separator: "-"
+    rebase-strategy: "auto"
+    ignore:
+      # تجاهل التحديثات البسيطة لـ actions معينة
+      - dependency-name: "actions/checkout"
+        update-types: ["version-update:semver-patch"]
+
+# ================================
+# تحديثات npm (Node.js)
+# ================================
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "02:00"
+      timezone: "Africa/Cairo"
+    open-pull-requests-limit: 15
+    versioning-strategy: increase
+    reviewers:
+      - "nike1212a"
+    assignees:
+      - "nike1212a"
+    labels:
+      - "dependencies"
+      - "npm"
+      - "javascript"
+      - "security-update"
+    commit-message:
+      prefix: "📦 [npm]"
+      prefix-development: "📦 [npm-dev]"
+      include: "scope"
+    pull-request-branch-name:
+      separator: "-"
+    rebase-strategy: "auto"
+    allow:
+      - dependency-type: "direct"
+      - dependency-type: "indirect"
+    ignore:
+      # تجاهل حزم معينة أو إصدارات
+      - dependency-name: "eslint"
+        versions: ["8.x"]
+    groups:
+      # تجميع تحديثات مكتبات الاختبار معاً
+      testing:
+        patterns:
+          - "jest*"
+          - "@testing-library/*"
+          - "vitest*"
+      # تجميع تحديثات أدوات التطوير
+      dev-dependencies:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+      # تجميع تحديثات الأمان
+      security:
+        patterns:
+          - "*"
+        update-types:
+          - "patch"
+
+# ================================
+# تحديثات pip (Python)
+# ================================
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "03:00"
+      timezone: "Africa/Cairo"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "nike1212a"
+    assignees:
+      - "nike1212a"
+    labels:
+      - "dependencies"
+      - "python"
+      - "security"
+    commit-message:
+      prefix: "🐍 [pip]"
+      include: "scope"
+    pull-request-branch-name:
+      separator: "-"
+    rebase-strategy: "auto"
+    allow:
+      - dependency-type: "direct"
+      - dependency-type: "indirect"
+    groups:
+      # تجميع مكتبات الأمان
+      security-tools:
+        patterns:
+          - "cryptography*"
+          - "pycryptodome*"
+          - "paramiko*"
+          - "requests*"
+      # تجميع أدوات التحليل
+      analysis-tools:
+        patterns:
+          - "scapy*"
+          - "impacket*"
+          - "volatility*"
+
+# ================================
+# تحديثات Docker
+# ================================
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "01:00"
+      timezone: "Africa/Cairo"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "nike1212a"
+    assignees:
+      - "nike1212a"
+    labels:
+      - "dependencies"
+      - "docker"
+      - "containers"
+      - "security"
+    commit-message:
+      prefix: "🐳 [Docker]"
+      include: "scope"
+    pull-request-branch-name:
+      separator: "-"
+    rebase-strategy: "auto"
+
+# ================================
+# تحديثات Terraform
+# ================================
+  - package-ecosystem: "terraform"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "wednesday"
+      time: "04:00"
+      timezone: "Africa/Cairo"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "nike1212a"
+    assignees:
+      - "nike1212a"
+    labels:
+      - "dependencies"
+      - "terraform"
+      - "infrastructure"
+      - "security"
+    commit-message:
+      prefix: "🏗️ [Terraform]"
+      include: "scope"
+    pull-request-branch-name:
+      separator: "-"
+    rebase-strategy: "auto"
+
+# ================================
+# تحديثات Composer (PHP)
+# ================================
+  - package-ecosystem: "composer"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "thursday"
+      time: "02:00"
+      timezone: "Africa/Cairo"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "nike1212a"
+    assignees:
+      - "nike1212a"
+    labels:
+      - "dependencies"
+      - "php"
+      - "composer"
+      - "security"
+    commit-message:
+      prefix: "🎼 [Composer]"
+      include: "scope"
+    pull-request-branch-name:
+      separator: "-"
+    rebase-strategy: "auto"
+
+# ================================
+# تحديثات Bundler (Ruby)
+# ================================
+  - package-ecosystem: "bundler"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "friday"
+      time: "03:00"
+      timezone: "Africa/Cairo"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "nike1212a"
+    assignees:
+      - "nike1212a"
+    labels:
+      - "dependencies"
+      - "ruby"
+      - "bundler"
+      - "security"
+    commit-message:
+      prefix: "💎 [Bundler]"
+      include: "scope"
+    pull-request-branch-name:
+      separator: "-"
+    rebase-strategy: "auto"
+
+# ================================
+# تحديثات Cargo (Rust)
+# ================================
+  - package-ecosystem: "cargo"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+      time: "02:00"
+      timezone: "Africa/Cairo"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "nike1212a"
+    assignees:
+      - "nike1212a"
+    labels:
+      - "dependencies"
+      - "rust"
+      - "cargo"
+      - "security"
+    commit-message:
+      prefix: "🦀 [Cargo]"
+      include: "scope"
+    pull-request-branch-name:
+      separator: "-"
+    rebase-strategy: "auto"
+
+# ================================
+# تحديثات Go modules
+# ================================
+  - package-ecosystem: "gomod"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "01:00"
+      timezone: "Africa/Cairo"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "nike1212a"
+    assignees:
+      - "nike1212a"
+    labels:
+      - "dependencies"
+      - "golang"
+      - "go-modules"
+      - "security"
+    commit-message:
+      prefix: "🔷 [Go]"
+      include: "scope"
+    pull-request-branch-name:
+      separator: "-"
+    rebase-strategy: "auto"
+    groups:
+      # تجميع تحديثات أدوات الأمان
+      security-packages:
+        patterns:
+          - "golang.org/x/crypto*"
+          - "golang.org/x/net*"
+
+# ================================
+# تحديثات Maven (Java)
+# ================================
+  - package-ecosystem: "maven"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+      time: "04:00"
+      timezone: "Africa/Cairo"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "nike1212a"
+    assignees:
+      - "nike1212a"
+    labels:
+      - "dependencies"
+      - "java"
+      - "maven"
+      - "security"
+    commit-message:
+      prefix: "☕ [Maven]"
+      include: "scope"
+    pull-request-branch-name:
+      separator: "-"
+    rebase-strategy: "auto"
+
+# ================================
+# تحديثات Gradle (Java/Kotlin)
+# ================================
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+      time: "05:00"
+      timezone: "Africa/Cairo"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "nike1212a"
+    assignees:
+      - "nike1212a"
+    labels:
+      - "dependencies"
+      - "java"
+      - "kotlin"
+      - "gradle"
+      - "security"
+    commit-message:
+      prefix: "🐘 [Gradle]"
+      include: "scope"
+    pull-request-branch-name:
+      separator: "-"
+    rebase-strategy: "auto"
+
+# ================================
+# تحديثات NuGet (.NET)
+# ================================
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "04:00"
+      timezone: "Africa/Cairo"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "nike1212a"
+    assignees:
+      - "nike1212a"
+    labels:
+      - "dependencies"
+      - "dotnet"
+      - "csharp"
+      - "nuget"
+      - "security"
+    commit-message:
+      prefix: "📦 [NuGet]"
+      include: "scope"
+    pull-request-branch-name:
+      separator: "-"
+    rebase-strategy: "auto"
+
+# ================================
+# تحديثات Git Submodules
+# ================================
+  - package-ecosystem: "gitsubmodule"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "05:00"
+      timezone: "Africa/Cairo"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "nike1212a"
+    assignees:
+      - "nike1212a"
+    labels:
+      - "dependencies"
+      - "git-submodules"
+      - "security"
+    commit-message:
+      prefix: "🔗 [Submodule]"
+      include: "scope"
+    pull-request-branch-name:
+      separator: "-"
+    rebase-strategy: "auto"
+
+# ================================
+# ملاحظات مهمة:
+# ================================
+# 1. يجب وضع هذا الملف في: .github/dependabot.yml
+# 2. يتطلب GitHub repo بصلاحيات write
+# 3. يفحص التحديثات حسب الجدول المحدد
+# 4. يُنشئ Pull Requests تلقائياً
+# 5. يمكن دمج التحديثات يدوياً أو تلقائياً
+# 
+# للمزيد من المعلومات:
+# https://docs.github.com/en/code-security/dependabot/dependabot-version-updates
