@@ -1,0 +1,296 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+"""
+💀🔬 NotPetya - تحليل الكود الخبيث والهندسة العكسية 🔬💀
+📚 دليل المطور المتقدم للأمن السيبراني
+⚠️ للأغراض التعليمية والبحث الأمني فقط - استخدامه بشكل ضار جريمة!
+"""
+
+import os
+import sys
+import time
+import hashlib
+import base64
+from datetime import datetime
+from typing import Dict, List, Tuple
+
+# 🎨 نظام الألوان المتقدم
+class Colors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    BG_RED = '\033[41m'
+    BG_GREEN = '\033[42m'
+
+# 🎯 واجهة التحليل الجنائي
+def print_forensic_banner():
+    """طباعة واجهة التحليل الجنائي المتقدم"""
+    banner = f"""
+{Colors.FAIL}{Colors.BOLD}
+    ╔═══════════════════════════════════════════════════════════════╗
+    ║  💀🔬 NotPetya Malware Analysis Framework 🔬💀              ║
+    ║                                                               ║
+    ║  📋 تحليل الكود الخبيث والهندسة العكسية                     ║
+    ║  🧬 فهم التقنيات المتقدمة للمهاجمين                         ║
+    ║  🛡️ تطوير دفاعات فعالة ضد التهديدات                        ║
+    ║                                                               ║
+    ║  ⚠️  WARNING: Educational & Research Purposes ONLY           ║
+    ╚═══════════════════════════════════════════════════════════════╝
+{Colors.ENDC}
+    """
+    print(banner)
+
+# 🧬 محلل الكود الخبيث
+class NotPetyaMalwareAnalyzer:
+    """
+    🔬 محلل متقدم لفهم بنية وآليات NotPetya
+    يشرح كيف عمل المهاجمون بدون تنفيذ الكود الضار
+    """
+    
+    def __init__(self):
+        self.malware_hash = "027cc450ef5f8c5f653329641ec1fed91f694e0d229928963b30f6b0d7d3a745"
+        self.infection_indicators: List[str] = []
+        self.technical_artifacts: Dict = {}
+        
+    def analyze_initial_dropper(self):
+        """🎯 تحليل ملف الإسقاط الأولي"""
+        print(f"\n{Colors.OKCYAN}{'='*70}")
+        print(f"🎯 المرحلة 1: تحليل Initial Dropper (perfc.dat)")
+        print(f"{'='*70}{Colors.ENDC}\n")
+        
+        dropper_info = {
+            "filename": "perfc.dat",
+            "type": "🗃️ DLL (Dynamic Link Library)",
+            "size": "~35 KB",
+            "hash": self.malware_hash[:32] + "...",
+            "disguise": "يتنكر كملف أداء Windows شرعي"
+        }
+        
+        print(f"{Colors.BOLD}📦 معلومات الملف الأساسية:{Colors.ENDC}\n")
+        for key, value in dropper_info.items():
+            print(f"  • {key.title()}: {Colors.WARNING}{value}{Colors.ENDC}")
+        
+        print(f"\n{Colors.BOLD}🔍 كيف تم التنفيذ الأولي:{Colors.ENDC}\n")
+        
+        execution_chain = [
+            {
+                "step": "1️⃣",
+                "method": "M.E.Doc Update Mechanism",
+                "code": "ZvitPublishedObjects.exe",
+                "action": "يقوم برنامج M.E.Doc المخترق بتنزيل وتنفيذ",
+                "technique": "🎭 Supply Chain Attack"
+            },
+            {
+                "step": "2️⃣", 
+                "method": "DLL Injection via rundll32.exe",
+                "code": 'rundll32.exe C:\\Windows\\perfc.dat,#1',
+                "action": "تنفيذ الـ DLL الخبيث باستخدام أداة Windows الشرعية",
+                "technique": "🔧 Living off the Land (LOLBins)"
+            },
+            {
+                "step": "3️⃣",
+                "method": "Service Creation",
+                "code": 'sc create "dllhost" binPath= "..\\rundll32.exe"',
+                "action": "إنشاء خدمة Windows للاستمرارية",
+                "technique": "⚙️ Persistence Mechanism"
+            }
+        ]
+        
+        for item in execution_chain:
+            print(f"  {item['step']} {Colors.OKGREEN}{item['method']}{Colors.ENDC}")
+            print(f"     💻 الأمر: {Colors.OKCYAN}{item['code']}{Colors.ENDC}")
+            print(f"     📝 الشرح: {item['action']}")
+            print(f"     🎯 التقنية: {item['technique']}\n")
+            time.sleep(0.6)
+    
+    def analyze_credential_theft(self):
+        """🔐 تحليل آلية سرقة بيانات الاعتماد"""
+        print(f"\n{Colors.WARNING}{'='*70}")
+        print(f"🔐 المرحلة 2: آلية سرقة بيانات الاعتماد (Credential Dumping)")
+        print(f"{'='*70}{Colors.ENDC}\n")
+        
+        print(f"{Colors.BOLD}💡 لماذا Mimikatz؟{Colors.ENDC}")
+        print(f"  Mimikatz هي أداة تسمح باستخراج كلمات المرور من ذاكرة Windows\n")
+        
+        mimikatz_techniques = [
+            {
+                "emoji": "🧠",
+                "name": "LSASS Memory Dump",
+                "target": "lsass.exe process",
+                "description": "استخراج بيانات الاعتماد من ذاكرة عملية LSASS",
+                "payload": "sekurlsa::logonpasswords",
+                "what_extracted": "• Plain-text passwords\n" +
+                                "  • NTLM hashes\n" +
+                                "  • Kerberos tickets (TGT/TGS)",
+                "danger_level": "🔴 حرج جداً"
+            },
+            {
+                "emoji": "🎫",
+                "name": "Pass-the-Hash",
+                "target": "NTLM hashes",
+                "description": "استخدام hash كلمة المرور بدلاً من كلمة المرور نفسها",
+                "payload": "sekurlsa::pth /user:Admin /domain:CORP /ntlm:hash",
+                "what_extracted": "• التحرك جانبياً في الشبكة\n" +
+                                "  • لا حاجة لكلمة المرور الأصلية",
+                "danger_level": "🔴 حرج"
+            },
+            {
+                "emoji": "🎟️",
+                "name": "Golden Ticket",
+                "target": "Domain Controller",
+                "description": "إنشاء تذاكر Kerberos مزيفة للوصول الكامل",
+                "payload": "kerberos::golden /user:Administrator /domain:corp.com",
+                "what_extracted": "• وصول دائم للنطاق\n" +
+                                "  • تجاوز جميع الصلاحيات",
+                "danger_level": "💀 كارثي"
+            }
+        ]
+        
+        print(f"{Colors.BOLD}🎯 التقنيات المستخدمة في NotPetya:{Colors.ENDC}\n")
+        
+        for tech in mimikatz_techniques:
+            print(f"{tech['emoji']} {Colors.OKGREEN}{Colors.BOLD}{tech['name']}{Colors.ENDC}")
+            print(f"   🎯 الهدف: {tech['target']}")
+            print(f"   📖 الوصف: {tech['description']}")
+            print(f"   💻 الأمر: {Colors.OKCYAN}{tech['payload']}{Colors.ENDC}")
+            print(f"   📦 ما يتم استخراجه:\n   {tech['what_extracted']}")
+            print(f"   ⚠️  مستوى الخطر: {tech['danger_level']}\n")
+            time.sleep(0.7)
+        
+        print(f"{Colors.FAIL}{Colors.BOLD}💣 كيف استخدم NotPetya هذه البيانات:{Colors.ENDC}")
+        print(f"  1. استخراج بيانات الاعتماد من الجهاز المصاب")
+        print(f"  2. استخدام هذه البيانات للانتشار إلى أجهزة أخرى")
+        print(f"  3. تكرار العملية في كل جهاز جديد (Worm Behavior)")
+        print(f"  4. إصابة الشبكة بالكامل في دقائق معدودة 🌊\n")
+    
+    def analyze_lateral_movement(self):
+        """🌐 تحليل الانتشار الأفقي في الشبكة"""
+        print(f"\n{Colors.OKBLUE}{'='*70}")
+        print(f"🌐 المرحلة 3: الانتشار الأفقي (Lateral Movement)")
+        print(f"{'='*70}{Colors.ENDC}\n")
+        
+        spread_vectors = [
+            {
+                "emoji": "⚡",
+                "name": "EternalBlue (MS17-010)",
+                "protocol": "SMBv1",
+                "port": "445",
+                "description": "استغلال ثغرة في بروتوكول مشاركة الملفات",
+                "code_snippet": """
+# محاكاة البحث عن الأجهزة الضعيفة
+def scan_for_vulnerable_hosts():
+    for ip in network_range:
+        if check_smb_port_open(ip, 445):
+            if check_ms17_010_vulnerable(ip):
+                exploit_and_spread(ip)
+                """,
+                "impact": "• لا يحتاج بيانات اعتماد\n" +
+                        "  • انتشار تلقائي (Worm)\n" +
+                        "  • سريع جداً",
+                "defense": "🛡️ تحديث MS17-010 + تعطيل SMBv1"
+            },
+            {
+                "emoji": "🔧",
+                "name": "PsExec",
+                "protocol": "SMB/RPC",
+                "port": "445, 135-139",
+                "description": "أداة Microsoft الرسمية لتنفيذ الأوامر عن بعد",
+                "code_snippet": """
+# استخدام بيانات الاعتماد المسروقة
+def spread_via_psexec(target_ip, credentials):
+    psexec_command = f'''
+    psexec.exe \\\\{target_ip} -u {credentials['user']}
+    -p {credentials['pass']} -d -f perfc.dat
+    '''
+    execute_remotely(psexec_command)
+                """,
+                "impact": "• يستخدم بيانات اعتماد شرعية\n" +
+                        "  • يتجاوز العديد من الحماية\n" +
+                        "  • يبدو كنشاط إداري عادي",
+                "defense": "🛡️ مراقبة PsExec + الصلاحيات الأدنى"
+            },
+            {
+                "emoji": "💼",
+                "name": "WMIC (Windows Management)",
+                "protocol": "WMI",
+                "port": "135, 49152+",
+                "description": "أداة إدارة Windows للتحكم عن بعد",
+                "code_snippet": """
+# تنفيذ الكود عن بعد عبر WMI
+def spread_via_wmic(target_ip, credentials):
+    wmic_command = f'''
+    wmic /node:{target_ip} /user:{credentials['user']}
+    process call create "rundll32.exe perfc.dat,#1"
+    '''
+    execute_wmi(wmic_command)
+                """,
+                "impact": "• صامت وصعب الكشف\n" +
+                        "  • لا يحتاج رفع ملفات\n" +
+                        "  • جزء من Windows الأساسي",
+                "defense": "🛡️ تقييد WMI + مراقبة WMI Events"
+            }
+        ]
+        
+        print(f"{Colors.BOLD}🎯 ثلاث آليات انتشار متكاملة:{Colors.ENDC}\n")
+        
+        for i, vector in enumerate(spread_vectors, 1):
+            print(f"{vector['emoji']} {Colors.OKGREEN}{Colors.BOLD}{i}. {vector['name']}{Colors.ENDC}")
+            print(f"   🌐 البروتوكول: {vector['protocol']}")
+            print(f"   🔌 المنفذ: {vector['port']}")
+            print(f"   📝 الوصف: {vector['description']}")
+            print(f"\n   💻 {Colors.BOLD}مثال الكود:{Colors.ENDC}")
+            print(f"{Colors.OKCYAN}{vector['code_snippet']}{Colors.ENDC}")
+            print(f"\n   💥 التأثير:\n   {vector['impact']}")
+            print(f"   {vector['defense']}\n")
+            print(f"   {Colors.WARNING}{'─'*68}{Colors.ENDC}\n")
+            time.sleep(0.8)
+        
+        print(f"{Colors.FAIL}{Colors.BOLD}🔥 استراتيجية الانتشار الذكية:{Colors.ENDC}")
+        print(f"  NotPetya يستخدم الثلاث تقنيات معاً بالتوازي:")
+        print(f"  • EternalBlue للأجهزة غير المحدثة")
+        print(f"  • PsExec للأجهزة المحمية من EternalBlue")
+        print(f"  • WMIC كبديل إضافي للاستمرار\n")
+        print(f"  {Colors.BG_RED} النتيجة: إصابة شبكة كاملة في أقل من 10 دقائق! {Colors.ENDC}\n")
+    
+    def analyze_destruction_payload(self):
+        """💣 تحليل حمولة التدمير الرئيسية"""
+        print(f"\n{Colors.FAIL}{'='*70}")
+        print(f"💣 المرحلة 4: حمولة التدمير (Destructive Payload)")
+        print(f"{'='*70}{Colors.ENDC}\n")
+        
+        print(f"{Colors.BOLD}🎭 التمويه الخادع - يدعي أنه Ransomware:{Colors.ENDC}\n")
+        
+        fake_ransom = {
+            "message": "Ooops, your important files are encrypted...",
+            "bitcoin_address": "1Mz7153HMuxXTuR2R1t78mGSdzaAtNbBWX",
+            "amount": "$300 in Bitcoin",
+            "reality": "❌ عنوان Bitcoin واحد لملايين الضحايا - مستحيل التحقق من الدفع!",
+            "email": "wowsmith123456@posteo.net",
+            "email_reality": "❌ تم إغلاق البريد من قبل مزود الخدمة خلال ساعات"
+        }
+        
+        print(f"  💌 {Colors.WARNING}الرسالة المعروضة:{Colors.ENDC}")
+        print(f"     '{fake_ransom['message']}'")
+        print(f"  💰 المبلغ المطلوب: {fake_ransom['amount']}")
+        print(f"  🏦 عنوان Bitcoin: {Colors.OKCYAN}{fake_ransom['bitcoin_address']}{Colors.ENDC}")
+        print(f"     {Colors.FAIL}{fake_ransom['reality']}{Colors.ENDC}")
+        print(f"  📧 البريد: {fake_ransom['email']}")
+        print(f"     {Colors.FAIL}{fake_ransom['email_reality']}{Colors.ENDC}\n")
+        
+        print(f"{Colors.FAIL}{Colors.BOLD}💀 الحقيقة المخيفة - آلية التدمير الدائم:{Colors.ENDC}\n")
+        
+        destruction_steps = [
+            {
+                "step": "1️⃣",
+                "component": "MBR Overwrite",
+                "target": "🎯 Master Boot Record (القطاع 0)",
+                "method": "الكتابة المباشرة فوق MBR",
+                "code": """
+# محاكاة آلية الت
