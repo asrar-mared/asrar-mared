@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صالون الصقور للحلاقة - Al Saqoor Barber Saloon</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2a2a2a 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            color: #fff;
+        }
+
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            opacity: 0.15;
+        }
+
+        .particle {
+            position: absolute;
+            background: linear-gradient(45deg, #d4af37, #f4d03f);
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0) scale(1);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translateY(-150px) translateX(100px) scale(1.2);
+                opacity: 0.6;
+            }
+        }
+
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.5);
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            animation: whatsappPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes whatsappPulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+        }
+
+        .nav-logo {
+            font-size: 24px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #d4af37;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #f4d03f;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #d4af37, #f4d03f);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .language-switch {
+            display: flex;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 50px;
+            padding: 5px;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: #d4af37;
+            padding: 8px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+            color: #000000;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #d4af37;
+            transition: all 0.3s ease;
+        }
+
+        section {
+            position: relative;
+            z-index: 2;
+            padding: 100px 30px 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 150px 30px 100px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo-circle {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            box-shadow: 0 0 50px rgba(212, 175, 55, 0.6);
+            border: 4px solid #d4af37;
+            animation: rotatePulse 4s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes rotatePulse {
+            0%, 100% {
+                transform: rotate(0deg) scale(1);
+            }
+            50% {
+                transform: rotate(0deg) scale(1.1);
+            }
+        }
+
+        .logo-text {
+            font-size: 80px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            background: linear-gradient(135deg, #ffffff 0%, #d4af37 50%, #ffffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            letter-spacing: 3px;
+        }
+
+        .hero h2 {
+            font-size: 32px;
+            color: #d4af37;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: #ffffff;
+            opacity: 0.9;
+            margin-bottom: 40px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 40px;
+            background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+            color: #000000;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.6);
+        }
+
+        .whatsapp-btn {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: #ffffff;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 42px;
+            color: #d4af37;
+            margin-bottom: 50px;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .service-card {
+            background: linear-gradient(135deg, rgba(20, 20, 20, 0.9) 0%, rgba(40, 40, 40, 0.9) 100%);
+            padding: 35px;
+            border-radius: 20px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .service-card:hover::before {
+            left: 100%;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: #d4af37;
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.3);
+        }
+
+        .service-icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .service-name {
+            font-size: 24px;
+            color: #d4af37;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .service-price {
+            font-size: 32px;
+            color: #f4d03f;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .service-desc {
+            color: #cccccc;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        .vip-card {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(244, 208, 63, 0.1) 100%);
+            border: 2px solid #d4af37;
+            position: relative;
+        }
+
+        .vip-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+            color: #000000;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 12px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .booking-section {
+            background: linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(40, 40, 40, 0.95) 100%);
+            padding: 60px 40px;
+            border-radius: 30px;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            margin-bottom: 80px;
+        }
+
+        .booking-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .booking-input {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 15px;
+            padding: 15px 20px;
+            color: #ffffff;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .booking-input:focus {
+            outline: none;
+            border-color: #d4af37;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .info-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-bottom: 80px;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, rgba(20, 20, 20, 0.9) 0%, rgba(40, 40, 40, 0.9) 100%);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .info-card h3 {
+            font-size: 26px;
+            color: #d4af37;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+            color: #cccccc;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-icon {
+            font-size: 24px;
+            color: #d4af37;
+            min-width: 30px;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 400px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            margin-bottom: 80px;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .social-section {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 35px;
+            background: linear-gradient(135deg, rgba(20, 20, 20, 0.9) 0%, rgba(40, 40, 40, 0.9) 100%);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 50px;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: translateY(-5px);
+            border-color: #d4af37;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .tiktok-link {
+            border-color: #00f2ea;
+        }
+
+        .tiktok-link:hover {
+            border-color: #00f2ea;
+            box-shadow: 0 10px 30px rgba(0, 242, 234, 0.3);
+        }
+
+        .instagram-link {
+            border-color: #E4405F;
+        }
+
+        .instagram-link:hover {
+            border-color: #E4405F;
+            box-shadow: 0 10px 30px rgba(228, 64, 95, 0.3);
+        }
+
+        footer {
+            background: rgba(10, 10, 10, 0.95);
+            text-align: center;
+            padding: 40px 30px;
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        footer p {
+            color: #d4af37;
+            font-size: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                right: -100%;
+                width: 250px;
+                height: calc(100vh - 70px);
+                background: rgba(10, 10, 10, 0.98);
+                flex-direction: column;
+                padding: 30px;
+                transition: right 0.3s ease;
+                border-left: 1px solid rgba(212, 175, 55, 0.3);
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hamburger.active span:nth-child(1) {
+                transform: rotate(45deg) translate(8px, 8px);
+            }
+
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(8px, -8px);
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero h2 {
+                font-size: 22px;
+            }
+
+            .logo-circle {
+                width: 150px;
+                height: 150px;
+            }
+
+            .logo-text {
+                font-size: 60px;
+            }
+
+            .section-title {
+                font-size: 32px;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .cta-button {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .whatsapp-float {
+                width: 60px;
+                height: 60px;
+                font-size: 30px;
+                bottom: 20px;
+                left: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation" id="particleContainer"></div>
+    
+    <!-- Floating WhatsApp -->
+    <div class="whatsapp-float" onclick="openWhatsApp()">💬</div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-logo" id="navLogo">🦅 الصقور</div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" id="navHome">الرئيسية</a></li>
+                <li><a href="#services" id="navServices">الخدمات</a></li>
+                <li><a href="#booking" id="navBooking">احجز الآن</a></li>
+                <li><a href="#contact" id="navContact">اتصل بنا</a></li>
+            </ul>
+            <div class="language-switch">
+                <button class="lang-btn active" onclick="switchLanguage('ar')" id="btnAr">AR</button>
+                <button class="lang-btn" onclick="switchLanguage('en')" id="btnEn">EN</button>
+            </div>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="logo-circle">
+            <div class="logo-text">🦅</div>
+        </div>
+        <h1 id="heroTitle">صالــــون الصقــــور</h1>
+        <h2>AL SAQOOR BARBER SALOON</h2>
+        <p id="heroSubtitle">✨ للحلاقة الفاخرة والعناية الملكية ✨</p>
+        <div class="cta-buttons">
+            <a href="#booking" class="cta-button" id="heroBookBtn">
+                <span>📅</span>
+                <span>احجز موعدك</span>
+            </a>
+            <button class="cta-button whatsapp-btn" onclick="openWhatsApp()">
+                <span>💬</span>
+                <span id="heroWhatsBtn">واتساب</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <h2 class="section-title" id="servicesTitle">خدماتنا وأسعارنا</h2>
+        <div class="services-grid">
+            <div class="service-card vip-card">
+                <div class="vip-badge">★ VIP ★</div>
+                <span class="service-icon">👑</span>
+                <h3 class="service-name" id="vipName">عرض VIP الكامل</h3>
+                <div class="service-price">50 <span style="font-size: 20px;" id="currency1">درهم</span></div>
+                <p class="service-desc" id="vipDesc">
+                    قص شعر + حلاقة لحية + شمع الوجه + جلسة تنظيف كاملة + استايل احترافي
+                </p>
+            </div>
+
+            <div class="service-card">
+                <span class="service-icon">✂️💈</span>
+                <h3 class="service-name" id="hairBeardName">شعر + لحية</h3>
+                <div class="service-price">35 <span style="font-size: 20px;" id="currency2">درهم</span></div>
+                <p class="service-desc" id="hairBeardDesc">قص شعر عصري + حلاقة لحية احترافية</p>
+            </div>
+
+            <div class="service-card">
+                <span class="service-icon">✂️</span>
+                <h3 class="service-name" id="hairName">قص شعر فقط</h3>
+                <div class="service-price">25 <span style="font-size: 20px;" id="currency3">درهم</span></div>
+                <p class="service-desc" id="hairDesc">أحدث القصات العالمية بأيدي خبراء</p>
+            </div>
+
+            <div class="service-card">
+                <span class="service-icon">💈</span>
+                <h3 class="service-name" id="beardName">حلاقة لحية فقط</h3>
+                <div class="service-price">25 <span style="font-size: 20px;" id="currency4">درهم</span></div>
+                <p class="service-desc" id="beardDesc">حلاقة تقليدية فاخرة بموس ساخن</p>
+            </div>
+
+            <div class="service-card">
+                <span class="service-icon">✨</span>
+                <h3 class="service-name" id="waxName">شمع الوجه</h3>
+                <div class="service-price">15 <span style="font-size: 20px;" id="currency5">درهم</span></div>
+                <p class="service-desc" id="waxDesc">إزالة الشعر الزائد بعناية فائقة</p>
+            </div>
+
+            <div class="service-card">
+                <span class="service-icon">🎨</span>
+                <h3 class="service-name" id="dyeName">صبغة الشعر</h3>
+                <div class="service-price">10-1000 <span style="font-size: 20px;" id="currency6">درهم</span></div>
+                <p class="service-desc" id="dyeDesc">حسب نوع الصبغة ولون الشعر - استشارة مجانية</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section class="booking-section" id="booking">
+        <h2 class="section-title" id="bookingTitle">احجز موعدك الآن</h2>
+        <div class="booking-grid">
+            <input type="text" class="booking-input" id="bookingName" placeholder="الاسم">
+            <input type="tel" class="booking-input" id="bookingPhone" placeholder="رقم الهاتف">
+            <select class="booking-input" id="bookingService">
+                <option value="">اختر الخدمة</option>
+                <option value="vip">عرض VIP - 50 درهم</option>
+                <option value="hair-beard">شعر + لحية - 35 درهم</option>
+                <option value="hair">قص شعر - 25 درهم</option>
+                <option value="beard">حلاقة لحية - 25 درهم</option>
+                <option value="wax">شمع الوجه - 15 درهم</option>
+                <option value="dye">صبغة شعر - حسب النوع</option>
+            </select>
+            <input type="date" class="booking-input" id="bookingDate">
+            <input type="time" class="booking-input" id="bookingTime" min="10:00" max="23:59">
+        </div>
+        <div style="text-align: center;">
+            <button class="cta-button whatsapp-btn" onclick="sendBooking()" style="font-size: 20px; padding: 20px 50px;">
+                <span>📅</span>
+                <span id="confirmBookingBtn">تأكيد الحجز عبر واتساب</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Info Section -->
+    <section class="info-section" id="contact">
+        <div class="info-card">
+            <h3><span>📞</span><span id="contactInfoTitle">معلومات الاتصال</span></h3>
+            <div class="info-item">
+                <span class="info-icon">📱</span>
+                <a href="tel:+971567974287" style="color: #fff; text-decoration: none;">+971 56 797 4287</a>
+            </div>
+            <div class="info-item">
+                <span class="info-icon">☎️</span>
+                <a href="tel:+971506130913" style="color: #fff; text-decoration: none;">+971 50 613 0913</a>
+            </div>
+            <div class="info-item">
+                <span class="info-icon">📧</span>
+                <span>Mohamed12345elseaud@gmail.com</span>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <h3><span>🕐</span><span id="hoursTitle">ساعات العمل</span></h3>
+            <div class="info-item">
+                <span class="info-icon">📅</span>
+                <span id="workDays">جميع أيام الأسبوع</span>
+            </div>
+            <div class="info-item">
+                <span class="info-icon">🕐</span>
+                <span id="workHours">من 10:00 صباحاً - 12:00 منتصف الليل</span>
+            </div>
+            <div class="info-item">
+                <span class="info-icon">👥</span>
+                <span id="staffCount">7 حلاقين محترفين في خدمتكم</span>
+            </div>
+        </div>
+
+        <div class="info-card">
+            <h3><span>📍</span><span id="locationTitle">الموقع</span></h3>
+            <div class="info-item">
+                <span class="info-icon">🏢</span>
+                <span id="locationAddress">عجمان - الراشدية 3</span>
+            </div>
+            <div class="info-item">
+                <span class="info-icon">🏪</span>
+                <span id="locationLandmark">بجوار سوبر ماركت كارينا العرابي</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section>
+        <h2 class="section-title" id="mapTitle">موقعنا على الخريطة</h2>
+        <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3605.8257845892377!2d55.44523!3d25.39167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjXCsDIzJzMwLjAiTiA1NcKwMjYnNDIuOCJF!5e0!3m2!1sen!2sae!4v1234567890" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="https://maps.app.goo.gl/RnHQbfVGZ8sJ3XYE7" target="_blank" class="cta-button">
+                <span>🗺️</span>
+                <span id="mapBtn">افتح في خرائط جوجل</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Social Media Section -->
+    <section class="social-section">
+        <h2 class="section-title" id="socialTitle">تابعنا على السوشيال ميديا</h2>
+        <div class="social-links">
+            <a href="https://www.tiktok.com/@alsaqoor.barber" target="_blank" class="social-link tiktok-link">
+                <span style="font-size: 24px;">📱</span>
+                <span>TikTok</span>
+            </a>
+            <a href="https://www.instagram.com/lotfy_refat" target="_blank" class="social-link instagram-link">
+                <span style="font-size: 24px;">📸</span>
+                <span>Instagram</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p id="footerText">© 2025 صالون الصقور للحلاقة - جميع الحقوق محفوظة</p>
+        <p style="margin-top: 10px; font-size: 14px; opacity: 0.7;">AL SAQOOR BARBER SALOON - Ajman, UAE 🇦🇪</p>
+    </footer>
+
+    <script>
+        // Translations
+        const translations = {
+            ar: {
+                navLogo: '🦅 الصقور',
+                navHome: 'الرئيسية',
+                navServices: 'الخدمات',
+                navBooking: 'احجز الآن',
+                navContact: 'اتصل بنا',
+                heroTitle: 'صالــــون الصقــــور',
+                heroSubtitle: '✨ للحلاقة الفاخرة والعناية الملكية ✨',
+                heroBookBtn: 'احجز موعدك',
+                heroWhatsBtn: 'واتساب',
+                servicesTitle: 'خدماتنا وأسعارنا',
+                vipName: 'عرض VIP الكامل',
+                vipDesc: 'قص شعر + حلاقة لحية + شمع الوجه + جلسة تنظيف كاملة + استايل احترافي',
+                hairBeardName: 'شعر + لحية',
+                hairBeardDesc: 'قص شعر عصري + حلاقة لحية احترافية',
+                hairName: 'قص شعر فقط',
+                hairDesc: 'أحدث القصات العالمية بأيدي خبراء',
+                beardName: 'حلاقة لحية فقط',
+                beardDesc: 'حلاقة تقليدية فاخرة بموس ساخن',
+                waxName: 'شمع الوجه',
+                waxDesc: 'إزالة الشعر الزائد بعناية فائقة',
+                dyeName: 'صبغة الشعر',
+                dyeDesc: 'حسب نوع الصبغة ولون الشعر - استشارة مجانية',
+                bookingTitle: 'احجز موعدك الآن',
+                confirmBookingBtn: 'تأكيد الحجز عبر واتساب',
+                contactInfoTitle: 'معلومات الاتصال',
+                hoursTitle: 'ساعات العمل',
+                workDays: 'جميع أيام الأسبوع',
+                workHours: 'من 10:00 صباحاً - 12:00 منتصف الليل',
+                staffCount: '7 حلاقين محترفين في خدمتكم',
+                locationTitle: 'الموقع',
+                locationAddress: 'عجمان - الراشدية 3',
+                locationLandmark: 'بجوار سوبر ماركت كارينا العرابي',
+                mapTitle: 'موقعنا على الخريطة',
+                mapBtn: 'افتح في خرائط جوجل',
+                socialTitle: 'تابعنا على السوشيال ميديا',
+                footerText: '© 2025 صالون الصقور للحلاقة - جميع الحقوق محفوظة',
+                currency1: 'درهم',
+                currency2: 'درهم',
+                currency3: 'درهم',
+                currency4: 'درهم',
+                currency5: 'درهم',
+                currency6: 'درهم'
+            },
+            en: {
+                navLogo: '🦅 Al Saqoor',
+                navHome: 'Home',
+                navServices: 'Services',
+                navBooking: 'Book Now',
+                navContact: 'Contact',
+                heroTitle: 'AL SAQOOR BARBER SALOON',
+                heroSubtitle: '✨ Premium Grooming & Royal Care Experience ✨',
+                heroBookBtn: 'Book Appointment',
+                heroWhatsBtn: 'WhatsApp',
+                servicesTitle: 'Our Services & Prices',
+                vipName: 'VIP Full Package',
+                vipDesc: 'Haircut + Beard Shave + Face Wax + Full Cleaning Session + Professional Styling',
+                hairBeardName: 'Hair + Beard',
+                hairBeardDesc: 'Modern haircut + Professional beard shave',
+                hairName: 'Haircut Only',
+                hairDesc: 'Latest international styles by experts',
+                beardName: 'Beard Shave Only',
+                beardDesc: 'Premium traditional shave with hot razor',
+                waxName: 'Face Waxing',
+                waxDesc: 'Gentle hair removal with premium care',
+                dyeName: 'Hair Coloring',
+                dyeDesc: 'Based on dye type and hair color - Free consultation',
+                bookingTitle: 'Book Your Appointment Now',
+                confirmBookingBtn: 'Confirm Booking via WhatsApp',
+                contactInfoTitle: 'Contact Information',
+                hoursTitle: 'Working Hours',
+                workDays: 'All Days of the Week',
+                workHours: 'From 10:00 AM - 12:00 Midnight',
+                staffCount: '7 Professional Barbers at Your Service',
+                locationTitle: 'Location',
+                locationAddress: 'Ajman - Al Rashidiya 3',
+                locationLandmark: 'Next to Karina Al Orabi Supermarket',
+                mapTitle: 'Find Us on Map',
+                mapBtn: 'Open in Google Maps',
+                socialTitle: 'Follow Us on Social Media',
+                footerText: '© 2025 Al Saqoor Barber Saloon - All Rights Reserved',
+                currency1: 'AED',
+                currency2: 'AED',
+                currency3: 'AED',
+                currency4: 'AED',
+                currency5: 'AED',
+                currency6: 'AED'
+            }
+        };
+
+        // WhatsApp Function
+        function openWhatsApp() {
+            const phone = '971567974287';
+            const lang = document.documentElement.getAttribute('dir') === 'rtl' ? 'ar' : 'en';
+            const message = lang === 'ar' 
+                ? 'مرحباً! 🦅 أريد حجز موعد في صالون الصقور 💈✨'
+                : 'Hello! 🦅 I would like to book an appointment at Al Saqoor Barber Saloon 💈✨';
+            const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Send Booking via WhatsApp
+        function sendBooking() {
+            const name = document.getElementById('bookingName').value;
+            const phone = document.getElementById('bookingPhone').value;
+            const service = document.getElementById('bookingService').value;
+            const date = document.getElementById('bookingDate').value;
+            const time = document.getElementById('bookingTime').value;
+
+            const lang = document.documentElement.getAttribute('dir') === 'rtl' ? 'ar' : 'en';
+            
+            if (!name || !phone || !service || !date || !time) {
+                alert(lang === 'ar' ? 'الرجاء ملء جميع الحقول' : 'Please fill all fields');
+                return;
+            }
+
+            const serviceNames = {
+                'vip': lang === 'ar' ? 'عرض VIP - 50 درهم' : 'VIP Package - 50 AED',
+                'hair-beard': lang === 'ar' ? 'شعر + لحية - 35 درهم' : 'Hair + Beard - 35 AED',
+                'hair': lang === 'ar' ? 'قص شعر - 25 درهم' : 'Haircut - 25 AED',
+                'beard': lang === 'ar' ? 'حلاقة لحية - 25 درهم' : 'Beard Shave - 25 AED',
+                'wax': lang === 'ar' ? 'شمع الوجه - 15 درهم' : 'Face Wax - 15 AED',
+                'dye': lang === 'ar' ? 'صبغة شعر - حسب النوع' : 'Hair Coloring - Price Varies'
+            };
+
+            const message = lang === 'ar'
+                ? `🦅 *حجز موعد - صالون الصقور*\n\n👤 الاسم: ${name}\n📱 الهاتف: ${phone}\n💈 الخدمة: ${serviceNames[service]}\n📅 التاريخ: ${date}\n🕐 الوقت: ${time}\n\nأرجو تأكيد الموعد 🙏`
+                : `🦅 *Appointment Booking - Al Saqoor Saloon*\n\n👤 Name: ${name}\n📱 Phone: ${phone}\n💈 Service: ${serviceNames[service]}\n📅 Date: ${date}\n🕐 Time: ${time}\n\nPlease confirm the appointment 🙏`;
+
+            const whatsappUrl = `https://wa.me/971567974287?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Language Switch Function
+        function switchLanguage(lang) {
+            const html = document.documentElement;
+            const btnAr = document.getElementById('btnAr');
+            const btnEn = document.getElementById('btnEn');
+
+            if (lang === 'ar') {
+                html.setAttribute('dir', 'rtl');
+                html.setAttribute('lang', 'ar');
+                btnAr.classList.add('active');
+                btnEn.classList.remove('active');
+                
+                // Update input placeholders
+                document.getElementById('bookingName').placeholder = 'الاسم';
+                document.getElementById('bookingPhone').placeholder = 'رقم الهاتف';
+                document.getElementById('bookingService').innerHTML = `
+                    <option value="">اختر الخدمة</option>
+                    <option value="vip">عرض VIP - 50 درهم</option>
+                    <option value="hair-beard">شعر + لحية - 35 درهم</option>
+                    <option value="hair">قص شعر - 25 درهم</option>
+                    <option value="beard">حلاقة لحية - 25 درهم</option>
+                    <option value="wax">شمع الوجه - 15 درهم</option>
+                    <option value="dye">صبغة شعر - حسب النوع</option>
+                `;
+            } else {
+                html.setAttribute('dir', 'ltr');
+                html.setAttribute('lang', 'en');
+                btnEn.classList.add('active');
+                btnAr.classList.remove('active');
+                
+                // Update input placeholders
+                document.getElementById('bookingName').placeholder = 'Name';
+                document.getElementById('bookingPhone').placeholder = 'Phone Number';
+                document.getElementById('bookingService').innerHTML = `
+                    <option value="">Choose Service</option>
+                    <option value="vip">VIP Package - 50 AED</option>
+                    <option value="hair-beard">Hair + Beard - 35 AED</option>
+                    <option value="hair">Haircut - 25 AED</option>
+                    <option value="beard">Beard Shave - 25 AED</option>
+                    <option value="wax">Face Wax - 15 AED</option>
+                    <option value="dye">Hair Coloring - Price Varies</option>
+                `;
+            }
+
+            // Update all text content
+            Object.keys(translations[lang]).forEach(key => {
+                const element = document.getElementById(key);
+                if (element) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+        }
+
+        // Toggle Mobile Menu
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            const hamburger = document.querySelector('.hamburger');
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        // Close menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('active');
+                document.querySelector('.hamburger').classList.remove('active');
+            });
+        });
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Create floating particles
+        const particleContainer = document.getElementById('particleContainer');
+        for (let i = 0; i < 20; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.width = Math.random() * 10 + 5 + 'px';
+            particle.style.height = particle.style.width;
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 5 + 's';
+            particle.style.animationDuration = Math.random() * 10 + 15 + 's';
+            particleContainer.appendChild(particle);
+        }
+    </script>
+</body>
+</html>
