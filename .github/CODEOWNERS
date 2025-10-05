@@ -1,0 +1,230 @@
+# ===================================
+# CODEOWNERS - أسرار المارد الرقمي
+# ===================================
+# 
+# هذا الملف يحدد من المسؤول عن مراجعة التغييرات في كل جزء من المشروع
+# GitHub سيطلب تلقائياً مراجعة من المالكين المحددين عند فتح Pull Request
+#
+# الصيغة:
+# pattern @username @org/team-name email@domain.com
+#
+# المزيد من المعلومات:
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# ===================================
+# المالك الافتراضي للمشروع كاملاً
+# ===================================
+# هذا الشخص/الفريق سيكون مسؤولاً عن مراجعة أي تغيير ما لم يُحدد خلاف ذلك
+*       @asrar-mared nike49424@proton.me
+
+# ===================================
+# الملفات الجذرية المهمة
+# ===================================
+# ملفات التوثيق والإعدادات الأساسية
+README.md           @asrar-mared nike49424@proton.me
+LICENSE             @asrar-mared nike49424@proton.me
+CONTRIBUTING.md     @asrar-mared nike49424@proton.me
+CODE_OF_CONDUCT.md  @asrar-mared nike49424@proton.me
+SECURITY.md         @asrar-mared nike49424@proton.me
+CHANGELOG.md        @asrar-mared nike49424@proton.me
+
+# ملفات الإعدادات
+.gitignore          @asrar-mared
+.editorconfig       @asrar-mared
+.env.example        @asrar-mared
+
+# ===================================
+# GitHub Configurations
+# ===================================
+# إعدادات GitHub وworkflows
+/.github/           @asrar-mared nike49424@proton.me
+/.github/workflows/ @asrar-mared nike49424@proton.me
+/.github/CODEOWNERS @asrar-mared nike49424@proton.me
+
+# Dependabot
+/.github/dependabot.yml @asrar-mared nike49424@proton.me
+
+# Issue & PR Templates
+/.github/ISSUE_TEMPLATE/        @asrar-mared
+/.github/PULL_REQUEST_TEMPLATE/ @asrar-mared
+
+# ===================================
+# التوثيق
+# ===================================
+/docs/              @asrar-mared nike49424@proton.me
+*.md                @asrar-mared
+
+# ===================================
+# ملفات الأمان والحماية
+# ===================================
+# كل ما يتعلق بالأمان يحتاج مراجعة دقيقة
+/security/                      @asrar-mared nike49424@proton.me
+**/security/**                  @asrar-mared nike49424@proton.me
+SECURITY.md                     @asrar-mared nike49424@proton.me
+
+# أدوات الفحص الأمني
+**/security-scan.*              @asrar-mared
+**/vulnerability-check.*        @asrar-mared
+**/penetration-test.*           @asrar-mared
+
+# ===================================
+# كود المصدر حسب اللغة
+# ===================================
+
+# Python
+*.py                @asrar-mared
+requirements.txt    @asrar-mared
+setup.py            @asrar-mared
+Pipfile             @asrar-mared
+pyproject.toml      @asrar-mared
+
+# JavaScript/TypeScript
+*.js                @asrar-mared
+*.ts                @asrar-mared
+*.jsx               @asrar-mared
+*.tsx               @asrar-mared
+package.json        @asrar-mared
+package-lock.json   @asrar-mared
+tsconfig.json       @asrar-mared
+.eslintrc.*         @asrar-mared
+.prettierrc         @asrar-mared
+
+# Go
+*.go                @asrar-mared
+go.mod              @asrar-mared
+go.sum              @asrar-mared
+
+# Rust
+*.rs                @asrar-mared
+Cargo.toml          @asrar-mared
+Cargo.lock          @asrar-mared
+
+# ===================================
+# مجلدات المشروع الرئيسية
+# ===================================
+
+# كود المصدر
+/src/               @asrar-mared nike49424@proton.me
+/lib/               @asrar-mared
+/app/               @asrar-mared
+
+# الاختبارات
+/tests/             @asrar-mared
+/test/              @asrar-mared
+**/__tests__/       @asrar-mared
+*.test.*            @asrar-mared
+*.spec.*            @asrar-mared
+
+# البنية التحتية
+/infrastructure/    @asrar-mared nike49424@proton.me
+/terraform/         @asrar-mared
+/ansible/           @asrar-mared
+/k8s/               @asrar-mared
+/kubernetes/        @asrar-mared
+
+# ===================================
+# Docker
+# ===================================
+Dockerfile          @asrar-mared
+docker-compose.yml  @asrar-mared
+docker-compose.*.yml @asrar-mared
+.dockerignore       @asrar-mared
+
+# ===================================
+# CI/CD
+# ===================================
+/.circleci/         @asrar-mared
+/.travis.yml        @asrar-mared
+/.gitlab-ci.yml     @asrar-mared
+/azure-pipelines.yml @asrar-mared
+/Jenkinsfile        @asrar-mared
+
+# ===================================
+# المستودعات الفرعية (حسب التخصص)
+# ===================================
+
+# المستودع الأول: الحماية الأساسية
+/alasasi/                       @asrar-mared nike49424@proton.me
+/basic-protection/              @asrar-mared nike49424@proton.me
+
+# المستودع الثاني: الثغرات والاختراقات
+/thugharat/                     @asrar-mared nike49424@proton.me
+/vulnerabilities/               @asrar-mared nike49424@proton.me
+/pentesting/                    @asrar-mared nike49424@proton.me
+
+# المستودع الثالث: التشفير والخصوصية
+/tashfeer/                      @asrar-mared nike49424@proton.me
+/encryption/                    @asrar-mared nike49424@proton.me
+/crypto/                        @asrar-mared nike49424@proton.me
+
+# المستودع الرابع: المراقبة والاستجابة
+/muraqaba/                      @asrar-mared nike49424@proton.me
+/monitoring/                    @asrar-mared nike49424@proton.me
+/incident-response/             @asrar-mared nike49424@proton.me
+
+# ===================================
+# أدوات وسكريبتات
+# ===================================
+/scripts/           @asrar-mared
+/tools/             @asrar-mared
+/utilities/         @asrar-mared
+*.sh                @asrar-mared
+*.bash              @asrar-mared
+
+# ===================================
+# الإعدادات والملفات الحساسة
+# ===================================
+# ملفات تحتاج موافقة صارمة قبل التعديل
+.env                @asrar-mared nike49424@proton.me
+.env.*              @asrar-mared nike49424@proton.me
+secrets/            @asrar-mared nike49424@proton.me
+config/             @asrar-mared
+*.config            @asrar-mared
+
+# شهادات SSL/TLS
+*.pem               @asrar-mared nike49424@proton.me
+*.key               @asrar-mared nike49424@proton.me
+*.crt               @asrar-mared nike49424@proton.me
+*.cer               @asrar-mared nike49424@proton.me
+
+# ===================================
+# قواعد البيانات
+# ===================================
+/database/          @asrar-mared
+/migrations/        @asrar-mared
+*.sql               @asrar-mared
+/schema/            @asrar-mared
+
+# ===================================
+# الأصول والموارد
+# ===================================
+/assets/            @asrar-mared
+/static/            @asrar-mared
+/public/            @asrar-mared
+
+# ===================================
+# ملفات البناء والإطلاق
+# ===================================
+/build/             @asrar-mared
+/dist/              @asrar-mared
+Makefile            @asrar-mared
+CMakeLists.txt      @asrar-mared
+
+# ===================================
+# المكتبات الخارجية
+# ===================================
+/vendor/            @asrar-mared
+/node_modules/      @asrar-mared
+/third-party/       @asrar-mared
+
+# ===================================
+# ملاحظات مهمة:
+# ===================================
+# 1. الملف يجب أن يكون في: .github/CODEOWNERS
+# 2. المالكون المحددون سيُطلب منهم مراجعة أي PR يؤثر على ملفاتهم
+# 3. يمكن استخدام أنماط glob مثل *.js و /docs/**
+# 4. الأنماط الأكثر تحديداً لها الأولوية على الأنماط العامة
+# 5. يمكن تحديد أكثر من مالك للملف الواحد
+# 
+# للمزيد من المعلومات:
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
