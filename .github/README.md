@@ -1,3 +1,4 @@
+[![GitHub Scheduled Event Processor](https://github.com/Azure/azure-sdk-for-js/actions/workflows/scheduled-event-processor.yml/badge.svg)](https://github.com/Azure/azure-sdk-for-js/actions/workflows/scheduled-event-processor.yml)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/77b80911-2c71-4dbd-b0f1-aec9af12df66/deploy-status)](https://app.netlify.com/projects/asrar-mared/deploys)
 <div align="center">
 
