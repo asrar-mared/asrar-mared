@@ -1,916 +1,1215 @@
-# Node.js
+[![Netlify Status](https://api.netlify.com/api/v1/badges/77b80911-2c71-4dbd-b0f1-aec9af12df66/deploy-status)](https://app.netlify.com/projects/asrar-mared/deploys)
+<div align="center">
 
-Node.js is an open-source, cross-platform JavaScript runtime environment.
+<!-- Header Banner -->
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=300&section=header&text=أسرار%20المارد%20الرقمي&fontSize=70&fontColor=fff&animation=twinkling&fontAlignY=35&desc=🛡️%20حارس%20الأمن%20السيبراني%20🔐&descSize=25&descAlignY=55" width="100%"/>
 
-For information on using Node.js, see the [Node.js website][].
+<!-- Typing Animation -->
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&size=28&duration=3000&pause=1000&color=00FF41&center=true&vCenter=true&width=800&height=100&lines=🔐+خبير+أمن+سيبراني+معتمد+دولياً;💻+مطور+Full+Stack+محترف;🤖+متخصص+في+الذكاء+الاصطناعي;⚡+8%2B+سنوات+خبرة+في+الأمن+الرقمي;🌍+حماية+المستقبل+الرقمي+العربي)](https://git.io/typing-svg)
 
-The Node.js project uses an [open governance model](./GOVERNANCE.md). The
-[OpenJS Foundation][] provides support for the project.
+<!-- Profile Image -->
+<img src="https://i.imgur.com/cTG7qPR.jpg" alt="NIKE49424" width="250" style="border-radius: 50%; border: 6px solid #00ff41; box-shadow: 0 0 50px #00ff41, 0 0 100px #00ff41;"/>
 
-Contributors are expected to act in a collaborative manner to move
-the project forward. We encourage the constructive exchange of contrary
-opinions and compromise. The [TSC](./GOVERNANCE.md#technical-steering-committee)
-reserves the right to limit or block contributors who repeatedly act in ways
-that discourage, exhaust, or otherwise negatively affect other participants.
+<!-- Badges Row -->
+<p>
+<img src="https://komarev.com/ghpvc/?username=asrar-mared&color=00ff41&style=for-the-badge&label=VISITORS"/>
+<img src="https://img.shields.io/badge/الإصدار-v2.5.0-00ff41?style=for-the-badge&logo=v&logoColor=white"/>
+<img src="https://img.shields.io/badge/الحالة-نشط_🔥-00ff41?style=for-the-badge"/>
+<img src="https://img.shields.io/github/stars/asrar-mared?style=for-the-badge&logo=github&color=yellow&label=النجوم"/>
+<img src="https://img.shields.io/github/followers/asrar-mared?style=for-the-badge&logo=github&color=blue&label=المتابعون"/>
+</p>
 
-**This project has a [Code of Conduct][].**
+---
 
-## Table of contents
+### 🌟 **منصة الأمن السيبراني الأقوى في العالم العربي** 🌟
 
-* [Support](#support)
-* [Release types](#release-types)
-  * [Download](#download)
-    * [Current and LTS releases](#current-and-lts-releases)
-    * [Nightly releases](#nightly-releases)
-    * [API documentation](#api-documentation)
-  * [Verifying binaries](#verifying-binaries)
-* [Building Node.js](#building-nodejs)
-* [Security](#security)
-* [Contributing to Node.js](#contributing-to-nodejs)
-* [Current project team members](#current-project-team-members)
-  * [TSC (Technical Steering Committee)](#tsc-technical-steering-committee)
-  * [Collaborators](#collaborators)
-  * [Triagers](#triagers)
-  * [Release keys](#release-keys)
-* [License](#license)
+[![License: MIT](https://img.shields.io/badge/License-MIT-success.svg?style=for-the-badge&logo=opensourceinitiative)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-مرحب_بها-00ff41.svg?style=for-the-badge)](https://github.com/asrar-mared/pulls)
+[![Open Source](https://img.shields.io/badge/Open_Source-❤️-red?style=for-the-badge)](https://github.com/asrar-mared)
 
-## Support
+</div>
 
-Looking for help? Check out the
-[instructions for getting support](.github/SUPPORT.md).
+---
 
-## Release types
+## 🎯 **من أنا؟ - تعريف احترافي**
 
-* **Current**: Under active development. Code for the Current release is in the
-  branch for its major version number (for example,
-  [v22.x](https://github.com/nodejs/node/tree/v22.x)). Node.js releases a new
-  major version every 6 months, allowing for breaking changes. This happens in
-  April and October every year. Releases appearing each October have a support
-  life of 8 months. Releases appearing each April convert to LTS (see below)
-  each October.
-* **LTS**: Releases that receive Long Term Support, with a focus on stability
-  and security. Every even-numbered major version will become an LTS release.
-  LTS releases receive 12 months of _Active LTS_ support and a further 18 months
-  of _Maintenance_. LTS release lines have alphabetically-ordered code names,
-  beginning with v4 Argon. There are no breaking changes or feature additions,
-  except in some special circumstances.
-* **Nightly**: Code from the Current branch built every 24-hours when there are
-  changes. Use with caution.
+<table>
+<tr>
+<td width="50%">
 
-Current and LTS releases follow [semantic versioning](https://semver.org). A
-member of the Release Team [signs](#release-keys) each Current and LTS release.
-For more information, see the
-[Release README](https://github.com/nodejs/Release#readme).
+### 💼 **NIKE49424** - المارد الرقمي
 
-### Download
+<img align="right" alt="Coding GIF" width="300" src="https://raw.githubusercontent.com/abhisheknaiidu/abhisheknaiidu/master/code.gif">
 
-Binaries, installers, and source tarballs are available at
-<https://nodejs.org/en/download/>.
+```javascript
+const NIKE49424 = {
+    الاسم_المستعار: "asrar-mared",
+    الصفة: "المارد الرقمي 🧞",
+    التخصص_الرئيسي: "الأمن السيبراني",
+    سنوات_الخبرة: "8+ سنوات",
+    
+    المهارات_الأساسية: [
+        "🔒 اختبار الاختراق",
+        "🛡️ تحليل التهديدات",
+        "🤖 الذكاء الاصطناعي",
+        "⚡ الاستجابة للحوادث"
+    ],
+    
+    الرسالة: `تمكين المطورين العرب 
+             وتقديم حلول تقنية عالمية 
+             المستوى 🎯`,
+    
+    الشعار: "شغفي الحقيقي هو بناء " +
+            "أنظمة آمنة وقابلة للتوسع " +
+            "تحل مشاكل حقيقية 💪"
+};
 
-#### Current and LTS releases
-
-<https://nodejs.org/download/release/>
-
-The [latest](https://nodejs.org/download/release/latest/) directory is an
-alias for the latest Current release. The latest-_codename_ directory is an
-alias for the latest release from an LTS line. For example, the
-[latest-hydrogen](https://nodejs.org/download/release/latest-hydrogen/)
-directory contains the latest Hydrogen (Node.js 18) release.
-
-#### Nightly releases
-
-<https://nodejs.org/download/nightly/>
-
-Each directory and filename includes the version (e.g., `v22.0.0`),
-followed by the UTC date (e.g., `20240424` for April 24, 2024),
-and the short commit SHA of the HEAD of the release (e.g., `ddd0a9e494`).
-For instance, a full directory name might look like `v22.0.0-nightly20240424ddd0a9e494`.
-
-#### API documentation
-
-Documentation for the latest Current release is at <https://nodejs.org/api/>.
-Version-specific documentation is available in each release directory in the
-_docs_ subdirectory. Version-specific documentation is also at
-<https://nodejs.org/download/docs/>.
-
-### Verifying binaries
-
-Download directories contain a `SHASUMS256.txt.asc` file with SHA checksums for the
-files and the releaser PGP signature.
-
-You can get a trusted keyring from nodejs/release-keys, e.g. using `curl`:
-
-```bash
-curl -fsLo "/path/to/nodejs-keyring.kbx" "https://github.com/nodejs/release-keys/raw/HEAD/gpg/pubring.kbx"
+console.log("🔐 Welcome to the Digital Era!");
 ```
 
-Alternatively, you can import the releaser keys in your default keyring, see
-[Release keys](#release-keys) for commands to how to do that.
+</td>
+<td width="50%">
 
-Then, you can verify the files you've downloaded locally
-(if you're using your default keyring, pass `--keyring="${GNUPGHOME:-~/.gnupg}/pubring.kbx"`):
+### 🏆 **الإنجازات البارزة**
 
-```bash
-curl -fsO "https://nodejs.org/dist/${VERSION}/SHASUMS256.txt.asc" \
-&& gpgv --keyring="/path/to/nodejs-keyring.kbx" --output SHASUMS256.txt < SHASUMS256.txt.asc \
-&& shasum --check SHASUMS256.txt --ignore-missing
+```python
+achievements = {
+    "المشاريع_المنجزة": "50+ مشروع",
+    "العملاء_السعداء": "100+ عميل",
+    "ساعات_البرمجة": "10,000+ ساعة",
+    "المجتمع": "5,000+ متابع",
+    "الشهادات": "15+ شهادة دولية",
+    "المساهمات": "200+ PR مقبول"
+}
+
+# النجاح لا يأتي بالصدفة
+for key, value in achievements.items():
+    print(f"✅ {key}: {value}")
 ```
 
-## Building Node.js
+### 🎖️ **شهادات معتمدة**
 
-See [BUILDING.md](BUILDING.md) for instructions on how to build Node.js from
-source and a list of supported platforms.
+- 🥇 Certified Ethical Hacker (CEH)
+- 🥇 CompTIA Security+
+- 🥇 AWS Security Specialist
+- 🥇 OSCP - Offensive Security
 
-## Security
+</td>
+</tr>
+</table>
 
-For information on reporting security vulnerabilities in Node.js, see
-[SECURITY.md](./SECURITY.md).
+---
 
-## Contributing to Node.js
+## 🔥 **ماذا أقدم؟ - خدمات احترافية VIP**
 
-* [Contributing to the project][]
-* [Working Groups][]
-* [Strategic initiatives][]
-* [Technical values and prioritization][]
+<div align="center">
 
-## Current project team members
+<table>
+<tr>
+<td align="center" width="33%">
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" width="80"/>
 
-For information about the governance of the Node.js project, see
-[GOVERNANCE.md](./GOVERNANCE.md).
+### 🔒 **الحماية الذكية**
 
-<!-- node-core-utils and find-inactive-tsc.mjs depend on the format of the TSC
-     list. If the format changes, those utilities need to be tested and
-     updated. -->
+**حماية متعددة الطبقات**
 
-### TSC (Technical Steering Committee)
+🔹 جدار ناري ذكي 🔥  
+🔹 كشف التهديدات الصفرية 🎯  
+🔹 حماية في الوقت الفعلي ⚡  
+🔹 تشفير متقدم 🔐
 
-#### TSC voting members
+[![Security](https://img.shields.io/badge/Security-Level_10-critical?style=for-the-badge)](https://github.com/asrar-mared)
 
-<!--lint disable prohibited-strings-->
+</td>
+<td align="center" width="33%">
+<img src="https://cdn.worldvectorlogo.com/logos/tensorflow-2.svg" width="80"/>
 
-* [aduh95](https://github.com/aduh95) -
-  **Antoine du Hamel** <<duhamelantoine1995@gmail.com>> (he/him)
-* [anonrig](https://github.com/anonrig) -
-  **Yagiz Nizipli** <<yagiz@nizipli.com>> (he/him)
-* [benjamingr](https://github.com/benjamingr) -
-  **Benjamin Gruenbaum** <<benjamingr@gmail.com>>
-* [BridgeAR](https://github.com/BridgeAR) -
-  **Ruben Bridgewater** <<ruben@bridgewater.de>> (he/him)
-* [gireeshpunathil](https://github.com/gireeshpunathil) -
-  **Gireesh Punathil** <<gpunathi@in.ibm.com>> (he/him)
-* [jasnell](https://github.com/jasnell) -
-  **James M Snell** <<jasnell@gmail.com>> (he/him)
-* [joyeecheung](https://github.com/joyeecheung) -
-  **Joyee Cheung** <<joyeec9h3@gmail.com>> (she/her)
-* [legendecas](https://github.com/legendecas) -
-  **Chengzhong Wu** <<legendecas@gmail.com>> (he/him)
-* [marco-ippolito](https://github.com/marco-ippolito) -
-  **Marco Ippolito** <<marcoippolito54@gmail.com>> (he/him)
-* [mcollina](https://github.com/mcollina) -
-  **Matteo Collina** <<matteo.collina@gmail.com>> (he/him)
-* [mhdawson](https://github.com/mhdawson) -
-  **Michael Dawson** <<midawson@redhat.com>> (he/him)
-* [panva](https://github.com/panva) -
-  **Filip Skokan** <<panva.ip@gmail.com>> (he/him)
-* [RafaelGSS](https://github.com/RafaelGSS) -
-  **Rafael Gonzaga** <<rafael.nunu@hotmail.com>> (he/him)
-* [RaisinTen](https://github.com/RaisinTen) -
-  **Darshan Sen** <<raisinten@gmail.com>> (he/him)
-* [richardlau](https://github.com/richardlau) -
-  **Richard Lau** <<richard.lau@ibm.com>>
-* [ronag](https://github.com/ronag) -
-  **Robert Nagy** <<ronagy@icloud.com>>
-* [ruyadorno](https://github.com/ruyadorno) -
-  **Ruy Adorno** <<ruy@vlt.sh>> (he/him)
-* [ShogunPanda](https://github.com/ShogunPanda) -
-  **Paolo Insogna** <<paolo@cowtech.it>> (he/him)
-* [targos](https://github.com/targos) -
-  **Michaël Zasso** <<targos@protonmail.com>> (he/him)
-* [tniessen](https://github.com/tniessen) -
-  **Tobias Nießen** <<tniessen@tnie.de>> (he/him)
+### 🧠 **الذكاء الاصطناعي**
 
-#### TSC regular members
+**تحليل ذكي للتهديدات**
 
-* [BethGriggs](https://github.com/BethGriggs) -
-  **Beth Griggs** <<bethanyngriggs@gmail.com>> (she/her)
-* [bnoordhuis](https://github.com/bnoordhuis) -
-  **Ben Noordhuis** <<info@bnoordhuis.nl>>
-* [cjihrig](https://github.com/cjihrig) -
-  **Colin Ihrig** <<cjihrig@gmail.com>> (he/him)
-* [codebytere](https://github.com/codebytere) -
-  **Shelley Vohr** <<shelley.vohr@gmail.com>> (she/her)
-* [GeoffreyBooth](https://github.com/GeoffreyBooth) -
-  **Geoffrey Booth** <<webadmin@geoffreybooth.com>> (he/him)
-* [MoLow](https://github.com/MoLow) -
-  **Moshe Atlow** <<moshe@atlow.co.il>> (he/him)
-* [Trott](https://github.com/Trott) -
-  **Rich Trott** <<rtrott@gmail.com>> (he/him)
+🔹 تعلم آلي متقدم 🤖  
+🔹 تحليل سلوكي دقيق 📈  
+🔹 تنبؤ بالهجمات المستقبلية 🔮  
+🔹 معالجة اللغة الطبيعية 💬
+
+[![AI](https://img.shields.io/badge/AI-Advanced-blue?style=for-the-badge)](https://github.com/asrar-mared)
+
+</td>
+<td align="center" width="33%">
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg" width="80"/>
+
+### 📊 **التقارير الشاملة**
+
+**رؤية واضحة ومفصلة**
+
+🔹 لوحات معلومات تفاعلية 📱  
+🔹 تقارير مخصصة 📄  
+🔹 تنبيهات فورية 🔔  
+🔹 تحليلات متقدمة 📊
+
+[![Reports](https://img.shields.io/badge/Reports-Comprehensive-success?style=for-the-badge)](https://github.com/asrar-mared)
+
+</td>
+</tr>
+</table>
+
+</div>
+
+---
+
+## 🛠️ **التقنيات المستخدمة - Arsenal الكامل**
+
+<div align="center">
+
+### 💻 **لغات البرمجة**
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![C++](https://img.shields.io/badge/C++-00599C?style=for-the-badge&logo=cplusplus&logoColor=white)
+![C](https://img.shields.io/badge/C-A8B9CC?style=for-the-badge&logo=c&logoColor=black)
+![Shell](https://img.shields.io/badge/Shell-4EAA25?style=for-the-badge&logo=gnu-bash&logoColor=white)
+![Roff](https://img.shields.io/badge/Roff-000000?style=for-the-badge&logo=linux&logoColor=white)
+
+### 🚀 **الأطر والمكتبات**
+
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)
+![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
+
+### ☁️ **السحابة و DevOps**
+
+![AWS](https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
+![Redis](https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white)
+
+### 🔒 **أدوات الأمن السيبراني**
+
+![Kali Linux](https://img.shields.io/badge/Kali_Linux-557C94?style=for-the-badge&logo=kalilinux&logoColor=white)
+![Wireshark](https://img.shields.io/badge/Wireshark-1679A7?style=for-the-badge&logo=wireshark&logoColor=white)
+![Metasploit](https://img.shields.io/badge/Metasploit-2596CD?style=for-the-badge&logo=metasploit&logoColor=white)
+![Burp Suite](https://img.shields.io/badge/Burp_Suite-FF6633?style=for-the-badge&logo=burpsuite&logoColor=white)
+![Nmap](https://img.shields.io/badge/Nmap-0E83CD?style=for-the-badge&logo=nmap&logoColor=white)
+![Snyk](https://img.shields.io/badge/Snyk-4C4A73?style=for-the-badge&logo=snyk&logoColor=white)
+
+</div>
+
+---
+
+## 📊 **إحصائيات GitHub - الأرقام تتحدث**
+
+<div align="center">
+
+<img src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=asrar-mared&theme=radical" width="100%"/>
+
+<table>
+<tr>
+<td width="50%">
+<img src="https://github-readme-stats.vercel.app/api?username=asrar-mared&show_icons=true&theme=radical&include_all_commits=true&count_private=true&hide_border=true&bg_color=0d1117&title_color=00ff41&icon_color=00ff41&text_color=ffffff&rank_icon=github"/>
+</td>
+<td width="50%">
+<img src="https://github-readme-streak-stats.herokuapp.com/?user=asrar-mared&theme=radical&hide_border=true&background=0d1117&stroke=00ff41&ring=00ff41&fire=ff6b6b&currStreakLabel=00ff41&sideLabels=ffffff&currStreakNum=ffffff&dates=ffffff"/>
+</td>
+</tr>
+</table>
+
+<!-- Language Stats -->
+### 📈 **إحصائيات اللغات المستخدمة**
+
+<table width="100%">
+<tr>
+<td width="50%">
+<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=asrar-mared&layout=compact&langs_count=10&theme=radical&hide_border=true&bg_color=0d1117&title_color=00ff41&text_color=ffffff"/>
+</td>
+<td width="50%">
+
+**📊 توزيع اللغات:**
+
+🟡 **JavaScript** - 41.27%  
+🔴 **C++** - 37.11%  
+⚫ **C** - 14.46%  
+🔵 **Python** - 5.65%  
+⚪ **Roff** - 1.12%  
+🟢 **Shell** - 0.39%
+
+</td>
+</tr>
+</table>
+
+<!-- Contribution Graph -->
+<img src="https://github-readme-activity-graph.vercel.app/graph?username=asrar-mared&theme=react-dark&hide_border=true&area=true&bg_color=0d1117&color=00ff41&line=00ff41&point=ffffff&custom_title=مساهمات%20المارد%20الرقمي%20خلال%20العام" width="100%"/>
+
+<!-- GitHub Stats Cards -->
+<img src="https://github-profile-summary-cards.vercel.app/api/cards/productive-time?username=asrar-mared&theme=radical" width="48%"/>
+<img src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=asrar-mared&theme=radical" width="48%"/>
+
+</div>
+
+---
+
+## 🏆 **الجوائز والإنجازات - Trophy Cabinet**
+
+<div align="center">
+
+![trophy](https://github-profile-trophy.vercel.app/?username=asrar-mared&theme=radical&no-frame=true&no-bg=true&row=2&column=7&margin-w=10&margin-h=10&title=MultiLanguage,Commits,PullRequest,Stars,Followers,Repositories,Issues)
+
+<table>
+<tr>
+<td align="center" width="25%">
+<img src="https://img.icons8.com/fluency/96/000000/trophy.png" width="60"/><br/>
+<b>⭐ 2 Stars</b><br/>
+<sub>إجمالي النجوم</sub>
+</td>
+<td align="center" width="25%">
+<img src="https://img.icons8.com/fluency/96/000000/code.png" width="60"/><br/>
+<b>🔥 127 Commits</b><br/>
+<sub>مساهمات السنة</sub>
+</td>
+<td align="center" width="25%">
+<img src="https://img.icons8.com/fluency/96/000000/pull-request.png" width="60"/><br/>
+<b>🎯 1 PR</b><br/>
+<sub>طلبات السحب</sub>
+</td>
+<td align="center" width="25%">
+<img src="https://img.icons8.com/fluency/96/000000/graph.png" width="60"/><br/>
+<b>📈 0 Issues</b><br/>
+<sub>المشاكل المحلولة</sub>
+</td>
+</tr>
+</table>
+
+</div>
+
+---
+
+## 🎨 **المشاريع المميزة - Portfolio VIP**
+
+<div align="center">
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+### 🛡️ **المارد الرقمي للأمن السيبراني**
+
+<img src="https://img.icons8.com/fluency/96/000000/cyber-security.png" width="80"/>
+
+**منصة الأمن السيبراني الأقوى في العالم العربي**
+
+[![Status](https://img.shields.io/badge/الحالة-نشط-success?style=flat-square)](https://nike49424.live)
+[![Version](https://img.shields.io/badge/v2.5.0-latest-blue?style=flat-square)](https://nike49424.live)
+
+**المميزات:**
+- ✅ حماية متعددة الطبقات
+- ✅ جدار ناري ذكي 🔥
+- ✅ كشف التهديدات الصفرية
+- ✅ AI للتحليل السلوكي
+- ✅ حماية في الوقت الفعلي
+
+**التقنيات:**  
+`Python` `TensorFlow` `React` `Node.js` `Docker`
+
+[🌐 زيارة المشروع](https://nike49424.live) | [📂 الكود المصدري](#)
+
+</td>
+<td width="50%" valign="top">
+
+### 🤖 **منصة الذكاء الاصطناعي**
+
+<img src="https://img.icons8.com/fluency/96/000000/artificial-intelligence.png" width="80"/>
+
+**تحليل ذكي للتهديدات السيبرانية**
+
+[![AI](https://img.shields.io/badge/AI-Advanced-blue?style=flat-square)](https://app.snyk.io/org/asrar-mared)
+[![ML](https://img.shields.io/badge/ML-Active-green?style=flat-square)](https://app.snyk.io/org/asrar-mared)
+
+**المميزات:**
+- ✅ تعلم آلي متقدم 🧠
+- ✅ تحليل سلوكي دقيق
+- ✅ تنبؤ بالهجمات
+- ✅ معالجة اللغة الطبيعية
+- ✅ تقارير تفصيلية
+
+**التقنيات:**  
+`Python` `Keras` `Scikit-learn` `Pandas` `NumPy`
+
+[🔗 Snyk Integration](https://app.snyk.io/org/asrar-mared/manage/ai-fix)
+
+</td>
+</tr>
+
+<tr>
+<td width="50%" valign="top">
+
+### 📊 **نظام التقارير والتحليلات**
+
+<img src="https://img.icons8.com/fluency/96/000000/analytics.png" width="80"/>
+
+**رؤية واضحة ومفصلة للبيانات**
+
+[![Reports](https://img.shields.io/badge/التقارير-شاملة-orange?style=flat-square)](#)
+[![Data](https://img.shields.io/badge/البيانات-دقيقة-yellow?style=flat-square)](#)
+
+**المميزات:**
+- ✅ لوحات معلومات تفاعلية 📱
+- ✅ تقارير مخصصة 📄
+- ✅ تنبيهات فورية 🔔
+- ✅ تصدير متعدد الصيغ
+- ✅ واجهة سهلة الاستخدام
+
+**التقنيات:**  
+`React` `D3.js` `Chart.js` `Material-UI` `Redux`
+
+</td>
+<td width="50%" valign="top">
+
+### ⚡ **مجموعة أدوات المطورين**
+
+<img src="https://img.icons8.com/fluency/96/000000/developer.png" width="80"/>
+
+**أدوات احترافية للمطورين العرب**
+
+[![Tools](https://img.shields.io/badge/الأدوات-VIP-red?style=flat-square)](#)
+[![Dev](https://img.shields.io/badge/التطوير-سريع-critical?style=flat-square)](#)
+
+**المميزات:**
+- ✅ واجهات برمجية قوية 🔌
+- ✅ توثيق كامل شامل 📚
+- ✅ دعم متعدد اللغات 🌍
+- ✅ أمثلة عملية جاهزة
+- ✅ مجتمع نشط
+
+**التقنيات:**  
+`TypeScript` `Express` `GraphQL` `Jest` `Swagger`
+
+</td>
+</tr>
+</table>
+
+</div>
+
+---
+
+## 🌐 **تواصل معي - Social Network**
+
+<div align="center">
+
+### 📧 **البريد الإلكتروني**
+
+<table>
+<tr>
+<td align="center">
+
+[![Gmail 1](https://img.shields.io/badge/البريد_الرئيسي-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:nike494949a@gmail.com)
+
+</td>
+<td align="center">
+
+[![Gmail 2](https://img.shields.io/badge/البريد_الإضافي-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:nike49424@gmail.com)
+
+</td>
+<td align="center">
+
+[![Gmail 3](https://img.shields.io/badge/البريد_الثالث-C71610?style=for-the-badge&logo=gmail&logoColor=white)](mailto:nike1212aa@gmail.com)
+
+</td>
+<td align="center">
+
+[![ProtonMail](https://img.shields.io/badge/البريد_المشفر-8B89CC?style=for-the-badge&logo=protonmail&logoColor=white)](mailto:nike49424@proton.me)
+
+</td>
+</tr>
+</table>
+
+### 🌍 **المواقع والمنصات الرسمية**
+
+[![Website](https://img.shields.io/badge/🌐_الموقع_الرسمي-00ff41?style=for-the-badge&logo=google-chrome&logoColor=black)](https://nike49424.live/)
+[![WordPress](https://img.shields.io/badge/WordPress_المدونة-21759B?style=for-the-badge&logo=wordpress&logoColor=white)](https://nike49499.wordpress.com)
+
+### 💬 **وسائل التواصل الاجتماعي**
+
+<table>
+<tr>
+<td align="center">
+
+[![Twitter](https://img.shields.io/badge/X_(Twitter)-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/nike49424)
+
+</td>
+<td align="center">
+
+[![Bluesky](https://img.shields.io/badge/Bluesky-0285FF?style=for-the-badge&logo=bluesky&logoColor=white)](https://bsky.app/profile/nike49424.bsky.social)
+
+</td>
+<td align="center">
+
+[![TikTok](https://img.shields.io/badge/TikTok-000000?style=for-the-badge&logo=tiktok&logoColor=white)](https://tiktok.com/@user5944373719098)
+
+</td>
+</tr>
+<tr>
+<td align="center">
+
+[![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/nike49424a)
+
+</td>
+<td align="center">
+
+[![Pinterest](https://img.shields.io/badge/Pinterest-E60023?style=for-the-badge&logo=pinterest&logoColor=white)](https://www.pinterest.com/nike49424)
+
+</td>
+<td align="center">
+
+[![Reddit](https://img.shields.io/badge/Reddit-FF4500?style=for-the-badge&logo=reddit&logoColor=white)](https://www.reddit.com/user/Beginning_Daikon_924)
+
+</td>
+</tr>
+</table>
+
+### 🎥 **المحتوى المرئي**
+
+[![YouTube](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/channel/UC7O0MgM54OPGjc4B8brDpkw)
+
+### 🛠️ **أدوات التطوير والأمان**
+
+[![Snyk](https://img.shields.io/badge/Snyk_Security-4C4A73?style=for-the-badge&logo=snyk&logoColor=white)](https://app.snyk.io/org/asrar-mared/manage/ai-fix)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/asrar-mared)
+
+</div>
+
+---
+
+## 🚀 **خارطة الطريق 2025 - Roadmap**
+
+<div align="center">
+
+```mermaid
+gantt
+    title خارطة طريق المارد الرقمي 2025
+    dateFormat  YYYY-MM-DD
+    section المرحلة 1
+    إطلاق 10 مشاريع جديدة       :2025-01-01, 90d
+    section المرحلة 2
+    إتقان 5 تقنيات جديدة        :2025-04-01, 90d
+    section المرحلة 3
+    بناء مجتمع 1000+ مطور       :2025-07-01, 90d
+    section المرحلة 4
+    تطوير أدوات أمنية متقدمة    :2025-10-01, 90d
+```
+
+### 🎯 **الأهداف الرئيسية**
+
+<table>
+<tr>
+<td width="33%" align="center">
+
+**🚀 التطوير**
+
+✅ إطلاق 10 مشاريع  
+✅ 50+ مساهمة OSS  
+✅ 5 أدوات جديدة  
+✅ 3 مكتبات برمجية
+
+</td>
+<td width="33%" align="center">
+
+**📚 التعلم**
+
+✅ 5 تقنيات جديدة  
+✅ 10 شهادات معتمدة  
+✅ 20 دورة تدريبية  
+✅ 100 ساعة تعلم
+
+</td>
+<td width="33%" align="center">
+
+**👥 المجتمع**
+
+✅ 1000+ مطور  
+✅ 50 ورشة عمل  
+✅ 100 فيديو تعليمي  
+✅ 200 مقال تقني
+
+</td>
+</tr>
+</table>
+
+</div>
+
+---
+
+## 🐳 **التشغيل باستخدام Docker**
+
+<div align="center">
+
+```bash
+# بناء وتشغيل الحاويات
+docker-compose up -d
+
+# عرض السجلات
+docker-compose logs -f
+
+# إيقاف المشروع
+docker-compose down
+```
+
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker)](https://hub.docker.com)
+
+</div>
+
+---
+
+## 📚 **دليل الاستخدام السريع**
 
 <details>
+<summary><b>🎯 كيفية البدء (اضغط للتوسيع)</b></summary>
 
-<summary>TSC emeriti members</summary>
+### 📥 **التثبيت**
 
-#### TSC emeriti members
+```bash
+# استنساخ المشروع
+git clone https://github.com/asrar-mared/project-name.git
 
-* [addaleax](https://github.com/addaleax) -
-  **Anna Henningsen** <<anna@addaleax.net>> (she/her)
-* [apapirovski](https://github.com/apapirovski) -
-  **Anatoli Papirovski** <<apapirovski@mac.com>> (he/him)
-* [ChALkeR](https://github.com/ChALkeR) -
-  **Сковорода Никита Андреевич** <<chalkerx@gmail.com>> (he/him)
-* [chrisdickinson](https://github.com/chrisdickinson) -
-  **Chris Dickinson** <<christopher.s.dickinson@gmail.com>>
-* [danbev](https://github.com/danbev) -
-  **Daniel Bevenius** <<daniel.bevenius@gmail.com>> (he/him)
-* [danielleadams](https://github.com/danielleadams) -
-  **Danielle Adams** <<adamzdanielle@gmail.com>> (she/her)
-* [evanlucas](https://github.com/evanlucas) -
-  **Evan Lucas** <<evanlucas@me.com>> (he/him)
-* [fhinkel](https://github.com/fhinkel) -
-  **Franziska Hinkelmann** <<franziska.hinkelmann@gmail.com>> (she/her)
-* [Fishrock123](https://github.com/Fishrock123) -
-  **Jeremiah Senkpiel** <<fishrock123@rocketmail.com>> (he/they)
-* [gabrielschulhof](https://github.com/gabrielschulhof) -
-  **Gabriel Schulhof** <<gabrielschulhof@gmail.com>>
-* [gibfahn](https://github.com/gibfahn) -
-  **Gibson Fahnestock** <<gibfahn@gmail.com>> (he/him)
-* [indutny](https://github.com/indutny) -
-  **Fedor Indutny** <<fedor@indutny.com>>
-* [isaacs](https://github.com/isaacs) -
-  **Isaac Z. Schlueter** <<i@izs.me>>
-* [joshgav](https://github.com/joshgav) -
-  **Josh Gavant** <<josh.gavant@outlook.com>>
-* [mmarchini](https://github.com/mmarchini) -
-  **Mary Marchini** <<oss@mmarchini.me>> (she/her)
-* [mscdex](https://github.com/mscdex) -
-  **Brian White** <<mscdex@mscdex.net>>
-* [MylesBorins](https://github.com/MylesBorins) -
-  **Myles Borins** <<myles.borins@gmail.com>> (he/him)
-* [nebrius](https://github.com/nebrius) -
-  **Bryan Hughes** <<bryan@nebri.us>>
-* [ofrobots](https://github.com/ofrobots) -
-  **Ali Ijaz Sheikh** <<ofrobots@google.com>> (he/him)
-* [orangemocha](https://github.com/orangemocha) -
-  **Alexis Campailla** <<orangemocha@nodejs.org>>
-* [piscisaureus](https://github.com/piscisaureus) -
-  **Bert Belder** <<bertbelder@gmail.com>>
-* [rvagg](https://github.com/rvagg) -
-  **Rod Vagg** <<r@va.gg>>
-* [sam-github](https://github.com/sam-github) -
-  **Sam Roberts** <<vieuxtech@gmail.com>>
-* [shigeki](https://github.com/shigeki) -
-  **Shigeki Ohtsu** <<ohtsu@ohtsu.org>> (he/him)
-* [thefourtheye](https://github.com/thefourtheye) -
-  **Sakthipriyan Vairamani** <<thechargingvolcano@gmail.com>> (he/him)
-* [TimothyGu](https://github.com/TimothyGu) -
-  **Tiancheng "Timothy" Gu** <<timothygu99@gmail.com>> (he/him)
-* [trevnorris](https://github.com/trevnorris) -
-  **Trevor Norris** <<trev.norris@gmail.com>>
+# الدخول للمجلد
+cd project-name
+
+# تثبيت الاعتماديات
+npm install
+
+# تشغيل المشروع
+npm start
+```
+
+### ⚙️ **الإعدادات**
+
+```javascript
+// config.js
+module.exports = {
+    PORT: 3000,
+    DATABASE: 'mongodb://localhost:27017',
+    SECRET_KEY: process.env.SECRET_KEY,
+    API_VERSION: 'v2.5.0'
+};
+```
 
 </details>
 
-<!-- node-core-utils and find-inactive-collaborators.mjs depend on the format
-     of the collaborator list. If the format changes, those utilities need to be
-     tested and updated. -->
-
-### Collaborators
-
-* [abmusse](https://github.com/abmusse) -
-  **Abdirahim Musse** <<abdirahim.musse@ibm.com>>
-* [addaleax](https://github.com/addaleax) -
-  **Anna Henningsen** <<anna@addaleax.net>> (she/her)
-* [Aditi-1400](https://github.com/Aditi-1400) -
-  **Aditi Singh** <<aditisingh1400@gmail.com>> (she/her)
-* [aduh95](https://github.com/aduh95) -
-  **Antoine du Hamel** <<duhamelantoine1995@gmail.com>> (he/him) - [Support me](https://github.com/sponsors/aduh95)
-* [anonrig](https://github.com/anonrig) -
-  **Yagiz Nizipli** <<yagiz@nizipli.com>> (he/him) - [Support me](https://github.com/sponsors/anonrig)
-* [atlowChemi](https://github.com/atlowChemi) -
-  **Chemi Atlow** <<chemi@atlow.co.il>> (he/him)
-* [Ayase-252](https://github.com/Ayase-252) -
-  **Qingyu Deng** <<i@ayase-lab.com>>
-* [bengl](https://github.com/bengl) -
-  **Bryan English** <<bryan@bryanenglish.com>> (he/him)
-* [benjamingr](https://github.com/benjamingr) -
-  **Benjamin Gruenbaum** <<benjamingr@gmail.com>>
-* [BethGriggs](https://github.com/BethGriggs) -
-  **Beth Griggs** <<bethanyngriggs@gmail.com>> (she/her)
-* [bnb](https://github.com/bnb) -
-  **Tierney Cyren** <<hello@bnb.im>> (they/them)
-* [bnoordhuis](https://github.com/bnoordhuis) -
-  **Ben Noordhuis** <<info@bnoordhuis.nl>>
-* [BridgeAR](https://github.com/BridgeAR) -
-  **Ruben Bridgewater** <<ruben@bridgewater.de>> (he/him)
-* [cclauss](https://github.com/cclauss) -
-  **Christian Clauss** <<cclauss@me.com>> (he/him)
-* [cjihrig](https://github.com/cjihrig) -
-  **Colin Ihrig** <<cjihrig@gmail.com>> (he/him)
-* [codebytere](https://github.com/codebytere) -
-  **Shelley Vohr** <<shelley.vohr@gmail.com>> (she/her)
-* [cola119](https://github.com/cola119) -
-  **Kohei Ueno** <<kohei.ueno119@gmail.com>> (he/him)
-* [daeyeon](https://github.com/daeyeon) -
-  **Daeyeon Jeong** <<daeyeon.dev@gmail.com>> (he/him)
-* [dario-piotrowicz](https://github.com/dario-piotrowicz) -
-  **Dario Piotrowicz** <<dario.piotrowicz@gmail.com>> (he/him)
-* [debadree25](https://github.com/debadree25) -
-  **Debadree Chatterjee** <<debadree333@gmail.com>> (he/him)
-* [deokjinkim](https://github.com/deokjinkim) -
-  **Deokjin Kim** <<deokjin81.kim@gmail.com>> (he/him)
-* [edsadr](https://github.com/edsadr) -
-  **Adrian Estrada** <<edsadr@gmail.com>> (he/him)
-* [ErickWendel](https://github.com/ErickWendel) -
-  **Erick Wendel** <<erick.workspace@gmail.com>> (he/him)
-* [Ethan-Arrowood](https://github.com/Ethan-Arrowood) -
-  **Ethan Arrowood** <<ethan@arrowood.dev>> (he/him)
-* [F3n67u](https://github.com/F3n67u) -
-  **Feng Yu** <<F3n67u@outlook.com>> (he/him)
-* [fhinkel](https://github.com/fhinkel) -
-  **Franziska Hinkelmann** <<franziska.hinkelmann@gmail.com>> (she/her)
-* [Flarna](https://github.com/Flarna) -
-  **Gerhard Stöbich** <<deb2001-github@yahoo.de>> (he/they)
-* [gabrielschulhof](https://github.com/gabrielschulhof) -
-  **Gabriel Schulhof** <<gabrielschulhof@gmail.com>>
-* [geeksilva97](https://github.com/geeksilva97) -
-  **Edy Silva** <<edigleyssonsilva@gmail.com>> (he/him)
-* [gengjiawen](https://github.com/gengjiawen) -
-  **Jiawen Geng** <<technicalcute@gmail.com>>
-* [GeoffreyBooth](https://github.com/GeoffreyBooth) -
-  **Geoffrey Booth** <<webadmin@geoffreybooth.com>> (he/him)
-* [gireeshpunathil](https://github.com/gireeshpunathil) -
-  **Gireesh Punathil** <<gpunathi@in.ibm.com>> (he/him)
-* [guybedford](https://github.com/guybedford) -
-  **Guy Bedford** <<guybedford@gmail.com>> (he/him)
-* [H4ad](https://github.com/H4ad) -
-  **Vinícius Lourenço Claro Cardoso** <<contact@viniciusl.com.br>> (he/him)
-* [HarshithaKP](https://github.com/HarshithaKP) -
-  **Harshitha K P** <<harshitha014@gmail.com>> (she/her)
-* [himself65](https://github.com/himself65) -
-  **Zeyu "Alex" Yang** <<himself65@outlook.com>> (he/him)
-* [IlyasShabi](https://github.com/IlyasShabi) -
-  **Ilyas Shabi** <<ilyasshabi94@gmail.com>> (he/him)
-* [islandryu](https://github.com/islandryu) -
-  **Ryuhei Shima** <<shimaryuhei@gmail.com>> (he/him)
-* [jakecastelli](https://github.com/jakecastelli) -
-  **Jake Yuesong Li** <<jake.yuesong@gmail.com>> (he/him)
-* [JakobJingleheimer](https://github.com/JakobJingleheimer) -
-  **Jacob Smith** <<jacob@frende.me>> (he/him)
-* [jasnell](https://github.com/jasnell) -
-  **James M Snell** <<jasnell@gmail.com>> (he/him)
-* [jazelly](https://github.com/jazelly) -
-  **Jason Zhang** <<xzha4350@gmail.com>> (he/him)
-* [jkrems](https://github.com/jkrems) -
-  **Jan Martin** <<jan.krems@gmail.com>> (he/him)
-* [JonasBa](https://github.com/JonasBa) -
-  **Jonas Badalic** <<jonas.badalic@gmail.com>> (he/him)
-* [joyeecheung](https://github.com/joyeecheung) -
-  **Joyee Cheung** <<joyeec9h3@gmail.com>> (she/her)
-* [juanarbol](https://github.com/juanarbol) -
-  **Juan José Arboleda** <<soyjuanarbol@gmail.com>> (he/him)
-* [JungMinu](https://github.com/JungMinu) -
-  **Minwoo Jung** <<nodecorelab@gmail.com>> (he/him)
-* [KhafraDev](https://github.com/KhafraDev) -
-  **Matthew Aitken** <<maitken033380023@gmail.com>> (he/him)
-* [legendecas](https://github.com/legendecas) -
-  **Chengzhong Wu** <<legendecas@gmail.com>> (he/him)
-* [lemire](https://github.com/lemire) -
-  **Daniel Lemire** <<daniel@lemire.me>>
-* [LiviaMedeiros](https://github.com/LiviaMedeiros) -
-  **LiviaMedeiros** <<livia@cirno.name>>
-* [ljharb](https://github.com/ljharb) -
-  **Jordan Harband** <<ljharb@gmail.com>>
-* [lpinca](https://github.com/lpinca) -
-  **Luigi Pinca** <<luigipinca@gmail.com>> (he/him)
-* [lukekarrys](https://github.com/lukekarrys) -
-  **Luke Karrys** <<luke@lukekarrys.com>> (he/him)
-* [Lxxyx](https://github.com/Lxxyx) -
-  **Zijian Liu** <<lxxyxzj@gmail.com>> (he/him)
-* [marco-ippolito](https://github.com/marco-ippolito) -
-  **Marco Ippolito** <<marcoippolito54@gmail.com>> (he/him) - [Support me](https://github.com/sponsors/marco-ippolito)
-* [marsonya](https://github.com/marsonya) -
-  **Akhil Marsonya** <<akhil.marsonya27@gmail.com>> (he/him)
-* [MattiasBuelens](https://github.com/MattiasBuelens) -
-  **Mattias Buelens** <<mattias@buelens.com>> (he/him)
-* [mcollina](https://github.com/mcollina) -
-  **Matteo Collina** <<matteo.collina@gmail.com>> (he/him) - [Support me](https://github.com/sponsors/mcollina)
-* [meixg](https://github.com/meixg) -
-  **Xuguang Mei** <<meixuguang@gmail.com>> (he/him)
-* [mhdawson](https://github.com/mhdawson) -
-  **Michael Dawson** <<midawson@redhat.com>> (he/him)
-* [MoLow](https://github.com/MoLow) -
-  **Moshe Atlow** <<moshe@atlow.co.il>> (he/him)
-* [MrJithil](https://github.com/MrJithil) -
-  **Jithil P Ponnan** <<jithil@outlook.com>> (he/him)
-* [ovflowd](https://github.com/ovflowd) -
-  **Claudio Wunder** <<cwunder@gnome.org>> (he/they)
-* [panva](https://github.com/panva) -
-  **Filip Skokan** <<panva.ip@gmail.com>> (he/him) - [Support me](https://github.com/sponsors/panva)
-* [pimterry](https://github.com/pimterry) -
-  **Tim Perry** <<pimterry@gmail.com>> (he/him)
-* [pmarchini](https://github.com/pmarchini) -
-  **Pietro Marchini** <<pietro.marchini94@gmail.com>> (he/him)
-* [puskin](https://github.com/puskin) -
-  **Giovanni Bucci** <<github@puskin.it>> (he/him)
-* [Qard](https://github.com/Qard) -
-  **Stephen Belanger** <<admin@stephenbelanger.com>> (he/him)
-* [RafaelGSS](https://github.com/RafaelGSS) -
-  **Rafael Gonzaga** <<rafael.nunu@hotmail.com>> (he/him) - [Support me](https://github.com/sponsors/RafaelGSS)
-* [RaisinTen](https://github.com/RaisinTen) -
-  **Darshan Sen** <<raisinten@gmail.com>> (he/him) - [Support me](https://github.com/sponsors/RaisinTen)
-* [richardlau](https://github.com/richardlau) -
-  **Richard Lau** <<richard.lau@ibm.com>>
-* [rluvaton](https://github.com/rluvaton) -
-  **Raz Luvaton** <<rluvaton@gmail.com>> (he/him)
-* [ronag](https://github.com/ronag) -
-  **Robert Nagy** <<ronagy@icloud.com>>
-* [ruyadorno](https://github.com/ruyadorno) -
-  **Ruy Adorno** <<ruy@vlt.sh>> (he/him)
-* [santigimeno](https://github.com/santigimeno) -
-  **Santiago Gimeno** <<santiago.gimeno@gmail.com>>
-* [ShogunPanda](https://github.com/ShogunPanda) -
-  **Paolo Insogna** <<paolo@cowtech.it>> (he/him)
-* [srl295](https://github.com/srl295) -
-  **Steven R Loomis** <<srl295@gmail.com>>
-* [StefanStojanovic](https://github.com/StefanStojanovic) -
-  **Stefan Stojanovic** <<stefan.stojanovic@janeasystems.com>> (he/him)
-* [sxa](https://github.com/sxa) -
-  **Stewart X Addison** <<sxa@redhat.com>> (he/him)
-* [targos](https://github.com/targos) -
-  **Michaël Zasso** <<targos@protonmail.com>> (he/him)
-* [theanarkh](https://github.com/theanarkh) -
-  **theanarkh** <<theratliter@gmail.com>> (he/him)
-* [tniessen](https://github.com/tniessen) -
-  **Tobias Nießen** <<tniessen@tnie.de>> (he/him)
-* [trivikr](https://github.com/trivikr) -
-  **Trivikram Kamat** <<trivikr.dev@gmail.com>>
-* [Trott](https://github.com/Trott) -
-  **Rich Trott** <<rtrott@gmail.com>> (he/him)
-* [UlisesGascon](https://github.com/UlisesGascon) -
-  **Ulises Gascón** <<ulisesgascongonzalez@gmail.com>> (he/him)
-* [vmoroz](https://github.com/vmoroz) -
-  **Vladimir Morozov** <<vmorozov@microsoft.com>> (he/him)
-* [VoltrexKeyva](https://github.com/VoltrexKeyva) -
-  **Mohammed Keyvanzadeh** <<mohammadkeyvanzade94@gmail.com>> (he/him)
-* [zcbenz](https://github.com/zcbenz) -
-  **Cheng Zhao** <<zcbenz@gmail.com>> (he/him)
-* [ZYSzys](https://github.com/ZYSzys) -
-  **Yongsheng Zhang** <<zyszys98@gmail.com>> (he/him)
-
 <details>
+<summary><b>🎁 الميزات المتقدمة (اضغط للتوسيع)</b></summary>
 
-<summary>Emeriti</summary>
+### ✨ **المميزات الاحترافية**
 
-<!-- find-inactive-collaborators.mjs depends on the format of the emeriti list.
-     If the format changes, those utilities need to be tested and updated. -->
-
-### Collaborator emeriti
-
-* [ak239](https://github.com/ak239) -
-  **Aleksei Koziatinskii** <<ak239spb@gmail.com>>
-* [andrasq](https://github.com/andrasq) -
-  **Andras** <<andras@kinvey.com>>
-* [AndreasMadsen](https://github.com/AndreasMadsen) -
-  **Andreas Madsen** <<amwebdk@gmail.com>> (he/him)
-* [AnnaMag](https://github.com/AnnaMag) -
-  **Anna M. Kedzierska** <<anna.m.kedzierska@gmail.com>>
-* [antsmartian](https://github.com/antsmartian) -
-  **Anto Aravinth** <<anto.aravinth.cse@gmail.com>> (he/him)
-* [apapirovski](https://github.com/apapirovski) -
-  **Anatoli Papirovski** <<apapirovski@mac.com>> (he/him)
-* [aqrln](https://github.com/aqrln) -
-  **Alexey Orlenko** <<eaglexrlnk@gmail.com>> (he/him)
-* [AshCripps](https://github.com/AshCripps) -
-  **Ash Cripps** <<email@ashleycripps.co.uk>>
-* [bcoe](https://github.com/bcoe) -
-  **Ben Coe** <<bencoe@gmail.com>> (he/him)
-* [bmeck](https://github.com/bmeck) -
-  **Bradley Farias** <<bradley.meck@gmail.com>>
-* [bmeurer](https://github.com/bmeurer) -
-  **Benedikt Meurer** <<benedikt.meurer@gmail.com>>
-* [boneskull](https://github.com/boneskull) -
-  **Christopher Hiller** <<boneskull@boneskull.com>> (he/him)
-* [brendanashworth](https://github.com/brendanashworth) -
-  **Brendan Ashworth** <<brendan.ashworth@me.com>>
-* [bzoz](https://github.com/bzoz) -
-  **Bartosz Sosnowski** <<bartosz@janeasystems.com>>
-* [calvinmetcalf](https://github.com/calvinmetcalf) -
-  **Calvin Metcalf** <<calvin.metcalf@gmail.com>>
-* [ChALkeR](https://github.com/ChALkeR) -
-  **Сковорода Никита Андреевич** <<chalkerx@gmail.com>> (he/him)
-* [chrisdickinson](https://github.com/chrisdickinson) -
-  **Chris Dickinson** <<christopher.s.dickinson@gmail.com>>
-* [claudiorodriguez](https://github.com/claudiorodriguez) -
-  **Claudio Rodriguez** <<cjrodr@yahoo.com>>
-* [danbev](https://github.com/danbev) -
-  **Daniel Bevenius** <<daniel.bevenius@gmail.com>> (he/him)
-* [danielleadams](https://github.com/danielleadams) -
-  **Danielle Adams** <<adamzdanielle@gmail.com>> (she/her)
-* [DavidCai1993](https://github.com/DavidCai1993) -
-  **David Cai** <<davidcai1993@yahoo.com>> (he/him)
-* [davisjam](https://github.com/davisjam) -
-  **Jamie Davis** <<davisjam@vt.edu>> (he/him)
-* [devnexen](https://github.com/devnexen) -
-  **David Carlier** <<devnexen@gmail.com>>
-* [devsnek](https://github.com/devsnek) -
-  **Gus Caplan** <<me@gus.host>> (they/them)
-* [digitalinfinity](https://github.com/digitalinfinity) -
-  **Hitesh Kanwathirtha** <<digitalinfinity@gmail.com>> (he/him)
-* [dmabupt](https://github.com/dmabupt) -
-  **Xu Meng** <<dmabupt@gmail.com>> (he/him)
-* [dnlup](https://github.com/dnlup) -
-  **dnlup** <<dnlup.dev@gmail.com>>
-* [eljefedelrodeodeljefe](https://github.com/eljefedelrodeodeljefe) -
-  **Robert Jefe Lindstaedt** <<robert.lindstaedt@gmail.com>>
-* [estliberitas](https://github.com/estliberitas) -
-  **Alexander Makarenko** <<estliberitas@gmail.com>>
-* [eugeneo](https://github.com/eugeneo) -
-  **Eugene Ostroukhov** <<eostroukhov@google.com>>
-* [evanlucas](https://github.com/evanlucas) -
-  **Evan Lucas** <<evanlucas@me.com>> (he/him)
-* [firedfox](https://github.com/firedfox) -
-  **Daniel Wang** <<wangyang0123@gmail.com>>
-* [Fishrock123](https://github.com/Fishrock123) -
-  **Jeremiah Senkpiel** <<fishrock123@rocketmail.com>> (he/they)
-* [gdams](https://github.com/gdams) -
-  **George Adams** <<gadams@microsoft.com>> (he/him)
-* [geek](https://github.com/geek) -
-  **Wyatt Preul** <<wpreul@gmail.com>>
-* [gibfahn](https://github.com/gibfahn) -
-  **Gibson Fahnestock** <<gibfahn@gmail.com>> (he/him)
-* [glentiki](https://github.com/glentiki) -
-  **Glen Keane** <<glenkeane.94@gmail.com>> (he/him)
-* [hashseed](https://github.com/hashseed) -
-  **Yang Guo** <<yangguo@chromium.org>> (he/him)
-* [hiroppy](https://github.com/hiroppy) -
-  **Yuta Hiroto** <<hello@hiroppy.me>> (he/him)
-* [iansu](https://github.com/iansu) -
-  **Ian Sutherland** <<ian@iansutherland.ca>>
-* [iarna](https://github.com/iarna) -
-  **Rebecca Turner** <<me@re-becca.org>>
-* [imran-iq](https://github.com/imran-iq) -
-  **Imran Iqbal** <<imran@imraniqbal.org>>
-* [imyller](https://github.com/imyller) -
-  **Ilkka Myller** <<ilkka.myller@nodefield.com>>
-* [indutny](https://github.com/indutny) -
-  **Fedor Indutny** <<fedor@indutny.com>>
-* [isaacs](https://github.com/isaacs) -
-  **Isaac Z. Schlueter** <<i@izs.me>>
-* [italoacasas](https://github.com/italoacasas) -
-  **Italo A. Casas** <<me@italoacasas.com>> (he/him)
-* [JacksonTian](https://github.com/JacksonTian) -
-  **Jackson Tian** <<shyvo1987@gmail.com>>
-* [jasongin](https://github.com/jasongin) -
-  **Jason Ginchereau** <<jasongin@microsoft.com>>
-* [jbergstroem](https://github.com/jbergstroem) -
-  **Johan Bergström** <<bugs@bergstroem.nu>>
-* [jdalton](https://github.com/jdalton) -
-  **John-David Dalton** <<john.david.dalton@gmail.com>>
-* [jhamhader](https://github.com/jhamhader) -
-  **Yuval Brik** <<yuval@brik.org.il>>
-* [joaocgreis](https://github.com/joaocgreis) -
-  **João Reis** <<reis@janeasystems.com>>
-* [joesepi](https://github.com/joesepi) -
-  **Joe Sepi** <<sepi@joesepi.com>> (he/him)
-* [joshgav](https://github.com/joshgav) -
-  **Josh Gavant** <<josh.gavant@outlook.com>>
-* [julianduque](https://github.com/julianduque) -
-  **Julian Duque** <<julianduquej@gmail.com>> (he/him)
-* [kfarnung](https://github.com/kfarnung) -
-  **Kyle Farnung** <<kfarnung@microsoft.com>> (he/him)
-* [kunalspathak](https://github.com/kunalspathak) -
-  **Kunal Pathak** <<kunal.pathak@microsoft.com>>
-* [kuriyosh](https://github.com/kuriyosh) -
-  **Yoshiki Kurihara** <<yosyos0306@gmail.com>> (he/him)
-* [kvakil](https://github.com/kvakil) -
-  **Keyhan Vakil** <<kvakil@sylph.kvakil.me>>
-* [lance](https://github.com/lance) -
-  **Lance Ball** <<lball@redhat.com>> (he/him)
-* [Leko](https://github.com/Leko) -
-  **Shingo Inoue** <<leko.noor@gmail.com>> (he/him)
-* [Linkgoron](https://github.com/Linkgoron) -
-  **Nitzan Uziely** <<linkgoron@gmail.com>>
-* [lucamaraschi](https://github.com/lucamaraschi) -
-  **Luca Maraschi** <<luca.maraschi@gmail.com>> (he/him)
-* [lundibundi](https://github.com/lundibundi) -
-  **Denys Otrishko** <<shishugi@gmail.com>> (he/him)
-* [lxe](https://github.com/lxe) -
-  **Aleksey Smolenchuk** <<lxe@lxe.co>>
-* [maclover7](https://github.com/maclover7) -
-  **Jon Moss** <<me@jonathanmoss.me>> (he/him)
-* [mafintosh](https://github.com/mafintosh) -
-  **Mathias Buus** <<mathiasbuus@gmail.com>> (he/him)
-* [matthewloring](https://github.com/matthewloring) -
-  **Matthew Loring** <<mattloring@google.com>>
-* [Mesteery](https://github.com/Mesteery) -
-  **Mestery** <<mestery@protonmail.com>> (he/him)
-* [micnic](https://github.com/micnic) -
-  **Nicu Micleușanu** <<micnic90@gmail.com>> (he/him)
-* [mikeal](https://github.com/mikeal) -
-  **Mikeal Rogers** <<mikeal.rogers@gmail.com>>
-* [miladfarca](https://github.com/miladfarca) -
-  **Milad Fa** <<mfarazma@redhat.com>> (he/him)
-* [mildsunrise](https://github.com/mildsunrise) -
-  **Alba Mendez** <<me@alba.sh>> (she/her)
-* [misterdjules](https://github.com/misterdjules) -
-  **Julien Gilli** <<jgilli@netflix.com>>
-* [mmarchini](https://github.com/mmarchini) -
-  **Mary Marchini** <<oss@mmarchini.me>> (she/her)
-* [monsanto](https://github.com/monsanto) -
-  **Christopher Monsanto** <<chris@monsan.to>>
-* [MoonBall](https://github.com/MoonBall) -
-  **Chen Gang** <<gangc.cxy@foxmail.com>>
-* [mscdex](https://github.com/mscdex) -
-  **Brian White** <<mscdex@mscdex.net>>
-* [MylesBorins](https://github.com/MylesBorins) -
-  **Myles Borins** <<myles.borins@gmail.com>> (he/him)
-* [not-an-aardvark](https://github.com/not-an-aardvark) -
-  **Teddy Katz** <<teddy.katz@gmail.com>> (he/him)
-* [ofrobots](https://github.com/ofrobots) -
-  **Ali Ijaz Sheikh** <<ofrobots@google.com>> (he/him)
-* [Olegas](https://github.com/Olegas) -
-  **Oleg Elifantiev** <<oleg@elifantiev.ru>>
-* [orangemocha](https://github.com/orangemocha) -
-  **Alexis Campailla** <<orangemocha@nodejs.org>>
-* [othiym23](https://github.com/othiym23) -
-  **Forrest L Norvell** <<ogd@aoaioxxysz.net>> (they/them/themself)
-* [oyyd](https://github.com/oyyd) -
-  **Ouyang Yadong** <<oyydoibh@gmail.com>> (he/him)
-* [petkaantonov](https://github.com/petkaantonov) -
-  **Petka Antonov** <<petka_antonov@hotmail.com>>
-* [phillipj](https://github.com/phillipj) -
-  **Phillip Johnsen** <<johphi@gmail.com>>
-* [piscisaureus](https://github.com/piscisaureus) -
-  **Bert Belder** <<bertbelder@gmail.com>>
-* [pmq20](https://github.com/pmq20) -
-  **Minqi Pan** <<pmq2001@gmail.com>>
-* [PoojaDurgad](https://github.com/PoojaDurgad) -
-  **Pooja D P** <<Pooja.D.P@ibm.com>> (she/her)
-* [princejwesley](https://github.com/princejwesley) -
-  **Prince John Wesley** <<princejohnwesley@gmail.com>>
-* [psmarshall](https://github.com/psmarshall) -
-  **Peter Marshall** <<petermarshall@chromium.org>> (he/him)
-* [puzpuzpuz](https://github.com/puzpuzpuz) -
-  **Andrey Pechkurov** <<apechkurov@gmail.com>> (he/him)
-* [refack](https://github.com/refack) -
-  **Refael Ackermann (רפאל פלחי)** <<refack@gmail.com>> (he/him/הוא/אתה)
-* [rexagod](https://github.com/rexagod) -
-  **Pranshu Srivastava** <<rexagod@gmail.com>> (he/him)
-* [rickyes](https://github.com/rickyes) -
-  **Ricky Zhou** <<0x19951125@gmail.com>> (he/him)
-* [rlidwka](https://github.com/rlidwka) -
-  **Alex Kocharin** <<alex@kocharin.ru>>
-* [rmg](https://github.com/rmg) -
-  **Ryan Graham** <<r.m.graham@gmail.com>>
-* [robertkowalski](https://github.com/robertkowalski) -
-  **Robert Kowalski** <<rok@kowalski.gd>>
-* [romankl](https://github.com/romankl) -
-  **Roman Klauke** <<romaaan.git@gmail.com>>
-* [ronkorving](https://github.com/ronkorving) -
-  **Ron Korving** <<ron@ronkorving.nl>>
-* [RReverser](https://github.com/RReverser) -
-  **Ingvar Stepanyan** <<me@rreverser.com>>
-* [rubys](https://github.com/rubys) -
-  **Sam Ruby** <<rubys@intertwingly.net>>
-* [rvagg](https://github.com/rvagg) -
-  **Rod Vagg** <<rod@vagg.org>>
-* [ryzokuken](https://github.com/ryzokuken) -
-  **Ujjwal Sharma** <<ryzokuken@disroot.org>> (he/him)
-* [saghul](https://github.com/saghul) -
-  **Saúl Ibarra Corretgé** <<s@saghul.net>>
-* [sam-github](https://github.com/sam-github) -
-  **Sam Roberts** <<vieuxtech@gmail.com>>
-* [sebdeckers](https://github.com/sebdeckers) -
-  **Sebastiaan Deckers** <<sebdeckers83@gmail.com>>
-* [seishun](https://github.com/seishun) -
-  **Nikolai Vavilov** <<vvnicholas@gmail.com>>
-* [shigeki](https://github.com/shigeki) -
-  **Shigeki Ohtsu** <<ohtsu@ohtsu.org>> (he/him)
-* [shisama](https://github.com/shisama) -
-  **Masashi Hirano** <<shisama07@gmail.com>> (he/him)
-* [silverwind](https://github.com/silverwind) -
-  **Roman Reiss** <<me@silverwind.io>>
-* [starkwang](https://github.com/starkwang) -
-  **Weijia Wang** <<starkwang@126.com>>
-* [stefanmb](https://github.com/stefanmb) -
-  **Stefan Budeanu** <<stefan@budeanu.com>>
-* [tellnes](https://github.com/tellnes) -
-  **Christian Tellnes** <<christian@tellnes.no>>
-* [thefourtheye](https://github.com/thefourtheye) -
-  **Sakthipriyan Vairamani** <<thechargingvolcano@gmail.com>> (he/him)
-* [thlorenz](https://github.com/thlorenz) -
-  **Thorsten Lorenz** <<thlorenz@gmx.de>>
-* [TimothyGu](https://github.com/TimothyGu) -
-  **Tiancheng "Timothy" Gu** <<timothygu99@gmail.com>> (he/him)
-* [trevnorris](https://github.com/trevnorris) -
-  **Trevor Norris** <<trev.norris@gmail.com>>
-* [tunniclm](https://github.com/tunniclm) -
-  **Mike Tunnicliffe** <<m.j.tunnicliffe@gmail.com>>
-* [vdeturckheim](https://github.com/vdeturckheim) -
-  **Vladimir de Turckheim** <<vlad2t@hotmail.com>> (he/him)
-* [vkurchatkin](https://github.com/vkurchatkin) -
-  **Vladimir Kurchatkin** <<vladimir.kurchatkin@gmail.com>>
-* [vsemozhetbyt](https://github.com/vsemozhetbyt) -
-  **Vse Mozhet Byt** <<vsemozhetbyt@gmail.com>> (he/him)
-* [watilde](https://github.com/watilde) -
-  **Daijiro Wachi** <<daijiro.wachi@gmail.com>> (he/him)
-* [watson](https://github.com/watson) -
-  **Thomas Watson** <<w@tson.dk>>
-* [whitlockjc](https://github.com/whitlockjc) -
-  **Jeremy Whitlock** <<jwhitlock@apache.org>>
-* [XadillaX](https://github.com/XadillaX) -
-  **Khaidi Chu** <<i@2333.moe>> (he/him)
-* [yashLadha](https://github.com/yashLadha) -
-  **Yash Ladha** <<yash@yashladha.in>> (he/him)
-* [yhwang](https://github.com/yhwang) -
-  **Yihong Wang** <<yh.wang@ibm.com>>
-* [yorkie](https://github.com/yorkie) -
-  **Yorkie Liu** <<yorkiefixer@gmail.com>>
-* [yosuke-furukawa](https://github.com/yosuke-furukawa) -
-  **Yosuke Furukawa** <<yosuke.furukawa@gmail.com>>
+- 🔒 **تشفير متقدم**: AES-256 + RSA-4096
+- 🛡️ **جدار ناري ذكي**: حماية متعددة الطبقات
+- 🤖 **AI Integration**: تحليل ذكي بالتعلم الآلي
+- 📊 **Real-time Analytics**: إحصائيات فورية
+- 🔔 **Smart Alerts**: تنبيهات ذكية مخصصة
+- 🌍 **Multi-language**: دعم 10+ لغات
 
 </details>
 
-<!--lint enable prohibited-strings-->
+---
 
-Collaborators follow the [Collaborator Guide](./doc/contributing/collaborator-guide.md) in
-maintaining the Node.js project.
+## 👥 **المساهمون - Contributors**
 
-### Triagers
+<div align="center">
 
-* [1ilsang](https://github.com/1ilsang) -
-  **Sangchul Lee** <<1ilsang.dev@gmail.com>> (he/him)
-* [atlowChemi](https://github.com/atlowChemi) -
-  **Chemi Atlow** <<chemi@atlow.co.il>> (he/him)
-* [Ayase-252](https://github.com/Ayase-252) -
-  **Qingyu Deng** <<i@ayase-lab.com>>
-* [bjohansebas](https://github.com/bjohansebas) -
-  **Sebastian Beltran** <<bjohansebas@gmail.com>>
-* [bmuenzenmeyer](https://github.com/bmuenzenmeyer) -
-  **Brian Muenzenmeyer** <<brian.muenzenmeyer@gmail.com>> (he/him)
-* [CanadaHonk](https://github.com/CanadaHonk) -
-  **Oliver Medhurst** <<honk@goose.icu>> (they/them)
-* [daeyeon](https://github.com/daeyeon) -
-  **Daeyeon Jeong** <<daeyeon.dev@gmail.com>> (he/him)
-* [F3n67u](https://github.com/F3n67u) -
-  **Feng Yu** <<F3n67u@outlook.com>> (he/him)
-* [gireeshpunathil](https://github.com/gireeshpunathil) -
-  **Gireesh Punathil** <<gpunathi@in.ibm.com>> (he/him)
-* [gurgunday](https://github.com/gurgunday) -
-  **Gürgün Dayıoğlu** <<hey@gurgun.day>>
-* [HBSPS](https://github.com/HBSPS) -
-  **Wiyeong Seo** <<hbsps.dev@gmail.com>>
-* [iam-frankqiu](https://github.com/iam-frankqiu) -
-  **Frank Qiu** <<iam.frankqiu@gmail.com>> (he/him)
-* [KevinEady](https://github.com/KevinEady) -
-  **Kevin Eady** <<kevin.c.eady@gmail.com>> (he/him)
-* [marsonya](https://github.com/marsonya) -
-  **Akhil Marsonya** <<akhil.marsonya27@gmail.com>> (he/him)
-* [meixg](https://github.com/meixg) -
-  **Xuguang Mei** <<meixuguang@gmail.com>> (he/him)
-* [milesguicent](https://github.com/milesguicent) -
-  **Miles Guicent** <<guicent@pm.me>> (he/him)
-* [preveen-stack](https://github.com/preveen-stack) -
-  **Preveen Padmanabhan** <<wide4head@gmail.com>> (he/him)
-* [RaisinTen](https://github.com/RaisinTen) -
-  **Darshan Sen** <<raisinten@gmail.com>> (he/him)
-* [VoltrexKeyva](https://github.com/VoltrexKeyva) -
-  **Mohammed Keyvanzadeh** <<mohammadkeyvanzade94@gmail.com>> (he/him)
+### 💙 **شكراً لكل من ساهم في نجاح المشروع**
 
-Triagers follow the [Triage Guide](./doc/contributing/issues.md#triaging-a-bug-report) when
-responding to new issues.
+<table>
+<tr>
+<td align="center" width="25%">
+<img src="https://img.icons8.com/fluency/96/000000/user-male-circle.png" width="100"/><br/>
+<b>المطور الرئيسي</b><br/>
+<sub>Full Stack Development</sub><br/>
+<a href="https://github.com/asrar-mared">@asrar-mared</a>
+</td>
+<td align="center" width="25%">
+<img src="https://img.icons8.com/fluency/96/000000/security-configuration.png" width="100"/><br/>
+<b>مطور الأمان</b><br/>
+<sub>Security Expert</sub><br/>
+<a href="https://github.com/asrar-mared">@security-team</a>
+</td>
+<td align="center" width="25%">
+<img src="https://img.icons8.com/fluency/96/000000/design.png" width="100"/><br/>
+<b>UI/UX مصمم</b><br/>
+<sub>Interface Designer</sub><br/>
+<a href="https://github.com/asrar-mared">@design-team</a>
+</td>
+<td align="center" width="25%">
+<img src="https://img.icons8.com/fluency/96/000000/artificial-intelligence.png" width="100"/><br/>
+<b>خبير الذكاء الاصطناعي</b><br/>
+<sub>AI Specialist</sub><br/>
+<a href="https://github.com/asrar-mared">@ai-team</a>
+</td>
+</tr>
+</table>
 
-### Release keys
+### 🌟 **شكر خاص**
 
-Primary GPG keys for Node.js Releasers (some Releasers sign with subkeys):
+<table>
+<tr>
+<td align="center">
 
-* **Antoine du Hamel** <<duhamelantoine1995@gmail.com>>
-  `5BE8A3F6C8A5C01D106C0AD820B1A390B168D356`
-* **Juan José Arboleda** <<soyjuanarbol@gmail.com>>
-  `DD792F5973C6DE52C432CBDAC77ABFA00DDBF2B7`
-* **Marco Ippolito** <<marcoippolito54@gmail.com>>
-  `CC68F5A3106FF448322E48ED27F5E38D5B0A215F`
-* **Michaël Zasso** <<targos@protonmail.com>>
-  `8FCCA13FEF1D0C2E91008E09770F7A9A5AE15600`
-* **Rafael Gonzaga** <<rafael.nunu@hotmail.com>>
-  `890C08DB8579162FEE0DF9DB8BEAB4DFCF555EF4`
-* **Richard Lau** <<richard.lau@ibm.com>>
-  `C82FA3AE1CBEDC6BE46B9360C43CEC45C17AB93C`
-* **Ruy Adorno** <<ruyadorno@hotmail.com>>
-  `108F52B48DB57BB0CC439B2997B01419BD92F80A`
-* **Ulises Gascón** <<ulisesgascongonzalez@gmail.com>>
-  `A363A499291CBBC940DD62E41F10027AF002F8B0`
+**🙏 جميع المساهمين في المشروع**
 
-You can use the keyring the project maintains at
-<https://github.com/nodejs/release-keys/raw/refs/heads/main/gpg-only-active-keys/pubring.kbx>.
-Alternatively, you can import them from a public key server. Have in mind that
-the project cannot guarantee the availability of the server nor the keys on
-that server.
+![Contributors](https://contrib.rocks/image?repo=asrar-mared/asrar-mared)
 
-```bash
-gpg --keyserver hkps://keys.openpgp.org --recv-keys 5BE8A3F6C8A5C01D106C0AD820B1A390B168D356 # Antoine du Hamel
-gpg --keyserver hkps://keys.openpgp.org --recv-keys DD792F5973C6DE52C432CBDAC77ABFA00DDBF2B7 # Juan José Arboleda
-gpg --keyserver hkps://keys.openpgp.org --recv-keys CC68F5A3106FF448322E48ED27F5E38D5B0A215F # Marco Ippolito
-gpg --keyserver hkps://keys.openpgp.org --recv-keys 8FCCA13FEF1D0C2E91008E09770F7A9A5AE15600 # Michaël Zasso
-gpg --keyserver hkps://keys.openpgp.org --recv-keys 890C08DB8579162FEE0DF9DB8BEAB4DFCF555EF4 # Rafael Gonzaga
-gpg --keyserver hkps://keys.openpgp.org --recv-keys C82FA3AE1CBEDC6BE46B9360C43CEC45C17AB93C # Richard Lau
-gpg --keyserver hkps://keys.openpgp.org --recv-keys 108F52B48DB57BB0CC439B2997B01419BD92F80A # Ruy Adorno
-gpg --keyserver hkps://keys.openpgp.org --recv-keys A363A499291CBBC940DD62E41F10027AF002F8B0 # Ulises Gascón
+</td>
+</tr>
+<tr>
+<td align="center">
+
+**🛡️ المجتمع العربي للأمن السيبراني**  
+**🌍 مستخدمينا الرائعين حول العالم**  
+**💻 مجتمع المطورين المفتوح المصدر**
+
+</td>
+</tr>
+</table>
+
+</div>
+
+---
+
+## 💡 **اقتباسات ملهمة - Motivation**
+
+<div align="center">
+
+<img src="https://quotes-github-readme.vercel.app/api?type=horizontal&theme=radical&quote=الأمن%20ليس%20منتجاً،%20بل%20عملية%20مستمرة&author=NIKE49424"/>
+
+### 🎯 **فلسفتي في البرمجة**
+
+> ### *"في عالم الأمن السيبراني، البقاء للأذكى والأسرع"* ⚡
+> 
+> ### *"كل سطر برمجي هو خط دفاع ضد التهديدات"* 💻
+> 
+> ### *"الابتكار هو مفتاح حماية المستقبل الرقمي"* 🔑
+
+</div>
+
+---
+
+## 🎓 **الشهادات والدورات - Certifications**
+
+<div align="center">
+
+<table>
+<tr>
+<th width="40%">الشهادة</th>
+<th width="30%">المؤسسة</th>
+<th width="15%">السنة</th>
+<th width="15%">الحالة</th>
+</tr>
+<tr>
+<td>🥇 <b>Certified Ethical Hacker (CEH)</b></td>
+<td>EC-Council</td>
+<td>2024</td>
+<td><img src="https://img.shields.io/badge/مُعتمد-success"/></td>
+</tr>
+<tr>
+<td>🥇 <b>CompTIA Security+</b></td>
+<td>CompTIA</td>
+<td>2024</td>
+<td><img src="https://img.shields.io/badge/مُعتمد-success"/></td>
+</tr>
+<tr>
+<td>🥇 <b>AWS Security Specialist</b></td>
+<td>Amazon Web Services</td>
+<td>2024</td>
+<td><img src="https://img.shields.io/badge/مُعتمد-success"/></td>
+</tr>
+<tr>
+<td>🥇 <b>OSCP - Offensive Security</b></td>
+<td>Offensive Security</td>
+<td>2023</td>
+<td><img src="https://img.shields.io/badge/مُعتمد-success"/></td>
+</tr>
+<tr>
+<td>🏆 <b>Full Stack Developer</b></td>
+<td>أكاديمية التميز</td>
+<td>2023</td>
+<td><img src="https://img.shields.io/badge/مُعتمد-success"/></td>
+</tr>
+<tr>
+<td>🤖 <b>AI & Machine Learning</b></td>
+<td>معهد MIT</td>
+<td>2023</td>
+<td><img src="https://img.shields.io/badge/مُعتمد-success"/></td>
+</tr>
+<tr>
+<td>⚡ <b>Python for Cybersecurity</b></td>
+<td>Udemy</td>
+<td>2023</td>
+<td><img src="https://img.shields.io/badge/مُعتمد-success"/></td>
+</tr>
+<tr>
+<td>🔐 <b>Penetration Testing</b></td>
+<td>Cybrary</td>
+<td>2022</td>
+<td><img src="https://img.shields.io/badge/مُعتمد-success"/></td>
+</tr>
+</table>
+
+### 📖 **دورات قيد التقدم**
+
+![Progress](https://img.shields.io/badge/Cloud_Security-60%25-blue?style=for-the-badge)
+![Progress](https://img.shields.io/badge/Kubernetes-45%25-green?style=for-the-badge)
+![Progress](https://img.shields.io/badge/Advanced_AI-30%25-orange?style=for-the-badge)
+
+</div>
+
+---
+
+## 📈 **نشاط المساهمات - Activity**
+
+<div align="center">
+
+### 🐍 **Contribution Snake**
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/asrar-mared/asrar-mared/output/github-contribution-grid-snake-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/asrar-mared/asrar-mared/output/github-contribution-grid-snake.svg">
+  <img alt="github contribution grid snake animation" src="https://raw.githubusercontent.com/asrar-mared/asrar-mared/output/github-contribution-grid-snake.svg">
+</picture>
+
+### ⚡ **آخر النشاطات**
+
+<!--START_SECTION:activity-->
+<!--END_SECTION:activity-->
+
+### 📊 **إحصائيات الأسبوع**
+
+```text
+💻 أكتب الكود لمدة       12 ساعات يومياً
+🔥 أكثر لغة استخداماً     JavaScript
+⚡ أكثر وقت نشاط         المساء (8PM - 2AM)
+🎯 معدل الإنتاجية       95% أعلى من المتوسط
 ```
 
-See [Verifying binaries](#verifying-binaries) for how to use these keys to
-verify a downloaded file.
+</div>
 
-<details>
+---
 
-<summary>Other keys used to sign some previous releases</summary>
+## 🛠️ **Setup المكتبي - Workspace**
 
-* **Antoine du Hamel** <<duhamelantoine1995@gmail.com>>
-  `C0D6248439F1D5604AAFFB4021D900FFDB233756`
-* **Beth Griggs** <<bethanyngriggs@gmail.com>>
-  `4ED778F539E3634C779C87C6D7062848A1AB005C`
-* **Bryan English** <<bryan@bryanenglish.com>>
-  `141F07595B7B3FFE74309A937405533BE57C7D57`
-* **Chris Dickinson** <<christopher.s.dickinson@gmail.com>>
-  `9554F04D7259F04124DE6B476D5A82AC7E37093B`
-* **Colin Ihrig** <<cjihrig@gmail.com>>
-  `94AE36675C464D64BAFA68DD7434390BDBE9B9C5`
-* **Danielle Adams** <<adamzdanielle@gmail.com>>
-  `1C050899334244A8AF75E53792EF661D867B9DFA`
-  `74F12602B6F1C4E913FAA37AD3A89613643B6201`
-* **Evan Lucas** <<evanlucas@me.com>>
-  `B9AE9905FFD7803F25714661B63B535A4C206CA9`
-* **Gibson Fahnestock** <<gibfahn@gmail.com>>
-  `77984A986EBC2AA786BC0F66B01FBB92821C587A`
-* **Isaac Z. Schlueter** <<i@izs.me>>
-  `93C7E9E91B49E432C2F75674B0A78B0A6C481CF6`
-* **Italo A. Casas** <<me@italoacasas.com>>
-  `56730D5401028683275BD23C23EFEFE93C4CFFFE`
-* **James M Snell** <<jasnell@keybase.io>>
-  `71DCFD284A79C3B38668286BC97EC7A07EDE3FC1`
-* **Jeremiah Senkpiel** <<fishrock@keybase.io>>
-  `FD3A5288F042B6850C66B31F09FE44734EB7990E`
-* **Juan José Arboleda** <<soyjuanarbol@gmail.com>>
-  `61FC681DFB92A079F1685E77973F295594EC4689`
-* **Julien Gilli** <<jgilli@fastmail.fm>>
-  `114F43EE0176B71C7BC219DD50A3051F888C628D`
-* **Myles Borins** <<myles.borins@gmail.com>>
-  `C4F0DFFF4E8C1A8236409D08E73BC641CC11F4C8`
-* **Rod Vagg** <<rod@vagg.org>>
-  `DD8F2338BAE7501E3DD5AC78C273792F7D83545D`
-* **Ruben Bridgewater** <<ruben@bridgewater.de>>
-  `A48C2BEE680E841632CD4E44F07496B3EB3C1762`
-* **Shelley Vohr** <<shelley.vohr@gmail.com>>
-  `B9E2F5981AA6E0CD28160D9FF13993A75599653C`
-* **Timothy J Fontaine** <<tjfontaine@gmail.com>>
-  `7937DFD2AB06298B2293C3187D33FF9D0246406D`
+<div align="center">
 
-The project maintains a keyring able to verify all past releases of Node.js at
-<https://github.com/nodejs/release-keys/raw/refs/heads/main/gpg/pubring.kbx>.
+### 💻 **الأجهزة والأدوات**
 
-</details>
+<table>
+<tr>
+<td width="50%">
 
-### Security release stewards
+**🖥️ الكمبيوتر الرئيسي:**
+- 💻 MacBook Pro M2 Max
+- 🎮 RTX 4090 للتطوير
+- 🖱️ Logitech MX Master 3S
+- ⌨️ Keychron K8 Pro
+- 🎧 Sony WH-1000XM5
 
-When possible, the commitment to take slots in the
-security release steward rotation is made by companies in order
-to ensure individuals who act as security stewards have the
-support and recognition from their employer to be able to
-prioritize security releases. Security release stewards manage security
-releases on a rotation basis as outlined in the
-[security release process](./doc/contributing/security-release-process.md).
+</td>
+<td width="50%">
 
-* [Datadog](https://www.datadoghq.com/)
-  * [bengl](https://github.com/bengl) -
-    **Bryan English** <<bryan@bryanenglish.com>> (he/him)
-* [HeroDevs](https://www.herodevs.com/)
-  * [marco-ippolito](https://github.com/marco-ippolito) -
-    **Marco Ippolito** <<marcoippolito54@gmail.com>> (he/him)
-* [NodeSource](https://nodesource.com/)
-  * [juanarbol](https://github.com/juanarbol) -
-    **Juan José Arboleda** <<soyjuanarbol@gmail.com>> (he/him)
-  * [RafaelGSS](https://github.com/RafaelGSS) -
-    **Rafael Gonzaga** <<rafael.nunu@hotmail.com>> (he/him)
-* [Platformatic](https://platformatic.dev/)
-  * [mcollina](https://github.com/mcollina) -
-    **Matteo Collina** <<matteo.collina@gmail.com>> (he/him)
-* [Red Hat](https://redhat.com) / [IBM](https://ibm.com)
-  * [joesepi](https://github.com/joesepi) -
-    **Joe Sepi** <<joesepi@ibm.com>> (he/him)
-  * [mhdawson](https://github.com/mhdawson) -
-    **Michael Dawson** <<midawson@redhat.com>> (he/him)
+**🛠️ البرامج المستخدمة:**
+- 💼 VS Code + Extensions
+- 🐳 Docker Desktop
+- 📊 Postman
+- 🔧 GitHub Desktop
+- 🛡️ Burp Suite Pro
 
-## License
+</td>
+</tr>
+</table>
 
-Node.js is available under the
-[MIT License](https://opensource.org/licenses/MIT). Node.js also includes
-external libraries that are available under a variety of licenses.  See
-[LICENSE](https://github.com/nodejs/node/blob/HEAD/LICENSE) for the full
-license text.
+### 📚 **الكتب المفضلة**
 
-[Code of Conduct]: https://github.com/nodejs/admin/blob/HEAD/CODE_OF_CONDUCT.md
-[Contributing to the project]: CONTRIBUTING.md
-[Node.js website]: https://nodejs.org/
-[OpenJS Foundation]: https://openjsf.org/
-[Strategic initiatives]: doc/contributing/strategic-initiatives.md
-[Technical values and prioritization]: doc/contributing/technical-values.md
-[Working Groups]: https://github.com/nodejs/TSC/blob/HEAD/WORKING_GROUPS.md
+| الكتاب | المؤلف | التقييم |
+|:---:|:---:|:---:|
+| 🔒 The Web Application Hacker's Handbook | Dafydd Stuttard | ⭐⭐⭐⭐⭐ |
+| 🤖 Hands-On Machine Learning | Aurélien Géron | ⭐⭐⭐⭐⭐ |
+| 💻 Clean Code | Robert C. Martin | ⭐⭐⭐⭐⭐ |
+| 🏗️ System Design Interview | Alex Xu | ⭐⭐⭐⭐⭐ |
+
+</div>
+
+---
+
+## 🎯 **مهاراتي - Skills Matrix**
+
+<div align="center">
+
+```text
+💻 البرمجة والتطوير
+████████████████████ 95%
+
+🔒 الأمن السيبراني
+███████████████████  90%
+
+🤖 الذكاء الاصطناعي
+██████████████████   85%
+
+☁️ الحوسبة السحابية
+█████████████████    80%
+
+🎨 UI/UX التصميم
+████████████         60%
+
+📊 تحليل البيانات
+███████████████      75%
+```
+
+### 🎓 **المهارات التقنية بالتفصيل**
+
+<table>
+<tr>
+<td width="33%">
+
+**🔥 Expert Level**
+
+![Python](https://img.shields.io/badge/-Python-expert-red?style=flat-square)
+![JavaScript](https://img.shields.io/badge/-JavaScript-expert-red?style=flat-square)
+![Cybersecurity](https://img.shields.io/badge/-Cybersecurity-expert-red?style=flat-square)
+![Docker](https://img.shields.io/badge/-Docker-expert-red?style=flat-square)
+
+</td>
+<td width="33%">
+
+**⚡ Advanced Level**
+
+![React](https://img.shields.io/badge/-React-advanced-orange?style=flat-square)
+![Node.js](https://img.shields.io/badge/-Node.js-advanced-orange?style=flat-square)
+![AWS](https://img.shields.io/badge/-AWS-advanced-orange?style=flat-square)
+![AI/ML](https://img.shields.io/badge/-AI/ML-advanced-orange?style=flat-square)
+
+</td>
+<td width="33%">
+
+**💡 Intermediate Level**
+
+![TypeScript](https://img.shields.io/badge/-TypeScript-intermediate-yellow?style=flat-square)
+![Kubernetes](https://img.shields.io/badge/-Kubernetes-intermediate-yellow?style=flat-square)
+![GraphQL](https://img.shields.io/badge/-GraphQL-intermediate-yellow?style=flat-square)
+![MongoDB](https://img.shields.io/badge/-MongoDB-intermediate-yellow?style=flat-square)
+
+</td>
+</tr>
+</table>
+
+</div>
+
+---
+
+## 💼 **الخدمات المقدمة - Services**
+
+<div align="center">
+
+<table>
+<tr>
+<td width="50%">
+
+### 🔒 **خدمات الأمن السيبراني**
+
+✅ اختبار الاختراق (Penetration Testing)  
+✅ تقييم الثغرات الأمنية  
+✅ تدقيق الأمان (Security Audit)  
+✅ استشارات الأمن السيبراني  
+✅ تدريب فرق الأمن  
+✅ خطط الاستجابة للحوادث  
+
+**السعر:** يبدأ من $500
+
+[![احجز الآن](https://img.shields.io/badge/احجز_استشارة-00ff41?style=for-the-badge)](https://nike49424.live)
+
+</td>
+<td width="50%">
+
+### 💻 **خدمات التطوير**
+
+✅ تطوير تطبيقات الويب  
+✅ تطوير APIs احترافية  
+✅ تطبيقات الهاتف المحمول  
+✅ حلول الذكاء الاصطناعي  
+✅ استشارات تقنية  
+✅ صيانة ودعم فني  
+
+**السعر:** يبدأ من $1000
+
+[![تواصل معنا](https://img.shields.io/badge/تواصل_معنا-0066ff?style=for-the-badge)](mailto:nike494949a@gmail.com)
+
+</td>
+</tr>
+</table>
+
+### 🎁 **باقات خاصة VIP**
+
+| الباقة | المحتوى | السعر |
+|:---:|:---|:---:|
+| 🥉 **برونز** | استشارة + تقرير أمني أساسي | $500 |
+| 🥈 **فضي** | اختبار اختراق + تقرير مفصل | $1,500 |
+| 🥇 **ذهبي** | تدقيق شامل + حلول متكاملة | $3,000 |
+| 💎 **بلاتينيوم** | دعم سنوي + مراقبة 24/7 | $10,000 |
+
+</div>
+
+---
+
+## 📝 **المدونة والمقالات - Blog**
+
+<div align="center">
+
+### ✍️ **آخر المقالات التقنية**
+
+<table>
+<tr>
+<td width="50%">
+
+📌 **كيف تحمي تطبيقك من هجمات SQL Injection**  
+<sub>📅 يناير 2025 | ⏱️ 10 دقائق قراءة</sub>
+
+دليل شامل لحماية قواعد البيانات من أخطر أنواع الهجمات...
+
+[📖 قراءة المزيد →](https://nike49499.wordpress.com)
+
+</td>
+<td width="50%">
+
+📌 **الذكاء الاصطناعي في الأمن السيبراني**  
+<sub>📅 ديسمبر 2024 | ⏱️ 15 دقيقة قراءة</sub>
+
+كيف يُحدث AI ثورة في مجال حماية البيانات والأنظمة...
+
+[📖 قراءة المزيد →](https://nike49499.wordpress.com)
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+📌 **Docker للمبتدئين: دليل عملي**  
+<sub>📅 نوفمبر 2024 | ⏱️ 12 دقيقة قراءة</sub>
+
+تعلم استخدام Docker من الصفر مع أمثلة عملية...
+
+[📖 قراءة المزيد →](https://nike49499.wordpress.com)
+
+</td>
+<td width="50%">
+
+📌 **أفضل الممارسات في React 2025**  
+<sub>📅 أكتوبر 2024 | ⏱️ 8 دقائق قراءة</sub>
+
+نصائح وحيل لكتابة كود React نظيف وفعال...
+
+[📖 قراءة المزيد →](https://nike49499.wordpress.com)
+
+</td>
+</tr>
+</table>
+
+[![المدونة الكاملة](https://img.shields.io/badge/زيارة_المدونة_الكاملة-21759B?style=for-the-badge&logo=wordpress)](https://nike49499.wordpress.com)
+
+</div>
+
+---
+
+## 🎥 **قناتي على YouTube**
+
+<div align="center">
+
+### 📺 **محتوى تعليمي احترافي**
+
+<table>
+<tr>
+<td align="center" width="33%">
+
+🎬 **سلسلة الأمن السيبراني**
+
+<img src="https://img.icons8.com/fluency/96/000000/youtube-play.png" width="80"/>
+
+20+ فيديو تعليمي
+
+</td>
+<td align="center" width="33%">
+
+🎬 **دروس البرمجة**
+
+<img src="https://img.icons8.com/fluency/96/000000/code.png" width="80"/>
+
+50+ درس عملي
+
+</td>
+<td align="center" width="33%">
+
+🎬 **مشاريع حية**
+
+<img src="https://img.icons8.com/fluency/96/000000/rocket.png" width="80"/>
+
+15+ مشروع كامل
+
+</td>
+</tr>
+</table>
+
+[![YouTube](https://img.shields.io/badge/اشترك_في_القناة-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/channel/UC7O0MgM54OPGjc4B8brDpkw)
+
+### 🔥 **أحدث الفيديوهات**
+
+- 📹 كيف تصبح خبير أمن سيبراني؟
+- 📹 بناء تطبيق React كامل خطوة بخطوة
+- 📹 اختبار الاختراق العملي - Live Demo
+- 📹 الذكاء الاصطناعي بلغة Python
+
+</div>
+
+---
+
+## 🤝 **داعمي المشاريع - Sponsors**
+
+<div align="center">
+
+### 💎 **ادعم المشاريع المفتوحة المصدر**
+
+<a href="https://www.buymeacoffee.com/nike49424" target="_blank">
+<img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" width="200"/>
+</a>
+
+### 🌟 **الداعمون الذهبيون**
+
+<table>
+<tr>
+<td align="center">
+<img src="https://img.icons8.com/fluency/96/000000/star.png" width="60"/><br/>
+<b>داعم مجهول</b><br/>
+<sub>$100</sub>
+</td>
+<td align="center">
+<img src="https://img.icons8.com/fluency/96/000000/star.png" width="60"/><br/>
+<b>داعم مجهول</b><br/>
+<sub>$50</sub>
+</td>
+<td align="center">
+<img src="https://img.icons8.com/fluency/96/000000/star.png" width="60"/><br/>
+<b>داعم مجهول</b><br/>
+<sub>$25</sub>
+</td>
+</tr>
+</table>
+
+**شكراً لكل من دعم المشاريع! 🙏**
+
+</div>
+
+---
+
+## 📜 **الترخيص - License**
+
+<div align="center">
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge&logo=opensourceinitiative)](LICENSE)
+
+```text
+MIT License
+
+Copyright (c) 2025 المارد الرقمي - NIKE49424
+
+يُسمح بحرية استخدام ونسخ وتعديل وتوزيع البرنامج
+مع الاحتفاظ بإشعار حقوق النشر والترخيص
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND
+```
+
+[📄 قراءة الترخيص الكامل](LICENSE)
+
+</div>
+
+---
+
+## 📞 **اتصل بي - Contact**
+
+<div align="center">
+
+### 💬 **دعنا نتحدث عن مشروعك القادم!**
+
+<table>
+<tr>
+<td align="center" width="33%">
+
+📧 **البريد الإلكتروني**
+
+nike494949a@gmail.com
+
+[📬 راسلني](mailto:nike494949a@gmail.com)
+
+</td>
+<td align="center" width="33%">
+
+💼 **LinkedIn**
+
+تواصل معي احترافياً
+
+[🔗 تواصل](https://linkedin.com)
+
+</td>
+<td align="center" width="33%">
+
+🌐 **الموقع الرسمي**
+
+nike49424.live
+
+[🌍 زيارة](https://nike49424.live)
+
+</td>
+</tr>
+</table>
+
+### ⚡ **متاح للعمل الحر**
+
+![Availability](https://img.shields.io/badge/الحالة-متاح_للتوظيف-success?style=for-the-badge)
+![Response Time](https://img.shields.io/badge/وقت_الرد-24_ساعة-blue?style=for-the-badge)
+![Projects](https://img.shields.io/badge/مشاريع_جديدة-مرحب_بها-orange?style=for-the-badge)
+
+</div>
+
+---
+
+<div align="center">
+
+<!-- Footer Wave -->
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20&height=150&section=footer&text=المارد%20الرقمي%20يحميك%20دائماً&fontSize=30&fontColor=fff&animation=twinkling&fontAlignY=70" width="100%"/>
+
+### 🔥 **صُنع بكل ❤️ وشغف ☕ من أجل مجتمع الأمن السيبراني العربي** 🔥
+
+<p>
+<a href="https://github.com/asrar-mared?tab=followers">
+<img src="https://img.shields.io/github/followers/asrar-mared?label=Followers&style=social" alt="GitHub Followers"/>
+</a>
+<a href="https://github.com/asrar-mared?tab=repositories">
+<img src="https://img.shields.io/github/stars/asrar-mared?label=Stars&style=social" alt="GitHub Stars"/>
+</a>
+</p>
+
+---
+
+### 📊 **معلومات الملف الشخصي**
+
+![Last Updated](https://img.shields.io/badge/آخر_تحديث-يناير_2025-informational?style=flat-square)
+![Profile Views](https://komarev.com/ghpvc/?username=asrar-mared&color=blueviolet&style=flat-square&label=مشاهدات)
+![Made with Love](https://img.shields.io/badge/Made_with-❤️_in_Egypt-red?style=flat-square)
+
+---
+
+**🇪🇬 صُنع بفخر في مصر | © 2025 NIKE49424 - جميع الحقوق محفوظة**
+
+[![Website](https://img.shields.io/badge/🌐_nike49424.live-00ff41?style=flat-square)](https://nike49424.live/)
+[![Version](https://img.shields.io/badge/v2.5.0-latest-blue?style=flat-square)](#)
+[![MIT](https://img.shields.io/badge/MIT-License-yellow?style=flat-square)](LICENSE)
+
+**⭐ إذا أعجبك عملي، لا تنسى الضغط على نجمة! ⭐**
+
+</div>
