@@ -1218,3 +1218,7 @@ nike49424.live
 **⭐ إذا أعجبك عملي، لا تنسى الضغط على نجمة! ⭐**
 
 </div>
+![Stars](https://img.shields.io/github/stars/asrar-mared/project-name?style=social)
+![Forks](https://img.shields.io/github/forks/asrar-mared/project-name?style=social)
+![Issues](https://img.shields.io/github/issues/asrar-mared/project-name)
+![License](https://img.shields.io/github/license/asrar-mared/project-name)
