@@ -1,0 +1,36 @@
+{
+  "name": "helloworld-web-sample",
+  "displayName": "helloworld-web-sample",
+  "description": "HelloWorld example for VS Code in the browser",
+  "version": "0.0.1",
+  "publisher": "vscode-samples",
+  "repository": "https://github.com/microsoft/vscode-extension-samples/helloworld-web-sample",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": ["Other"],
+  "activationEvents": [],
+  "browser": "./dist/web/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "helloworld-web-sample.helloWorld",
+        "title": "Hello World"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package-web",
+    "compile-web": "webpack",
+    "watch-web": "webpack --watch",
+    "package-web": "webpack --mode production --devtool hidden-source-map"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.59.0",
+    "ts-loader": "^9.2.2",
+    "webpack": "^5.38.1",
+    "webpack-cli": "^4.7.0",
+    "@types/webpack-env": "^1.16.0",
+    "process": "^0.11.10"
+  }
+}
