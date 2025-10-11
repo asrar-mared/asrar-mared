@@ -1,0 +1,22 @@
+async function listenForTrustWalletInitialized(
+  { timeout } = { timeout: 2000 }
+) {
+  return new Promise((resolve) => {
+    const handleInitialization = () => {
+      resolve(getTrustWalletFromWindow());
+    };
+
+    window.addEventListener("trustwallet#initialized", handleInitialization, {
+      once: true,
+    });
+
+    setTimeout(() => {
+      window.removeEventListener(
+        "trustwallet#initialized",
+        handleInitialization,
+        { once: true }
+      );
+      resolve(null);
+    }, timeout);
+  });
+}
