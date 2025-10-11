@@ -1,0 +1,11 @@
+try {
+  const account = await injectedProvider.request({
+    method: "eth_requestAccounts",
+  });
+
+  console.log(account); // => ['0x...']
+} catch (e) {
+  if (e.code === 4001) {
+    console.error("User denied connection.");
+  }
+}
