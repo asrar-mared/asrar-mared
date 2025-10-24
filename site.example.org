@@ -1,0 +1,4 @@
+<VirtualHost *:80>
+  ServerName site.example.org
+  Redirect permanent / https://site.example.org/
+</VirtualHost>
